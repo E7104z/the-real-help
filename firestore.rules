@@ -1,0 +1,76 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ── Helper functions ──
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isTenantMember(tenantId) {
+      return isSignedIn() && request.auth.token.tenantId == tenantId;
+    }
+
+    function hasRole(tenantId, role) {
+      return isTenantMember(tenantId) && request.auth.token.role == role;
+    }
+
+    function isAdmin(tenantId) {
+      return hasRole(tenantId, 'admin');
+    }
+
+    function isStaff(tenantId) {
+      return hasRole(tenantId, 'staff') || isAdmin(tenantId);
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // ── Tenant-scoped collections ──
+
+    match /tenants/{tenantId} {
+      allow read: if isTenantMember(tenantId);
+      allow write: if isAdmin(tenantId);
+
+      // Users within a tenant
+      match /users/{userId} {
+        allow read: if isTenantMember(tenantId);
+        allow create: if isAdmin(tenantId);
+        allow update: if isOwner(userId) || isAdmin(tenantId);
+        allow delete: if isAdmin(tenantId);
+      }
+
+      // Records
+      match /records/{recordId} {
+        allow read: if isTenantMember(tenantId);
+        allow create: if isStaff(tenantId);
+        allow update: if isStaff(tenantId);
+        allow delete: if isAdmin(tenantId);
+      }
+
+      // Workflows
+      match /workflows/{workflowId} {
+        allow read: if isTenantMember(tenantId);
+        // Writes handled via Cloud Functions
+        allow write: if false;
+      }
+
+      // Files metadata
+      match /files/{fileId} {
+        allow read: if isTenantMember(tenantId);
+        allow create: if isTenantMember(tenantId);
+        allow update: if isStaff(tenantId);
+        allow delete: if isAdmin(tenantId);
+      }
+
+      // Audit logs — read-only from client, written by functions
+      match /auditLogs/{logId} {
+        allow read: if isAdmin(tenantId);
+        allow write: if false;
+      }
+    }
+  }
+}

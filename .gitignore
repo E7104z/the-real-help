@@ -1,0 +1,7 @@
+node_modules/
+dist/
+functions/lib/
+emulator-data/
+.env.local
+*.local
+.firebase/

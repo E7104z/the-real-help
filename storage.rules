@@ -1,0 +1,32 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isTenantMember(tenantId) {
+      return isSignedIn() && request.auth.token.tenantId == tenantId;
+    }
+
+    function isAdmin(tenantId) {
+      return isTenantMember(tenantId) && request.auth.token.role == 'admin';
+    }
+
+    function isStaff(tenantId) {
+      return isTenantMember(tenantId)
+        && (request.auth.token.role == 'staff' || request.auth.token.role == 'admin');
+    }
+
+    // Tenant-scoped file storage
+    match /tenants/{tenantId}/{allPaths=**} {
+      allow read: if isTenantMember(tenantId);
+      allow create: if isTenantMember(tenantId)
+        && request.resource.size < 25 * 1024 * 1024; // 25 MB max
+      allow update: if isStaff(tenantId);
+      allow delete: if isAdmin(tenantId);
+    }
+  }
+}

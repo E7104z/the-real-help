@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /app/
+Disallow: /admin/
+Disallow: /login
+
+Sitemap: https://therealhelp.com/sitemap.xml
