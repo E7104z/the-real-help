@@ -140,7 +140,7 @@ export default function HomePage() {
               <img
                 src="/images/hero/hero.png"
                 alt="Jason Griffin, St. Louis business consultant at The Real Help, LLC"
-                className="w-40 h-40 sm:w-64 sm:h-64 lg:w-auto lg:max-h-[40rem] object-contain rounded-full shadow-xl"
+                className="w-auto max-h-[40rem] object-contain"
                 loading="eager"
               />
             </div>
