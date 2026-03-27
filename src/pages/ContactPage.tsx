@@ -48,8 +48,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand-silver-400 uppercase tracking-wide">Phone</p>
-                    <a href="tel:+13141234567" className="text-brand-black font-medium hover:text-brand-blue-500">
-                      (314) 123-4567
+                    <a href="tel:+13146602890" className="text-brand-black font-medium hover:text-brand-blue-500">
+                      (314) 660-2890
                     </a>
                   </div>
                 </div>
