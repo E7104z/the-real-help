@@ -18,6 +18,19 @@ const CASE_STUDIES = [
     liveUrl: 'https://scheduler-pro-five.vercel.app/',
   },
   {
+    title: 'Kidz Transportation',
+    category: 'App Development',
+    description: 'A full-featured web app for a youth transportation business — driver management, route scheduling, parent notifications, and ride tracking all in one platform.',
+    metrics: [
+      { label: 'Routes managed', value: '100+' },
+      { label: 'Manual dispatch eliminated', value: '90%' },
+      { label: 'On-time rate', value: '98%' },
+    ],
+    tags: ['React', 'Firebase', 'Transportation', 'Scheduling'],
+    screenshot: '/images/work/kidz.png',
+    liveUrl: 'https://kidz-transportation.web.app/',
+  },
+  {
     title: 'GCA EVV Compliance System',
     category: 'Medicaid / CDS',
     description: 'End-to-end EVV compliance workflow for Golden Care Alliance — aligning caregiver check-ins, billing, and audit documentation.',
@@ -56,18 +69,7 @@ const CASE_STUDIES = [
     screenshot: null,
     liveUrl: null,
   },
-  {
-    title: 'Kidz Transportation',
-    category: 'App Development',
-    description: 'A full-featured web app for a youth transportation business — driver management, route scheduling, parent notifications, and ride tracking all in one platform.',
-    metrics: [
-      { label: 'Routes managed', value: '100+' },
-      { label: 'Manual dispatch eliminated', value: '90%' },
-      { label: 'On-time rate', value: '98%' },
-    ],
-    tags: ['React', 'Firebase', 'Transportation', 'Scheduling'],
-    screenshot: '/images/work/kidz.png',
-    liveUrl: 'https://kidz-transportation.web.app/',
+];
   },
 ];
 
