@@ -70,8 +70,6 @@ const CASE_STUDIES = [
     liveUrl: null,
   },
 ];
-  },
-];
 
 function BrowserMockup({ src, alt, liveUrl }: { src: string; alt: string; liveUrl: string }) {
   return (
