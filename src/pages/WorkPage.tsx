@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { CardVisual } from '@/components/illustrations/CardVisual';
 
 const CASE_STUDIES = [
   {
@@ -69,6 +70,7 @@ export default function WorkPage() {
           <div className="grid gap-10 md:grid-cols-2">
             {CASE_STUDIES.map((cs) => (
               <div key={cs.title} className="rounded-2xl border border-brand-silver-200 bg-white overflow-hidden hover:shadow-elevated transition-all">
+                <CardVisual category={cs.category} />
                 <div className="p-8">
                   <span className="inline-block rounded-full bg-brand-blue-50 px-3 py-1 text-xs font-semibold text-brand-blue-500 mb-4">
                     {cs.category}

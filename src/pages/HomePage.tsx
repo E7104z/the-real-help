@@ -136,11 +136,11 @@ export default function HomePage() {
             </div>
 
             {/* Portrait photo */}
-            <div className="hidden lg:flex justify-center">
+            <div className="flex justify-center">
               <img
                 src="/images/hero/hero.png"
                 alt="Jason Griffin, St. Louis business consultant at The Real Help, LLC"
-                className="w-auto max-h-[40rem] object-contain"
+                className="w-40 h-40 sm:w-64 sm:h-64 lg:w-auto lg:max-h-[40rem] object-contain rounded-full shadow-xl"
                 loading="eager"
               />
             </div>

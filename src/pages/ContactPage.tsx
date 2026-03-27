@@ -76,6 +76,47 @@ export default function ContactPage() {
                   Schedule a Call <ArrowRight className="h-4 w-4" />
                 </a>
               </div>
+
+              {/* St. Louis Gateway Arch illustration */}
+              <div className="mt-8 flex justify-center" aria-hidden="true">
+                <svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-xs opacity-80">
+                  {/* Ground */}
+                  <line x1="0" y1="252" x2="400" y2="252" stroke="#E4E4E7" strokeWidth="1.5" />
+                  {/* Left skyline buildings */}
+                  <rect x="10" y="222" width="22" height="30" fill="#F4F4F5" rx="1" />
+                  <rect x="36" y="212" width="18" height="40" fill="#E4E4E7" rx="1" />
+                  <rect x="37" y="204" width="4" height="10" fill="#E4E4E7" rx="1" />
+                  <rect x="58" y="226" width="26" height="26" fill="#F4F4F5" rx="1" />
+                  <rect x="88" y="216" width="14" height="36" fill="#D4D4D8" rx="1" />
+                  {/* Right skyline buildings */}
+                  <rect x="298" y="220" width="14" height="32" fill="#D4D4D8" rx="1" />
+                  <rect x="316" y="210" width="26" height="42" fill="#E4E4E7" rx="1" />
+                  <rect x="317" y="202" width="4" height="10" fill="#E4E4E7" rx="1" />
+                  <rect x="346" y="216" width="20" height="36" fill="#F4F4F5" rx="1" />
+                  <rect x="370" y="224" width="22" height="28" fill="#E4E4E7" rx="1" />
+                  {/* Gateway Arch */}
+                  <path
+                    d="M 128 252 C 128 186, 193 65, 200 34 C 207 65, 272 186, 272 252"
+                    fill="none"
+                    stroke="#1E3A8A"
+                    strokeWidth="17"
+                    strokeLinecap="round"
+                  />
+                  {/* Arch highlight shimmer */}
+                  <path
+                    d="M 131 252 C 131 189, 195 69, 200 38 C 205 69, 269 189, 269 252"
+                    fill="none"
+                    stroke="#5C84FF"
+                    strokeWidth="4"
+                    strokeLinecap="round"
+                    opacity="0.45"
+                  />
+                  {/* Label */}
+                  <text x="200" y="268" textAnchor="middle" fill="#A1A1AA" fontSize="10" fontFamily="system-ui, sans-serif" letterSpacing="2">
+                    ST. LOUIS, MISSOURI
+                  </text>
+                </svg>
+              </div>
             </div>
 
             {/* Right — form */}

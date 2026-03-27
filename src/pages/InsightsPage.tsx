@@ -1,6 +1,7 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Clock } from 'lucide-react';
+import { CardVisual } from '@/components/illustrations/CardVisual';
 
 const ARTICLES = [
   {
@@ -80,7 +81,9 @@ export default function InsightsPage() {
           </div>
 
           {featured && (
-            <div className="mb-12 rounded-2xl border border-brand-blue-200 bg-brand-blue-50 p-8 md:p-12">
+            <div className="mb-12 rounded-2xl border border-brand-blue-200 bg-brand-blue-50 overflow-hidden">
+              <CardVisual category={featured.category} height="11rem" />
+              <div className="p-8 md:p-12">
               <span className="inline-block rounded-full bg-brand-blue-500 px-3 py-1 text-xs font-semibold text-white mb-4">
                 Featured · {featured.category}
               </span>
@@ -94,12 +97,15 @@ export default function InsightsPage() {
                   Read more <ArrowRight className="h-4 w-4" />
                 </Link>
               </div>
+              </div>
             </div>
           )}
 
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {rest.map((article) => (
-              <div key={article.slug} className="rounded-2xl border border-brand-silver-200 bg-white p-6 hover:shadow-soft transition-all">
+              <div key={article.slug} className="rounded-2xl border border-brand-silver-200 bg-white overflow-hidden hover:shadow-soft transition-all">
+                <CardVisual category={article.category} />
+                <div className="p-6">
                 <span className="inline-block rounded-full bg-brand-silver-100 px-3 py-1 text-xs font-semibold text-brand-silver-600 mb-3">
                   {article.category}
                 </span>
@@ -114,6 +120,7 @@ export default function InsightsPage() {
                       Read more <ArrowRight className="h-3 w-3" />
                     </Link>
                   )}
+                </div>
                 </div>
               </div>
             ))}

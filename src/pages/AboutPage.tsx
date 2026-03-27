@@ -163,8 +163,8 @@ export default function AboutPage() {
                 <img
                   src="/images/about/IMG_5683.png"
                   alt="Jason Griffin, founder of The Real Help, LLC — St. Louis business consultant"
-                  className="w-full h-full object-contain"
-                  style={{ transform: 'rotate(-90deg) scale(1.5)', minHeight: '32rem' }}
+                  className="w-full h-full object-contain lg:rotate-[-90deg] lg:scale-[1.5]"
+                  style={{ minHeight: '32rem' }}
                   loading="lazy"
                 />
               </div>
