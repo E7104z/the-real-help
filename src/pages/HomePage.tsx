@@ -5,6 +5,7 @@ import { BenefitsTicker } from '@/components/BenefitsTicker';
 
 const TICKER_ITEMS = [
   'Affordable Full-Stack Web Apps in Days',
+  'Business Start Up Support',
   'MWBE Certification Setup',
   'Medicaid / CDS Expert',
   'Business Automation with AI',
@@ -12,7 +13,6 @@ const TICKER_ITEMS = [
   'Google Workspace Business Systems',
   'CRM and Workflow Builds',
   'Branding, Tech, and Operations Under One Roof',
-  'Business Start Up Support',
 ];
 
 const SERVICES_PREVIEW = [
