@@ -5,3 +5,4 @@ emulator-data/
 .env.local
 *.local
 .firebase/
+.vercel
