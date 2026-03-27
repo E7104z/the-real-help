@@ -92,9 +92,9 @@ export default function HomePage() {
         <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           {/* Business Services headline */}
           <div className="pt-6">
-            <h2 className="text-center font-heading text-3xl font-bold tracking-wide text-brand-black sm:text-4xl">
+            <p className="text-center font-heading text-3xl font-bold tracking-wide text-brand-black sm:text-4xl">
               Business Services
-            </h2>
+            </p>
           </div>
           {/* Ticker */}
           <div className="pt-4 pb-4">
