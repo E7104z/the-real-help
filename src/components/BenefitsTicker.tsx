@@ -6,7 +6,7 @@ export function BenefitsTicker({ items }: BenefitsTickerProps) {
     <div className="overflow-hidden w-full">
       <div
         className="flex gap-16 whitespace-nowrap"
-        style={{ animation: 'ticker 20s linear infinite' }}
+        style={{ animation: 'ticker 12s linear infinite' }}
         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = 'paused')}
         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = 'running')}
       >
