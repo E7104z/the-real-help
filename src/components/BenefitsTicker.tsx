@@ -12,7 +12,7 @@ export function BenefitsTicker({ items }: BenefitsTickerProps) {
       >
         {doubled.map((item, i) => (
           <span key={i} className="inline-flex items-center gap-4 font-heading text-3xl sm:text-4xl font-bold text-brand-blue-500">
-            <span className="text-brand-silver-300">�</span>
+            <span className="text-brand-silver-300">·</span>
             {item}
           </span>
         ))}
