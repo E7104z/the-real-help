@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ExternalLink } from 'lucide-react';
 import { CardVisual } from '@/components/illustrations/CardVisual';
 
 const CASE_STUDIES = [
@@ -14,6 +14,8 @@ const CASE_STUDIES = [
       { label: 'Agencies onboarded', value: '3' },
     ],
     tags: ['React', 'Firebase', 'CDS', 'Healthcare'],
+    screenshot: '/images/work/scheduler-pro.png',
+    liveUrl: 'https://scheduler-pro-five.vercel.app/',
   },
   {
     title: 'GCA EVV Compliance System',
@@ -25,6 +27,8 @@ const CASE_STUDIES = [
       { label: 'Time to reconcile weekly billing', value: '2 hrs' },
     ],
     tags: ['Medicaid', 'EVV', 'Compliance', 'Automation'],
+    screenshot: null,
+    liveUrl: null,
   },
   {
     title: 'CertifiedSTL',
@@ -36,6 +40,8 @@ const CASE_STUDIES = [
       { label: 'Businesses assisted', value: '20+' },
     ],
     tags: ['MBE', 'WBE', 'DBE', 'Missouri', 'Certification'],
+    screenshot: null,
+    liveUrl: null,
   },
   {
     title: 'Provider Automation System',
@@ -47,8 +53,46 @@ const CASE_STUDIES = [
       { label: 'Manual data entry eliminated', value: '100%' },
     ],
     tags: ['AI', 'Automation', 'Healthcare', 'Google Workspace'],
+    screenshot: null,
+    liveUrl: null,
   },
 ];
+
+function BrowserMockup({ src, alt, liveUrl }: { src: string; alt: string; liveUrl: string }) {
+  return (
+    <div className="relative overflow-hidden bg-brand-silver-100 border-b border-brand-silver-200">
+      {/* Browser chrome bar */}
+      <div className="flex items-center gap-2 bg-brand-silver-200 px-4 py-2.5">
+        <span className="h-3 w-3 rounded-full bg-red-400" />
+        <span className="h-3 w-3 rounded-full bg-yellow-400" />
+        <span className="h-3 w-3 rounded-full bg-green-400" />
+        <div className="ml-2 flex-1 rounded-md bg-white px-3 py-1 text-xs text-brand-silver-500 truncate">
+          {liveUrl.replace('https://', '')}
+        </div>
+      </div>
+      {/* Screenshot */}
+      <img
+        src={src}
+        alt={alt}
+        className="w-full object-cover object-top"
+        style={{ maxHeight: '13rem' }}
+        loading="lazy"
+      />
+      {/* Live link overlay */}
+      <a
+        href={liveUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="absolute inset-0 flex items-center justify-center bg-brand-black/0 hover:bg-brand-black/40 transition-all group"
+        aria-label={`View ${alt} live`}
+      >
+        <span className="hidden group-hover:flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-brand-black shadow-elevated">
+          View Live Site <ExternalLink className="h-4 w-4" />
+        </span>
+      </a>
+    </div>
+  );
+}
 
 export default function WorkPage() {
   return (
@@ -70,7 +114,11 @@ export default function WorkPage() {
           <div className="grid gap-10 md:grid-cols-2">
             {CASE_STUDIES.map((cs) => (
               <div key={cs.title} className="rounded-2xl border border-brand-silver-200 bg-white overflow-hidden hover:shadow-elevated transition-all">
-                <CardVisual category={cs.category} />
+                {cs.screenshot && cs.liveUrl ? (
+                  <BrowserMockup src={cs.screenshot} alt={cs.title} liveUrl={cs.liveUrl} />
+                ) : (
+                  <CardVisual category={cs.category} />
+                )}
                 <div className="p-8">
                   <span className="inline-block rounded-full bg-brand-blue-50 px-3 py-1 text-xs font-semibold text-brand-blue-500 mb-4">
                     {cs.category}
@@ -92,6 +140,16 @@ export default function WorkPage() {
                       </span>
                     ))}
                   </div>
+                  {cs.liveUrl && (
+                    <a
+                      href={cs.liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-6 inline-flex items-center gap-2 rounded-lg border border-brand-blue-500 px-5 py-2.5 text-sm font-bold text-brand-blue-500 hover:bg-brand-blue-50 transition-colors"
+                    >
+                      View Live Site <ExternalLink className="h-4 w-4" />
+                    </a>
+                  )}
                 </div>
               </div>
             ))}
