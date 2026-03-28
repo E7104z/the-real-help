@@ -38,6 +38,9 @@ const WebAppDevelopmentStLouis = lazy(() => import('@/pages/local/WebAppDevelopm
 const ArticleMwbeCertGuide = lazy(() => import('@/pages/blog/ArticleMwbeCertGuide'));
 const ArticleCdsEvvCompliance = lazy(() => import('@/pages/blog/ArticleCdsEvvCompliance'));
 const ArticleWebAppStLouis = lazy(() => import('@/pages/blog/ArticleWebAppStLouis'));
+const ArticleGoogleWorkspace = lazy(() => import('@/pages/blog/ArticleGoogleWorkspace'));
+const ArticleCapabilityStatement = lazy(() => import('@/pages/blog/ArticleCapabilityStatement'));
+const ArticleMedicaidBillingErrors = lazy(() => import('@/pages/blog/ArticleMedicaidBillingErrors'));
 
 function PageLoader() {
   return (
@@ -71,6 +74,9 @@ export function AppRouter() {
           <Route path="/insights/mwbe-certification-st-louis-guide" element={<ArticleMwbeCertGuide />} />
           <Route path="/insights/cds-evv-compliance-missouri-2026" element={<ArticleCdsEvvCompliance />} />
           <Route path="/insights/affordable-web-app-development-st-louis" element={<ArticleWebAppStLouis />} />
+          <Route path="/insights/google-workspace-small-business" element={<ArticleGoogleWorkspace />} />
+          <Route path="/insights/capability-statement-guide" element={<ArticleCapabilityStatement />} />
+          <Route path="/insights/medicaid-billing-errors" element={<ArticleMedicaidBillingErrors />} />
         </Route>
 
         {/* Public routes */}

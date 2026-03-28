@@ -33,7 +33,7 @@ const ARTICLES = [
   },
   {
     slug: 'google-workspace-small-business',
-    href: null,
+    href: '/insights/google-workspace-small-business',
     category: 'Business Systems',
     title: 'How Google Workspace Can Replace 5 Tools You Are Currently Paying For',
     excerpt: 'Most small businesses are overpaying for disconnected tools. Here is how to consolidate and actually use what you have.',
@@ -42,7 +42,7 @@ const ARTICLES = [
   },
   {
     slug: 'capability-statement-guide',
-    href: null,
+    href: '/insights/capability-statement-guide',
     category: 'Government Contracting',
     title: 'Your Capability Statement Is Costing You Contracts. Here Is Why.',
     excerpt: 'A weak capability statement is one of the fastest ways to disqualify yourself before anyone reads your proposal.',
@@ -51,7 +51,7 @@ const ARTICLES = [
   },
   {
     slug: 'medicaid-billing-errors',
-    href: null,
+    href: '/insights/medicaid-billing-errors',
     category: 'Medicaid / CDS',
     title: 'Why Medicaid Claims Get Denied and What You Can Do About It Today',
     excerpt: 'Billing denials are almost always preventable. Here are the most common errors and how to eliminate them from your process.',
