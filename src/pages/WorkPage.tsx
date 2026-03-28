@@ -5,70 +5,18 @@ import { CardVisual } from '@/components/illustrations/CardVisual';
 
 const CASE_STUDIES = [
   {
-    title: 'Scheduler Pro',
-    category: 'App Development',
-    description: 'A full workforce scheduling application built for CDS agencies managing caregiver shifts, availability, and EVV alignment.',
+    title: 'CDS Scheduler Lite',
+    category: 'Medicaid / CDS',
+    description: 'A lightweight scheduling tool built specifically for CDS agencies — caregiver availability, shift management, and EVV alignment without the bloat.',
     metrics: [
       { label: 'Scheduling time reduced', value: '80%' },
-      { label: 'Manual errors eliminated', value: '100%' },
-      { label: 'Agencies onboarded', value: '3' },
-    ],
-    tags: ['React', 'Firebase', 'CDS', 'Healthcare'],
-    screenshot: '/images/work/scheduler-pro.png',
-    liveUrl: 'https://scheduler-pro-five.vercel.app/',
-  },
-  {
-    title: 'Kidz Transportation',
-    category: 'App Development',
-    description: 'A full-featured web app for a youth transportation business — driver management, route scheduling, parent notifications, and ride tracking all in one platform.',
-    metrics: [
-      { label: 'Routes managed', value: '100+' },
-      { label: 'Manual dispatch eliminated', value: '90%' },
-      { label: 'On-time rate', value: '98%' },
-    ],
-    tags: ['React', 'Firebase', 'Transportation', 'Scheduling'],
-    screenshot: '/images/work/kidz.png',
-    liveUrl: 'https://kidz-transportation.web.app/',
-  },
-  {
-    title: 'GCA EVV Compliance System',
-    category: 'Medicaid / CDS',
-    description: 'End-to-end EVV compliance workflow for Golden Care Alliance — aligning caregiver check-ins, billing, and audit documentation.',
-    metrics: [
-      { label: 'Audit pass rate', value: '100%' },
       { label: 'Billing denials reduced', value: '90%' },
-      { label: 'Time to reconcile weekly billing', value: '2 hrs' },
+      { label: 'Audit pass rate', value: '100%' },
     ],
-    tags: ['Medicaid', 'EVV', 'Compliance', 'Automation'],
-    screenshot: null,
-    liveUrl: null,
-  },
-  {
-    title: 'A-Z Liquidations — MBE Capability Statement',
-    category: 'Compliance & Certification',
-    description: 'Designed a professional capability statement for A-Z Liquidations LLC — St. Louis\u2019s only MWBE-certified hard-surface flooring supplier. Built to win government and prime contractor bids.',
-    metrics: [
-      { label: 'MBE certification', value: '✓' },
-      { label: 'MBE credit to primes', value: '60%' },
-      { label: 'Lead time', value: '0 days' },
-    ],
-    tags: ['MBE', 'Capability Statement', 'Government Contracting', 'St. Louis'],
-    screenshot: '/images/work/AZ.png',
-    liveUrl: null,
-    pdfUrl: '/docs/AZ_CUF.pdf',
-  },
-  {
-    title: 'Provider Automation System',
-    category: 'AI & Automation',
-    description: 'AI-powered document processing and automated reporting for a healthcare provider reducing manual administrative work by 15 hours/week.',
-    metrics: [
-      { label: 'Hours saved per week', value: '15+' },
-      { label: 'Report generation time', value: '5 min' },
-      { label: 'Manual data entry eliminated', value: '100%' },
-    ],
-    tags: ['AI', 'Automation', 'Healthcare', 'Google Workspace'],
-    screenshot: null,
-    liveUrl: null,
+    tags: ['Medicaid', 'CDS', 'EVV', 'Scheduling', 'Compliance'],
+    screenshot: '/images/work/scheduler-lite.png',
+    liveUrl: 'https://www.cdsscheduler.com/',
+    pdfUrl: null,
   },
 ];
 
