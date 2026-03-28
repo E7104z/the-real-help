@@ -85,11 +85,19 @@ export default function ServicesPage() {
       </Helmet>
       <section className="bg-white py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10">
             <h1 className="font-heading text-4xl font-extrabold text-brand-black sm:text-5xl">Services</h1>
             <p className="mt-4 text-lg text-brand-silver-500 max-w-2xl mx-auto">
               Every service is delivered by me — not a team, not a junior, not an overseas contractor.
             </p>
+          </div>
+          <div className="mb-14 overflow-hidden rounded-2xl shadow-elevated">
+            <img
+              src="/images/work/services.png"
+              alt="Business consulting dashboard with St. Louis Gateway Arch — The Real Help, LLC"
+              className="w-full h-56 sm:h-72 lg:h-80 object-cover object-center"
+              loading="eager"
+            />
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {SERVICE_CATEGORIES.map((svc) => (
