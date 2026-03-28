@@ -55,7 +55,7 @@ const CASE_STUDIES = [
     tags: ['MBE', 'Capability Statement', 'Government Contracting', 'St. Louis'],
     screenshot: '/images/work/AZ.png',
     liveUrl: null,
-    pdfUrl: '/docs/AZ-Liquidations-Capability-Statement.pdf',
+    pdfUrl: '/docs/AZ_CUF.pdf',
   },
   {
     title: 'Provider Automation System',
