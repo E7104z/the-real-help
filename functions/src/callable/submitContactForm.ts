@@ -33,6 +33,7 @@ export const submitContactForm = onCall<ContactFormData>(
     }
 
     // Save lead to Firestore
+    console.log("Saving lead for:", data.email);
     const docRef = await db.collection("leads").add({
       name: data.name.trim(),
       email: data.email.trim().toLowerCase(),
@@ -44,12 +45,14 @@ export const submitContactForm = onCall<ContactFormData>(
       createdAt: FieldValue.serverTimestamp(),
       followUpSent: false,
     });
+    console.log("Lead saved, id:", docRef.id);
 
     // Call Apps Script webhook — fire and forget, never block the response
     const webhookUrl = process.env["APPS_SCRIPT_WEBHOOK_URL"];
+    console.log("Webhook URL present:", !!webhookUrl);
     if (webhookUrl) {
       const payload = {
-        id: docRef.id,
+        leadId: docRef.id,
         name: data.name.trim(),
         email: data.email.trim().toLowerCase(),
         phone: data.phone?.trim() ?? "",
@@ -61,7 +64,9 @@ export const submitContactForm = onCall<ContactFormData>(
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
-      }).catch((err) => console.error("Apps Script webhook error:", err));
+      })
+        .then((res) => console.log("Webhook response status:", res.status))
+        .catch((err) => console.error("Apps Script webhook error:", err));
     } else {
       console.warn("APPS_SCRIPT_WEBHOOK_URL not set — skipping webhook.");
     }

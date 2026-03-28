@@ -1,5 +1,7 @@
-import { Users, FileText, Activity, Shield } from 'lucide-react';
+import { Users, FileText, Activity, Shield, UserCog } from 'lucide-react';
 import { Card, CardTitle } from '@/components/ui/Card';
+import { Link } from 'react-router-dom';
+import { ROUTES } from '@/lib/constants/routes';
 
 const ADMIN_STATS = [
   { label: 'Total Users', icon: Users, value: '—' },
@@ -29,10 +31,15 @@ export default function AdminDashboard() {
 
       <Card>
         <CardTitle>Quick Actions</CardTitle>
-        <p className="text-sm text-brand-silver-500">
-          Admin actions and management tools will appear here. All workflow-changing actions
-          are routed through Cloud Functions for validation and audit logging.
-        </p>
+        <div className="mt-4 flex flex-wrap gap-3">
+          <Link
+            to={ROUTES.ADMIN_CLIENTS}
+            className="flex items-center gap-2 rounded-xl bg-brand-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-blue-600 transition-colors"
+          >
+            <UserCog className="h-4 w-4" />
+            Manage Clients
+          </Link>
+        </div>
       </Card>
     </div>
   );

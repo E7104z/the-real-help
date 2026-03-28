@@ -1,6 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
-import { AuthenticatedGuard, RoleGuard, PublicOnlyGuard } from './guards';
+import { AuthenticatedGuard, RoleGuard, PublicOnlyGuard, ClientGuard } from './guards';
 import { AppLayout } from '@/app/layouts/AppLayout';
 import { AdminLayout } from '@/app/layouts/AdminLayout';
 import { PublicLayout } from '@/app/layouts/PublicLayout';
@@ -18,6 +18,11 @@ const FilesPage = lazy(() => import('@/features/files/FilesPage'));
 const AdminDashboard = lazy(() => import('@/features/admin/AdminDashboard'));
 const SettingsPage = lazy(() => import('@/features/admin/SettingsPage'));
 const AuditLogPage = lazy(() => import('@/features/admin/AuditLogPage'));
+const ClientManager = lazy(() => import('@/features/admin/ClientManager'));
+const ClientDetailPage = lazy(() => import('@/features/admin/ClientDetailPage'));
+const PortalLoginPage = lazy(() => import('@/features/portal/PortalLoginPage'));
+const PortalDashboard = lazy(() => import('@/features/portal/PortalDashboard'));
+const PortalLayout = lazy(() => import('@/app/layouts/PortalLayout'));
 
 // Marketing pages
 const HomePage = lazy(() => import('@/pages/HomePage'));
@@ -122,6 +127,22 @@ export function AppRouter() {
           <Route index element={<AdminDashboard />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="audit" element={<AuditLogPage />} />
+          <Route path="clients" element={<ClientManager />} />
+          <Route path="clients/:clientId" element={<ClientDetailPage />} />
+        </Route>
+
+        {/* Portal routes */}
+        <Route path="/portal/login" element={<PortalLoginPage />} />
+        <Route
+          path="/portal"
+          element={
+            <ClientGuard>
+              <PortalLayout />
+            </ClientGuard>
+          }
+        >
+          <Route index element={<Navigate to="dashboard" replace />} />
+          <Route path="dashboard" element={<PortalDashboard />} />
         </Route>
 
         {/* Fallback */}

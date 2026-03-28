@@ -9,4 +9,8 @@ export const ROUTES = {
   ADMIN: '/admin',
   ADMIN_SETTINGS: '/admin/settings',
   ADMIN_AUDIT: '/admin/audit',
+  ADMIN_CLIENTS: '/admin/clients',
+  PORTAL: '/portal',
+  PORTAL_LOGIN: '/portal/login',
+  PORTAL_DASHBOARD: '/portal/dashboard',
 } as const;
