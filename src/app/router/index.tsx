@@ -1,5 +1,11 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
-import { lazy, Suspense } from 'react';
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
+import { lazy, Suspense, useEffect } from 'react';
+
+function ScrollToTop() {
+  const { pathname } = useLocation();
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  return null;
+}
 import { AuthenticatedGuard, RoleGuard, PublicOnlyGuard, ClientGuard } from './guards';
 import { AppLayout } from '@/app/layouts/AppLayout';
 import { AdminLayout } from '@/app/layouts/AdminLayout';
@@ -58,6 +64,7 @@ function PageLoader() {
 export function AppRouter() {
   return (
     <Suspense fallback={<PageLoader />}>
+      <ScrollToTop />
       <Routes>
         {/* Marketing routes */}
         <Route element={<MarketingLayout />}>
