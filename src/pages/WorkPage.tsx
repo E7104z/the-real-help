@@ -44,17 +44,18 @@ const CASE_STUDIES = [
     liveUrl: null,
   },
   {
-    title: 'CertifiedSTL',
+    title: 'A-Z Liquidations — MBE Capability Statement',
     category: 'Compliance & Certification',
-    description: 'A guided platform helping Missouri businesses navigate MBE/WBE/DBE certification applications without getting lost in the process.',
+    description: 'Designed a professional capability statement for A-Z Liquidations LLC — St. Louis\u2019s only MWBE-certified hard-surface flooring supplier. Built to win government and prime contractor bids.',
     metrics: [
-      { label: 'Avg. certification timeline', value: '30 days' },
-      { label: 'Success rate', value: '94%' },
-      { label: 'Businesses assisted', value: '20+' },
+      { label: 'MBE certification', value: '✓' },
+      { label: 'MBE credit to primes', value: '60%' },
+      { label: 'Lead time', value: '0 days' },
     ],
-    tags: ['MBE', 'WBE', 'DBE', 'Missouri', 'Certification'],
-    screenshot: null,
+    tags: ['MBE', 'Capability Statement', 'Government Contracting', 'St. Louis'],
+    screenshot: '/images/work/AZ.png',
     liveUrl: null,
+    pdfUrl: '/docs/AZ-Liquidations-Capability-Statement.pdf',
   },
   {
     title: 'Provider Automation System',
@@ -71,7 +72,8 @@ const CASE_STUDIES = [
   },
 ];
 
-function BrowserMockup({ src, alt, liveUrl }: { src: string; alt: string; liveUrl: string }) {
+function BrowserMockup({ src, alt, href, label = 'View Live Site' }: { src: string; alt: string; href: string; label?: string }) {
+  const displayUrl = href.startsWith('http') ? href.replace('https://', '') : (href.split('/').pop() ?? href);
   return (
     <div className="relative overflow-hidden bg-brand-silver-100 border-b border-brand-silver-200">
       {/* Browser chrome bar */}
@@ -80,7 +82,7 @@ function BrowserMockup({ src, alt, liveUrl }: { src: string; alt: string; liveUr
         <span className="h-3 w-3 rounded-full bg-yellow-400" />
         <span className="h-3 w-3 rounded-full bg-green-400" />
         <div className="ml-2 flex-1 rounded-md bg-white px-3 py-1 text-xs text-brand-silver-500 truncate">
-          {liveUrl.replace('https://', '')}
+          {displayUrl}
         </div>
       </div>
       {/* Screenshot */}
@@ -91,16 +93,16 @@ function BrowserMockup({ src, alt, liveUrl }: { src: string; alt: string; liveUr
         style={{ maxHeight: '13rem' }}
         loading="lazy"
       />
-      {/* Live link overlay */}
+      {/* Link overlay */}
       <a
-        href={liveUrl}
+        href={href}
         target="_blank"
         rel="noopener noreferrer"
         className="absolute inset-0 flex items-center justify-center bg-brand-black/0 hover:bg-brand-black/40 transition-all group"
-        aria-label={`View ${alt} live`}
+        aria-label={`${label} — ${alt}`}
       >
         <span className="hidden group-hover:flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-bold text-brand-black shadow-elevated">
-          View Live Site <ExternalLink className="h-4 w-4" />
+          {label} <ExternalLink className="h-4 w-4" />
         </span>
       </a>
     </div>
@@ -127,8 +129,13 @@ export default function WorkPage() {
           <div className="grid gap-10 md:grid-cols-2">
             {CASE_STUDIES.map((cs) => (
               <div key={cs.title} className="rounded-2xl border border-brand-silver-200 bg-white overflow-hidden hover:shadow-elevated transition-all">
-                {cs.screenshot && cs.liveUrl ? (
-                  <BrowserMockup src={cs.screenshot} alt={cs.title} liveUrl={cs.liveUrl} />
+                {cs.screenshot && (cs.liveUrl || cs.pdfUrl) ? (
+                  <BrowserMockup
+                    src={cs.screenshot}
+                    alt={cs.title}
+                    href={cs.liveUrl ?? cs.pdfUrl!}
+                    label={cs.pdfUrl && !cs.liveUrl ? 'View Capability Statement' : 'View Live Site'}
+                  />
                 ) : (
                   <CardVisual category={cs.category} />
                 )}
@@ -153,14 +160,14 @@ export default function WorkPage() {
                       </span>
                     ))}
                   </div>
-                  {cs.liveUrl && (
+                  {(cs.liveUrl || cs.pdfUrl) && (
                     <a
-                      href={cs.liveUrl}
+                      href={cs.liveUrl ?? cs.pdfUrl!}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="mt-6 inline-flex items-center gap-2 rounded-lg border border-brand-blue-500 px-5 py-2.5 text-sm font-bold text-brand-blue-500 hover:bg-brand-blue-50 transition-colors"
                     >
-                      View Live Site <ExternalLink className="h-4 w-4" />
+                      {cs.pdfUrl && !cs.liveUrl ? 'View Capability Statement' : 'View Live Site'} <ExternalLink className="h-4 w-4" />
                     </a>
                   )}
                 </div>
