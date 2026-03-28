@@ -96,6 +96,11 @@ export default function MarketingLayout() {
         )}
       </header>
 
+      {/* Trust bar */}
+      <div className="bg-brand-blue-500 py-2 text-center text-xs font-medium text-white">
+        🤝 Flexible pricing &middot; No long-term contracts &middot; You work directly with Jason — always.
+      </div>
+
       <main className="flex-1">
         <Outlet />
       </main>

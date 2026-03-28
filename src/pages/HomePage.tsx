@@ -105,9 +105,8 @@ export default function HomePage() {
           <div className="grid items-center gap-12 py-6 md:py-10 lg:grid-cols-2 lg:py-14">
             {/* Text side */}
             <div className="text-center lg:text-left">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-blue-50 px-6 py-2.5 text-lg font-medium text-brand-blue-600 border border-brand-blue-200">
-                <Star className="h-5 w-5" />
-                St. Louis-Based.
+              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-blue-50 px-4 py-2 text-sm font-semibold text-brand-blue-600 border border-brand-blue-200">
+                💼 Built for the business owner who's figuring it out
               </div>
               <h1 className="font-heading text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl lg:text-6xl">
                 The Guy Who{' '}
@@ -115,16 +114,17 @@ export default function HomePage() {
                 Fixes It.
               </h1>
               <p className="mt-6 text-lg leading-relaxed text-brand-silver-500 sm:text-xl max-w-xl mx-auto lg:mx-0">
-                I help business owners cut through red tape, build real systems,
-                and get certified — without the runaround. Compliance, tech,
-                branding, and operations — all under one roof.
+                Most small business owners can't afford a big firm —
+                and honestly, you don't need one. You need someone
+                who knows the work, does the work, and charges like
+                they actually want your business to succeed.
               </p>
               <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
                 <Link
                   to="/contact"
                   className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-blue-500 px-8 py-4 text-base font-bold text-white shadow-lg hover:bg-brand-blue-600 transition-all hover:shadow-xl"
                 >
-                  Let&apos;s Talk
+                  Let&apos;s Talk — No Pressure
                   <ArrowRight className="h-5 w-5" />
                 </Link>
                 <Link
@@ -186,6 +186,51 @@ export default function HomePage() {
           <div className="mt-12 text-center">
             <Link to="/services" className="inline-flex items-center gap-2 text-brand-blue-500 font-semibold hover:underline">
               View All Services <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ═══════════════ HOW IT WORKS ═══════════════ */}
+      <section className="py-20 sm:py-28 bg-brand-silver-50">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="font-heading text-3xl font-bold text-brand-black sm:text-4xl">How It Works</h2>
+            <p className="mt-4 text-lg text-brand-silver-500 max-w-xl mx-auto">
+              No intake packets. No waiting rooms. Just a straight path forward.
+            </p>
+          </div>
+          <div className="grid gap-8 md:grid-cols-3">
+            {[
+              {
+                step: '01',
+                title: 'Tell me what you need',
+                body: 'No forms, no intake packets. Just a conversation about what you\'re dealing with and where you want to go.',
+              },
+              {
+                step: '02',
+                title: 'I give you a straight answer',
+                body: 'What it costs, how long it takes, what you get. No vague proposals, no bait-and-switch.',
+              },
+              {
+                step: '03',
+                title: 'We get to work',
+                body: 'No handoffs, no juniors. Just me and your business — from kickoff to done.',
+              },
+            ].map(({ step, title, body }) => (
+              <div key={step} className="relative rounded-2xl border border-brand-silver-200 bg-white p-8">
+                <p className="font-heading text-5xl font-extrabold text-brand-blue-100 leading-none mb-4">{step}</p>
+                <h3 className="font-heading text-xl font-bold text-brand-black">{title}</h3>
+                <p className="mt-3 text-brand-silver-500 leading-relaxed">{body}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-12 text-center">
+            <Link
+              to="/contact"
+              className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-8 py-4 text-base font-bold text-white hover:bg-brand-blue-600 transition-colors"
+            >
+              Start Step 1 <ArrowRight className="h-5 w-5" />
             </Link>
           </div>
         </div>

@@ -85,12 +85,17 @@ export default function ServicesPage() {
       </Helmet>
       <section className="bg-white py-20 sm:py-28">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-10">
+          <div className="text-center mb-6">
             <h1 className="font-heading text-4xl font-extrabold text-brand-black sm:text-5xl">Services</h1>
             <p className="mt-4 text-lg text-brand-silver-500 max-w-2xl mx-auto">
-              Every service is delivered by me — not a team, not a junior, not an overseas contractor.
+              Every service is priced for real businesses —
+              not Fortune 500 budgets. If you need it,
+              we'll find a way to make it work.
             </p>
           </div>
+          <p className="text-center text-sm italic text-brand-silver-400 mb-10 max-w-2xl mx-auto">
+            Every engagement starts with a free conversation. Pricing is scoped to your project — not pulled from a rate card.
+          </p>
           <div className="mb-14 overflow-hidden rounded-2xl shadow-elevated">
             <img
               src="/images/work/services.png"
@@ -112,11 +117,29 @@ export default function ServicesPage() {
                 <h2 className="font-heading text-xl font-bold text-brand-black">{svc.title}</h2>
                 <p className="mt-1 text-sm font-medium text-brand-blue-500">{svc.tagline}</p>
                 <p className="mt-3 text-sm text-brand-silver-500 leading-relaxed">{svc.description}</p>
+                <p className="mt-3 text-xs text-brand-silver-400 italic">Flexible pricing available</p>
                 <div className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-brand-blue-500">
                   Learn more <ArrowRight className="h-4 w-4" />
                 </div>
               </Link>
             ))}
+          </div>
+        </div>
+
+        {/* Bottom reassurance block */}
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 pb-20 sm:pb-28">
+          <div className="rounded-2xl border border-brand-silver-200 bg-brand-silver-50 p-10 text-center">
+            <h2 className="font-heading text-2xl font-bold text-brand-black sm:text-3xl">Not sure what you need yet?</h2>
+            <p className="mt-4 text-lg text-brand-silver-500 max-w-2xl mx-auto leading-relaxed">
+              That's exactly what the first call is for. Most people come in knowing something's broken
+              but not knowing what to call it. That's fine — figuring that out together is part of the service.
+            </p>
+            <Link
+              to="/contact"
+              className="mt-8 inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-8 py-4 text-base font-bold text-white hover:bg-brand-blue-600 transition-colors"
+            >
+              Book a Free Call <ArrowRight className="h-5 w-5" />
+            </Link>
           </div>
         </div>
       </section>

@@ -285,6 +285,16 @@ export default function AboutPage() {
             </div>
           </div>
 
+          {/* Why I Do This */}
+          <div className="mt-16 rounded-3xl border border-blue-100 bg-gradient-to-br from-blue-50 to-slate-50 p-8 sm:p-10">
+            <p className="text-sm font-semibold uppercase tracking-[0.18em] text-blue-700 mb-4">Why I Do This</p>
+            <p className="text-lg leading-8 text-slate-700 max-w-3xl">
+              I built this business for the owner who's been told no — or quoted a number that made them laugh and hang up.
+              You deserve real expertise without the agency markup. I work directly with you, I keep my overhead low,
+              and I pass that straight to you in the price.
+            </p>
+          </div>
+
           {/* Internal links — CTA row */}
           <div className="mt-16 flex flex-wrap gap-4 justify-center">
             <Link

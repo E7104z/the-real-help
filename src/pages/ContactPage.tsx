@@ -131,7 +131,11 @@ export default function ContactPage() {
                   </div>
                 </div>
               ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <>
+                  <p className="mb-6 rounded-xl border border-brand-blue-100 bg-brand-blue-50 px-5 py-4 text-sm text-brand-blue-700 leading-relaxed">
+                    <strong>First conversation is always free.</strong> No pitch, no pressure — just a real talk about what you need.
+                  </p>
+                  <form onSubmit={handleSubmit} className="space-y-6">
                   <div>
                     <label className="block text-sm font-semibold text-brand-black mb-1.5">Name *</label>
                     <input
@@ -179,9 +183,10 @@ export default function ContactPage() {
                     type="submit"
                     className="w-full rounded-xl bg-brand-blue-500 px-8 py-4 text-base font-bold text-white hover:bg-brand-blue-600 transition-colors"
                   >
-                    Send Message
+                    Let&apos;s Start the Conversation
                   </button>
                 </form>
+                </>
               )}
             </div>
           </div>
