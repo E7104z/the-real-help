@@ -12,8 +12,6 @@ import {
 } from 'lucide-react';
 import { useAuth } from '@/app/providers/AuthProvider';
 import { ROUTES } from '@/lib/constants/routes';
-import { ROLES } from '@/lib/constants/roles';
-import { hasMinimumRole } from '@/lib/constants/roles';
 import { cn } from '@/lib/utils/cn';
 
 const NAV_ITEMS = [
@@ -24,7 +22,7 @@ const NAV_ITEMS = [
 ];
 
 export function AppLayout() {
-  const { currentUser, role, signOut } = useAuth();
+  const { currentUser, role, isAdmin, signOut } = useAuth();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -64,7 +62,7 @@ export function AppLayout() {
             );
           })}
 
-          {role && hasMinimumRole(role, ROLES.ADMIN) && (
+          {isAdmin && (
             <Link
               to={ROUTES.ADMIN}
               onClick={() => { setMobileOpen(false); }}

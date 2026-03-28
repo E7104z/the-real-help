@@ -8,3 +8,5 @@ emulator-data/
 functions/.env
 .firebase/
 .vercel
+scripts/service-account.json
+scripts/node_modules/

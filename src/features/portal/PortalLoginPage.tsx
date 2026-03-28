@@ -6,7 +6,7 @@ import { ROLES } from '@/lib/constants/roles';
 import { Loader2 } from 'lucide-react';
 
 export default function PortalLoginPage() {
-  const { signIn, currentUser, role, authLoading } = useAuth();
+  const { signIn, currentUser, role, isAdmin, authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
@@ -17,14 +17,14 @@ export default function PortalLoginPage() {
   // Redirect if already authenticated
   useEffect(() => {
     if (!authLoading && currentUser) {
-      if (role === ROLES.ADMIN || role === ROLES.STAFF) {
+      if (isAdmin || role === ROLES.STAFF) {
         void navigate(ROUTES.ADMIN, { replace: true });
       } else {
         const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
         void navigate(from ?? ROUTES.PORTAL_DASHBOARD, { replace: true });
       }
     }
-  }, [authLoading, currentUser, role, navigate, location]);
+  }, [authLoading, currentUser, role, isAdmin, navigate, location]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();

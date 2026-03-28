@@ -6,13 +6,12 @@ function ScrollToTop() {
   useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   return null;
 }
-import { AuthenticatedGuard, RoleGuard, PublicOnlyGuard, ClientGuard } from './guards';
+import { AuthenticatedGuard, PublicOnlyGuard, ClientGuard, AdminGuard } from './guards';
 import { AppLayout } from '@/app/layouts/AppLayout';
 import { AdminLayout } from '@/app/layouts/AdminLayout';
 import { PublicLayout } from '@/app/layouts/PublicLayout';
 import MarketingLayout from '@/app/layouts/MarketingLayout';
 import { Spinner } from '@/components/ui/Spinner';
-import { ROLES } from '@/lib/constants/roles';
 
 // Lazy-loaded pages
 const LoginPage = lazy(() => import('@/features/auth/LoginPage'));
@@ -124,11 +123,9 @@ export function AppRouter() {
         <Route
           path="/admin"
           element={
-            <AuthenticatedGuard>
-              <RoleGuard minimumRole={ROLES.ADMIN}>
-                <AdminLayout />
-              </RoleGuard>
-            </AuthenticatedGuard>
+            <AdminGuard>
+              <AdminLayout />
+            </AdminGuard>
           }
         >
           <Route index element={<AdminDashboard />} />

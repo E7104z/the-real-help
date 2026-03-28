@@ -6,7 +6,8 @@ import {
   signOut as firebaseSignOut,
   GoogleAuthProvider,
 } from 'firebase/auth';
-import { auth } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
+import { auth, firestore } from '@/lib/firebase';
 import type { AuthContextValue, CustomClaims } from '@/types/auth';
 import type { UserRole } from '@/lib/constants/roles';
 
@@ -19,6 +20,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [authLoading, setAuthLoading] = useState(true);
   const [role, setRole] = useState<UserRole | null>(null);
   const [tenantId, setTenantId] = useState<string | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
@@ -29,9 +31,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         const claims = tokenResult.claims as unknown as CustomClaims;
         setRole((claims.role as UserRole) ?? null);
         setTenantId(claims.tenantId ?? null);
+
+        // Firestore-based admin check
+        const adminSnap = await getDoc(doc(firestore, 'admins', user.uid));
+        setIsAdmin(adminSnap.exists() && adminSnap.data()?.isAdmin === true);
       } else {
         setRole(null);
         setTenantId(null);
+        setIsAdmin(false);
       }
 
       setAuthLoading(false);
@@ -57,6 +64,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     authLoading,
     role,
     tenantId,
+    isAdmin,
     signIn,
     signInWithGoogle,
     signOut,

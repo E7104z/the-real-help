@@ -1,13 +1,15 @@
 /**
  * One-time script to set the admin role claim on a Firebase user.
  *
- * Usage:
+ * Usage (run from the project root):
  *   node scripts/set-admin-claim.js <USER_UID>
  *
  * Prerequisites:
  *   1. Download a service account key from Firebase Console:
  *      Project Settings → Service accounts → Generate new private key
  *   2. Save it as scripts/service-account.json  (already git-ignored)
+ *   3. Install firebase-admin locally if not already:
+ *      npm install --prefix scripts firebase-admin
  *   3. Run: node scripts/set-admin-claim.js <UID_FROM_FIREBASE_AUTH_CONSOLE>
  *
  * After running, the user must sign out and sign back in to refresh their token.

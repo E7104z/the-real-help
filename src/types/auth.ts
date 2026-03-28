@@ -6,6 +6,7 @@ export interface AuthState {
   authLoading: boolean;
   role: UserRole | null;
   tenantId: string | null;
+  isAdmin: boolean;
 }
 
 export interface AuthContextValue extends AuthState {

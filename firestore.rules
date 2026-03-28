@@ -29,7 +29,36 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // ── Tenant-scoped collections ──
+    // ── Admins collection (Firestore-based admin auth) ──
+
+    match /admins/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow write: if false; // managed via Admin SDK only
+    }
+
+    // ── Clients collection (portal) ──
+
+    match /clients/{clientId} {
+      allow read, write: if isSignedIn() && request.auth.uid == clientId;
+
+      match /projects/{projectId} {
+        allow read: if isSignedIn() && request.auth.uid == clientId;
+        allow write: if false; // managed via Admin SDK / Cloud Functions
+      }
+
+      match /documents/{documentId} {
+        allow read: if isSignedIn() && request.auth.uid == clientId;
+        allow create: if isSignedIn() && request.auth.uid == clientId;
+        allow update, delete: if false;
+      }
+
+      match /messages/{messageId} {
+        allow read: if isSignedIn() && request.auth.uid == clientId;
+        allow create: if isSignedIn() && request.auth.uid == clientId;
+        allow update: if isSignedIn() && request.auth.uid == clientId;
+        allow delete: if false;
+      }
+    }
 
     match /tenants/{tenantId} {
       allow read: if isTenantMember(tenantId);

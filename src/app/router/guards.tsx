@@ -50,6 +50,30 @@ export function RoleGuard({ children, minimumRole }: RoleGuardProps) {
   return <>{children}</>;
 }
 
+/** Allows only users with isAdmin: true in the Firestore admins collection. */
+export function AdminGuard({ children }: GuardProps) {
+  const { currentUser, isAdmin, authLoading } = useAuth();
+  const location = useLocation();
+
+  if (authLoading) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return <Navigate to={ROUTES.LOGIN} state={{ from: location }} replace />;
+  }
+
+  if (!isAdmin) {
+    return <Navigate to="/" replace />;
+  }
+
+  return <>{children}</>;
+}
+
 export function PublicOnlyGuard({ children }: GuardProps) {
   const { currentUser, authLoading } = useAuth();
 
@@ -70,7 +94,7 @@ export function PublicOnlyGuard({ children }: GuardProps) {
 
 /** Allows only users with role === 'client'. Redirects others appropriately. */
 export function ClientGuard({ children }: GuardProps) {
-  const { currentUser, role, authLoading } = useAuth();
+  const { currentUser, role, isAdmin, authLoading } = useAuth();
   const location = useLocation();
 
   if (authLoading) {
@@ -85,7 +109,7 @@ export function ClientGuard({ children }: GuardProps) {
     return <Navigate to={ROUTES.PORTAL_LOGIN} state={{ from: location }} replace />;
   }
 
-  if (role === ROLES.ADMIN || role === ROLES.STAFF) {
+  if (isAdmin || role === ROLES.STAFF) {
     return <Navigate to={ROUTES.ADMIN} replace />;
   }
 
