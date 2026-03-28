@@ -5,17 +5,17 @@ import { CardVisual } from '@/components/illustrations/CardVisual';
 
 const CASE_STUDIES = [
   {
-    title: 'CDS Scheduler Lite',
-    category: 'Medicaid / CDS',
-    description: 'A lightweight scheduling tool built specifically for CDS agencies — caregiver availability, shift management, and EVV alignment without the bloat.',
+    title: 'Kidz Transportation',
+    category: 'App Development',
+    description: 'A full-featured web app for a youth transportation business — driver management, route scheduling, parent notifications, and ride tracking all in one platform.',
     metrics: [
-      { label: 'Scheduling time reduced', value: '80%' },
-      { label: 'Billing denials reduced', value: '90%' },
-      { label: 'Audit pass rate', value: '100%' },
+      { label: 'Routes managed', value: '100+' },
+      { label: 'Manual dispatch eliminated', value: '90%' },
+      { label: 'On-time rate', value: '98%' },
     ],
-    tags: ['Medicaid', 'CDS', 'EVV', 'Scheduling', 'Compliance'],
-    screenshot: '/images/work/scheduler-lite.png',
-    liveUrl: 'https://www.cdsscheduler.com/',
+    tags: ['React', 'Firebase', 'Transportation', 'Scheduling'],
+    screenshot: '/images/work/kidz.png',
+    liveUrl: 'https://kidz-transportation.web.app/',
     pdfUrl: null,
   },
   {
@@ -33,20 +33,6 @@ const CASE_STUDIES = [
     pdfUrl: null,
   },
   {
-    title: 'Kidz Transportation',
-    category: 'App Development',
-    description: 'A full-featured web app for a youth transportation business — driver management, route scheduling, parent notifications, and ride tracking all in one platform.',
-    metrics: [
-      { label: 'Routes managed', value: '100+' },
-      { label: 'Manual dispatch eliminated', value: '90%' },
-      { label: 'On-time rate', value: '98%' },
-    ],
-    tags: ['React', 'Firebase', 'Transportation', 'Scheduling'],
-    screenshot: '/images/work/kidz.png',
-    liveUrl: 'https://kidz-transportation.web.app/',
-    pdfUrl: null,
-  },
-  {
     title: 'A-Z Liquidations — MBE Capability Statement',
     category: 'Compliance & Certification',
     description: 'Designed a professional capability statement for A-Z Liquidations LLC — St. Louis\'s only MWBE-certified hard-surface flooring supplier. Built to win government and prime contractor bids.',
@@ -59,6 +45,20 @@ const CASE_STUDIES = [
     screenshot: '/images/work/AZ.png',
     liveUrl: null,
     pdfUrl: '/docs/AZ_CUF.pdf',
+  },
+  {
+    title: 'CDS Scheduler Lite',
+    category: 'Medicaid / CDS',
+    description: 'A lightweight scheduling tool built specifically for CDS agencies — caregiver availability, shift management, and EVV alignment without the bloat.',
+    metrics: [
+      { label: 'Scheduling time reduced', value: '80%' },
+      { label: 'Billing denials reduced', value: '90%' },
+      { label: 'Audit pass rate', value: '100%' },
+    ],
+    tags: ['Medicaid', 'CDS', 'EVV', 'Scheduling', 'Compliance'],
+    screenshot: '/images/work/scheduler-lite.png',
+    liveUrl: 'https://www.cdsscheduler.com/',
+    pdfUrl: null,
   },
 ];
 
