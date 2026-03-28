@@ -18,6 +18,48 @@ const CASE_STUDIES = [
     liveUrl: 'https://www.cdsscheduler.com/',
     pdfUrl: null,
   },
+  {
+    title: 'Scheduler Pro',
+    category: 'App Development',
+    description: 'A full workforce scheduling application built for CDS agencies managing caregiver shifts, availability, and EVV alignment.',
+    metrics: [
+      { label: 'Scheduling time reduced', value: '80%' },
+      { label: 'Manual errors eliminated', value: '100%' },
+      { label: 'Agencies onboarded', value: '3' },
+    ],
+    tags: ['React', 'Firebase', 'CDS', 'Healthcare'],
+    screenshot: '/images/work/scheduler-pro.png',
+    liveUrl: 'https://scheduler-pro-five.vercel.app/',
+    pdfUrl: null,
+  },
+  {
+    title: 'Kidz Transportation',
+    category: 'App Development',
+    description: 'A full-featured web app for a youth transportation business — driver management, route scheduling, parent notifications, and ride tracking all in one platform.',
+    metrics: [
+      { label: 'Routes managed', value: '100+' },
+      { label: 'Manual dispatch eliminated', value: '90%' },
+      { label: 'On-time rate', value: '98%' },
+    ],
+    tags: ['React', 'Firebase', 'Transportation', 'Scheduling'],
+    screenshot: '/images/work/kidz.png',
+    liveUrl: 'https://kidz-transportation.web.app/',
+    pdfUrl: null,
+  },
+  {
+    title: 'A-Z Liquidations — MBE Capability Statement',
+    category: 'Compliance & Certification',
+    description: 'Designed a professional capability statement for A-Z Liquidations LLC — St. Louis\'s only MWBE-certified hard-surface flooring supplier. Built to win government and prime contractor bids.',
+    metrics: [
+      { label: 'MBE certification', value: '✓' },
+      { label: 'MBE credit to primes', value: '60%' },
+      { label: 'Lead time', value: '0 days' },
+    ],
+    tags: ['MBE', 'Capability Statement', 'Government Contracting', 'St. Louis'],
+    screenshot: '/images/work/AZ.png',
+    liveUrl: null,
+    pdfUrl: '/docs/AZ_CUF.pdf',
+  },
 ];
 
 function BrowserMockup({ src, alt, href, label = 'View Live Site' }: { src: string; alt: string; href: string; label?: string }) {
