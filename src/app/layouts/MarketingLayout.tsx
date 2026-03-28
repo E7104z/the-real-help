@@ -54,6 +54,14 @@ export default function MarketingLayout() {
                 {link.label}
               </Link>
             ))}
+            <a
+              href="https://calendar.app.google/ubdfXKUbazhjgs2VA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="rounded-lg border border-brand-blue-500 px-5 py-2.5 text-sm font-bold text-brand-blue-500 hover:bg-brand-blue-50 transition-colors"
+            >
+              Book a Call
+            </a>
             <Link
               to="/contact"
               className="rounded-lg bg-brand-blue-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-blue-600 transition-colors"
@@ -92,6 +100,15 @@ export default function MarketingLayout() {
             >
               Let&apos;s Talk
             </Link>
+            <a
+              href="https://calendar.app.google/ubdfXKUbazhjgs2VA"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block rounded-lg border border-brand-blue-500 px-5 py-3 text-center text-sm font-bold text-brand-blue-500"
+              onClick={() => setMobileOpen(false)}
+            >
+              Book a Call
+            </a>
           </div>
         )}
       </header>

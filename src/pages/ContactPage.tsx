@@ -1,14 +1,40 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { Mail, Phone, MapPin, ArrowRight } from 'lucide-react';
+import { Mail, Phone, MapPin, ArrowRight, Loader2 } from 'lucide-react';
+import { httpsCallable } from 'firebase/functions';
+import { functions } from '@/lib/firebase/functions';
+
+const BOOKING_URL = 'https://calendar.app.google/ubdfXKUbazhjgs2VA';
+
+const SERVICES = [
+  'Compliance & Certification',
+  'Business Systems',
+  'App Development',
+  'AI & Automation',
+  'Branding & Design',
+  'Medicaid / CDS',
+  'Government Contracting',
+];
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
-  const [form, setForm] = useState({ name: '', email: '', phone: '', message: '' });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [form, setForm] = useState({ name: '', email: '', phone: '', service: '', message: '' });
 
-  function handleSubmit(e: React.FormEvent) {
+  async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
-    setSubmitted(true);
+    setLoading(true);
+    setError('');
+    try {
+      const submit = httpsCallable(functions, 'submitContactForm');
+      await submit(form);
+      setSubmitted(true);
+    } catch {
+      setError('Something went wrong. Please try again or email jason@therealhelp.com directly.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
@@ -67,10 +93,12 @@ export default function ContactPage() {
               <div className="mt-12 rounded-2xl bg-brand-silver-50 border border-brand-silver-200 p-6">
                 <p className="font-heading text-xl font-bold text-brand-black">Book a Free Call</p>
                 <p className="mt-2 text-sm text-brand-silver-500">
-                  Prefer to talk directly? Book a 30-minute discovery call.
+                  Prefer to talk directly? Book a 30-minute discovery call — no obligation.
                 </p>
                 <a
-                  href="#book"
+                  href={BOOKING_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-6 py-3 text-sm font-bold text-white hover:bg-brand-blue-600 transition-colors"
                 >
                   Schedule a Call <ArrowRight className="h-4 w-4" />
@@ -84,10 +112,24 @@ export default function ContactPage() {
               {submitted ? (
                 <div className="flex h-full items-center justify-center rounded-2xl bg-brand-silver-50 p-12 text-center">
                   <div>
-                    <p className="font-heading text-3xl font-bold text-brand-black">Got it.</p>
+                    <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
+                      <svg className="h-8 w-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                        <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                      </svg>
+                    </div>
+                    <p className="font-heading text-3xl font-bold text-brand-black">Message sent.</p>
                     <p className="mt-3 text-brand-silver-500">
-                      I&apos;ll review your message and get back to you within 1 business day.
+                      I&apos;ll get back to you within 1 business day. Check your inbox for a confirmation.
                     </p>
+                    <p className="mt-6 text-sm text-brand-silver-400">Want to talk sooner?</p>
+                    <a
+                      href={BOOKING_URL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-3 inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-6 py-3 text-sm font-bold text-white hover:bg-brand-blue-600 transition-colors"
+                    >
+                      Book a Free Call <ArrowRight className="h-4 w-4" />
+                    </a>
                   </div>
                 </div>
               ) : (
@@ -129,6 +171,19 @@ export default function ContactPage() {
                     />
                   </div>
                   <div>
+                    <label className="block text-sm font-semibold text-brand-black mb-1.5">What area do you need help with?</label>
+                    <select
+                      value={form.service}
+                      onChange={(e) => setForm({ ...form, service: e.target.value })}
+                      className="w-full rounded-xl border border-brand-silver-300 px-4 py-3 text-brand-black focus:border-brand-blue-500 focus:outline-none focus:ring-2 focus:ring-brand-blue-200 bg-white"
+                    >
+                      <option value="">Select a service (optional)</option>
+                      {SERVICES.map((s) => (
+                        <option key={s} value={s}>{s}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
                     <label className="block text-sm font-semibold text-brand-black mb-1.5">What do you need help with? *</label>
                     <textarea
                       required
@@ -139,11 +194,19 @@ export default function ContactPage() {
                       placeholder="Tell me about your situation..."
                     />
                   </div>
+                  {error && (
+                    <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">{error}</p>
+                  )}
                   <button
                     type="submit"
-                    className="w-full rounded-xl bg-brand-blue-500 px-8 py-4 text-base font-bold text-white hover:bg-brand-blue-600 transition-colors"
+                    disabled={loading}
+                    className="w-full inline-flex items-center justify-center gap-2 rounded-xl bg-brand-blue-500 px-8 py-4 text-base font-bold text-white hover:bg-brand-blue-600 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
-                    Let&apos;s Start the Conversation
+                    {loading ? (
+                      <><Loader2 className="h-5 w-5 animate-spin" /> Sending...</>
+                    ) : (
+                      "Let's Start the Conversation"
+                    )}
                   </button>
                 </form>
                 </>
