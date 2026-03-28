@@ -79,40 +79,76 @@ export default function ContactPage() {
 
               {/* St. Louis Gateway Arch illustration */}
               <div className="mt-8 flex justify-center" aria-hidden="true">
-                <svg viewBox="0 0 400 270" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-xs opacity-80">
-                  {/* Ground */}
-                  <line x1="0" y1="252" x2="400" y2="252" stroke="#E4E4E7" strokeWidth="1.5" />
-                  {/* Left skyline buildings */}
-                  <rect x="10" y="222" width="22" height="30" fill="#F4F4F5" rx="1" />
-                  <rect x="36" y="212" width="18" height="40" fill="#E4E4E7" rx="1" />
-                  <rect x="37" y="204" width="4" height="10" fill="#E4E4E7" rx="1" />
-                  <rect x="58" y="226" width="26" height="26" fill="#F4F4F5" rx="1" />
-                  <rect x="88" y="216" width="14" height="36" fill="#D4D4D8" rx="1" />
-                  {/* Right skyline buildings */}
-                  <rect x="298" y="220" width="14" height="32" fill="#D4D4D8" rx="1" />
-                  <rect x="316" y="210" width="26" height="42" fill="#E4E4E7" rx="1" />
-                  <rect x="317" y="202" width="4" height="10" fill="#E4E4E7" rx="1" />
-                  <rect x="346" y="216" width="20" height="36" fill="#F4F4F5" rx="1" />
-                  <rect x="370" y="224" width="22" height="28" fill="#E4E4E7" rx="1" />
-                  {/* Gateway Arch */}
+                <svg viewBox="0 0 500 330" xmlns="http://www.w3.org/2000/svg" className="w-full max-w-sm">
+                  <defs>
+                    <linearGradient id="arch-sky" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#0e2a60" />
+                      <stop offset="100%" stopColor="#2d6ab0" />
+                    </linearGradient>
+                    <linearGradient id="arch-left" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#2c4a68" />
+                      <stop offset="28%" stopColor="#6e96b4" />
+                      <stop offset="50%" stopColor="#c4dcf0" />
+                      <stop offset="72%" stopColor="#7aaac6" />
+                      <stop offset="100%" stopColor="#426880" />
+                    </linearGradient>
+                    <linearGradient id="arch-right" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stopColor="#426880" />
+                      <stop offset="28%" stopColor="#7aaac6" />
+                      <stop offset="50%" stopColor="#c4dcf0" />
+                      <stop offset="72%" stopColor="#6e96b4" />
+                      <stop offset="100%" stopColor="#2c4a68" />
+                    </linearGradient>
+                    <linearGradient id="arch-ground" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stopColor="#336622" />
+                      <stop offset="100%" stopColor="#1e4012" />
+                    </linearGradient>
+                  </defs>
+
+                  {/* Sky */}
+                  <rect width="500" height="290" fill="url(#arch-sky)" />
+
+                  {/* City skyline silhouette */}
+                  <g fill="#091e3d" opacity="0.65">
+                    <rect x="5" y="252" width="24" height="38" />
+                    <rect x="32" y="238" width="16" height="52" />
+                    <rect x="34" y="229" width="3" height="10" />
+                    <rect x="52" y="256" width="30" height="34" />
+                    <rect x="86" y="246" width="14" height="44" />
+                    <rect x="104" y="260" width="22" height="30" />
+                    <rect x="374" y="260" width="22" height="30" />
+                    <rect x="400" y="246" width="14" height="44" />
+                    <rect x="418" y="256" width="30" height="34" />
+                    <rect x="452" y="238" width="16" height="52" />
+                    <rect x="462" y="229" width="3" height="10" />
+                    <rect x="471" y="252" width="24" height="38" />
+                  </g>
+
+                  {/* Ground / grass */}
+                  <rect y="290" width="500" height="40" fill="url(#arch-ground)" />
+
+                  {/* LEFT LEG — filled tapered catenary shape */}
                   <path
-                    d="M 128 252 C 128 186, 193 65, 200 34 C 207 65, 272 186, 272 252"
-                    fill="none"
-                    stroke="#1E3A8A"
-                    strokeWidth="17"
-                    strokeLinecap="round"
+                    d="M 70,290 C 68,158 216,50 247,34 L 253,38 C 230,54 104,162 104,290 Z"
+                    fill="url(#arch-left)"
                   />
-                  {/* Arch highlight shimmer */}
+
+                  {/* RIGHT LEG — mirror */}
                   <path
-                    d="M 131 252 C 131 189, 195 69, 200 38 C 205 69, 269 189, 269 252"
-                    fill="none"
-                    stroke="#5C84FF"
-                    strokeWidth="4"
-                    strokeLinecap="round"
-                    opacity="0.45"
+                    d="M 430,290 C 432,158 284,50 253,34 L 247,38 C 270,54 396,162 396,290 Z"
+                    fill="url(#arch-right)"
                   />
+
+                  {/* Apex highlight */}
+                  <ellipse cx="250" cy="36" rx="4" ry="3" fill="#ddeeff" opacity="0.75" />
+
+                  {/* Concrete base pads */}
+                  <rect x="62" y="284" width="48" height="10" rx="1" fill="#567a90" />
+                  <rect x="390" y="284" width="48" height="10" rx="1" fill="#567a90" />
+
                   {/* Label */}
-                  <text x="200" y="268" textAnchor="middle" fill="#A1A1AA" fontSize="10" fontFamily="system-ui, sans-serif" letterSpacing="2">
+                  <text x="250" y="318" textAnchor="middle" fill="#7aaeca" fontSize="9"
+                    fontFamily="system-ui,sans-serif" letterSpacing="3" fontWeight="500">
                     ST. LOUIS, MISSOURI
                   </text>
                 </svg>
