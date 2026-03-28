@@ -2,11 +2,12 @@ type BenefitsTickerProps = { items: string[] };
 
 export function BenefitsTicker({ items }: BenefitsTickerProps) {
   const doubled = [...items, ...items];
+  const duration = items.length * 4; // 4 seconds per item
   return (
     <div className="overflow-hidden w-full">
       <div
         className="flex gap-16 whitespace-nowrap"
-        style={{ animation: 'ticker 12s linear infinite' }}
+        style={{ animation: `ticker ${duration}s linear infinite` }}
         onMouseEnter={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = 'paused')}
         onMouseLeave={(e) => ((e.currentTarget as HTMLElement).style.animationPlayState = 'running')}
       >
