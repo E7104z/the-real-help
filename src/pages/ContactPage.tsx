@@ -31,7 +31,7 @@ export default function ContactPage() {
       await submit(form);
       setSubmitted(true);
     } catch {
-      setError('Something went wrong. Please try again or email jason@therealhelp.com directly.');
+      setError('Something went wrong. Please try again or email info@therealhelp.com directly.');
     } finally {
       setLoading(false);
     }
@@ -63,8 +63,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand-silver-400 uppercase tracking-wide">Email</p>
-                    <a href="mailto:jason@therealhelp.com" className="text-brand-black font-medium hover:text-brand-blue-500">
-                      jason@therealhelp.com
+                    <a href="mailto:info@therealhelp.com" className="text-brand-black font-medium hover:text-brand-blue-500">
+                      info@therealhelp.com
                     </a>
                   </div>
                 </div>

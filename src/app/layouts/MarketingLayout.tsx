@@ -19,9 +19,9 @@ export default function MarketingLayout() {
       {/* Top bar */}
       <div className="bg-brand-black py-2 text-center text-xs text-brand-silver-400">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4">
-          <a href="mailto:jason@therealhelp.com" className="inline-flex items-center gap-1 hover:text-white transition-colors">
+          <a href="mailto:info@therealhelp.com" className="inline-flex items-center gap-1 hover:text-white transition-colors">
             <Mail className="h-3 w-3" />
-            jason@therealhelp.com
+            info@therealhelp.com
           </a>
           <a href="tel:+13146602890" className="inline-flex items-center gap-1 hover:text-white transition-colors">
             <Phone className="h-3 w-3" />
@@ -158,7 +158,7 @@ export default function MarketingLayout() {
             <div>
               <h4 className="text-sm font-semibold uppercase tracking-wider text-brand-silver-400 mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-brand-silver-300">
-                <li><a href="mailto:jason@therealhelp.com" className="hover:text-white transition-colors">jason@therealhelp.com</a></li>
+                <li><a href="mailto:info@therealhelp.com" className="hover:text-white transition-colors">info@therealhelp.com</a></li>
                 <li><a href="tel:+13146602890" className="hover:text-white transition-colors">(314) 660-2890</a></li>
                 <li className="text-brand-silver-500">St. Louis, Missouri</li>
               </ul>
