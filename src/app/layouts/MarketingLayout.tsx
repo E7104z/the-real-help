@@ -3,9 +3,9 @@ import { Link, Outlet, useLocation } from 'react-router-dom';
 import { Menu, X, Mail, Phone } from 'lucide-react';
 
 const NAV_LINKS = [
-  { label: 'About', to: '/about' },
   { label: 'Services', to: '/services' },
   { label: 'Work', to: '/work' },
+  { label: 'About', to: '/about' },
   { label: 'Insights', to: '/insights' },
   { label: 'Contact', to: '/contact' },
 ];
