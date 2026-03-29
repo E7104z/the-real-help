@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X, Mail, Phone } from 'lucide-react';
+import { Menu, X, Mail } from 'lucide-react';
 
 const NAV_LINKS = [
   { label: 'Services', to: '/services' },
@@ -23,10 +23,6 @@ export default function MarketingLayout() {
           <a href="mailto:info@therealhelp.com" className="inline-flex items-center gap-1 hover:text-white transition-colors">
             <Mail className="h-3 w-3" />
             info@therealhelp.com
-          </a>
-          <a href="tel:+13146602890" className="inline-flex items-center gap-1 hover:text-white transition-colors">
-            <Phone className="h-3 w-3" />
-            (314) 660-2890
           </a>
         </div>
       </div>
@@ -161,7 +157,6 @@ export default function MarketingLayout() {
               <h4 className="text-sm font-semibold uppercase tracking-wider text-brand-silver-400 mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-brand-silver-300">
                 <li><a href="mailto:info@therealhelp.com" className="hover:text-white transition-colors">info@therealhelp.com</a></li>
-                <li><a href="tel:+13146602890" className="hover:text-white transition-colors">(314) 660-2890</a></li>
                 <li className="text-brand-silver-500">St. Louis, Missouri</li>
               </ul>
             </div>

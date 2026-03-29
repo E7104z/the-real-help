@@ -134,7 +134,6 @@ function sendAutoReply(data) {
     "",
     "— Jason",
     "The Real Help, LLC",
-    "(314) 660-2890",
     "therealhelp.com"
   ].join("\n");
 
@@ -170,7 +169,6 @@ function sendWelcomeClientEmail(name, email, service, resetLink) {
     "",
     "— Jason",
     "The Real Help, LLC",
-    "(314) 660-2890",
     "therealhelp.com"
   ].join("\n");
 
@@ -256,8 +254,7 @@ function sendDay2FollowUp(name, email, service) {
     "Or just reply to this email — happy to answer any questions.",
     "",
     "— Jason",
-    "The Real Help, LLC",
-    "(314) 660-2890"
+    "The Real Help, LLC"
   ].join("\n");
 
   GmailApp.sendEmail(email, "Just checking in — The Real Help", body, {
@@ -282,8 +279,7 @@ function sendDay5FollowUp(name, email, service) {
     "Wishing you the best,",
     "",
     "— Jason",
-    "The Real Help, LLC",
-    "(314) 660-2890"
+    "The Real Help, LLC"
   ].join("\n");
 
   GmailApp.sendEmail(email, "Leaving the door open — The Real Help", body, {
@@ -839,7 +835,6 @@ function menuInitialOutreach() {
         "",
         "Jason Griffin",
         "The Real Help, LLC",
-        "(314) 660-2890",
         "jason@therealhelp.com"
       ].join("\n"),
       filters: {},
@@ -873,8 +868,7 @@ function menuSendToNewLeads() {
         "And if the timing still isn't right — no hard feelings. I'll be here when it is.",
         "",
         "Jason Griffin",
-        "The Real Help, LLC",
-        "(314) 660-2890"
+        "The Real Help, LLC"
       ].join("\n"),
       filters: { status: "New" },
       previewOnly: false,
@@ -904,8 +898,7 @@ function menuSendToActiveClients() {
         "Appreciate you trusting me with this.",
         "",
         "Jason Griffin",
-        "The Real Help, LLC",
-        "(314) 660-2890"
+        "The Real Help, LLC"
       ].join("\n"),
       filters: {},
       previewOnly: false,
@@ -933,8 +926,7 @@ function menuWinBackDeadLeads() {
         BOOKING_URL,
         "",
         "Jason Griffin",
-        "The Real Help, LLC",
-        "(314) 660-2890"
+        "The Real Help, LLC"
       ].join("\n"),
       filters: {},
       previewOnly: false,

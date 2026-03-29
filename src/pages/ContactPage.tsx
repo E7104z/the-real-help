@@ -1,6 +1,6 @@
 import { Helmet } from 'react-helmet-async';
 import { useState } from 'react';
-import { Mail, Phone, MapPin, ArrowRight, Loader2 } from 'lucide-react';
+import { Mail, MapPin, ArrowRight, Loader2 } from 'lucide-react';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/lib/firebase/functions';
 
@@ -65,17 +65,6 @@ export default function ContactPage() {
                     <p className="text-sm font-semibold text-brand-silver-400 uppercase tracking-wide">Email</p>
                     <a href="mailto:info@therealhelp.com" className="text-brand-black font-medium hover:text-brand-blue-500">
                       info@therealhelp.com
-                    </a>
-                  </div>
-                </div>
-                <div className="flex items-center gap-4">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-blue-50 text-brand-blue-500">
-                    <Phone className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="text-sm font-semibold text-brand-silver-400 uppercase tracking-wide">Phone</p>
-                    <a href="tel:+13146602890" className="text-brand-black font-medium hover:text-brand-blue-500">
-                      (314) 660-2890
                     </a>
                   </div>
                 </div>
