@@ -11,7 +11,10 @@ import { auth, db } from "../config/index";
  * (org policy blocks allUsers on Cloud Run services in this project).
  */
 export const onInviteRequest = onDocumentCreated(
-  "inviteRequests/{requestId}",
+  {
+    document: "inviteRequests/{requestId}",
+    serviceAccount: "firebase-adminsdk-fbsvc@the-real-help.iam.gserviceaccount.com",
+  },
   async (event) => {
     const snap = event.data;
     if (!snap) return;
