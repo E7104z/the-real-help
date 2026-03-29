@@ -36,6 +36,13 @@ service cloud.firestore {
       allow write: if false; // managed via Admin SDK only
     }
 
+    // ── Pending Clients (from contact form) ──
+
+    match /pendingClients/{docId} {
+      allow read: if isSignedIn();
+      allow write: if false; // Cloud Functions only
+    }
+
     // ── Clients collection (portal) ──
 
     match /clients/{clientId} {

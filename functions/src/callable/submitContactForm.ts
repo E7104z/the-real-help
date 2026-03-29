@@ -47,6 +47,18 @@ export const submitContactForm = onCall<ContactFormData>(
     });
     console.log("Lead saved, id:", docRef.id);
 
+    // Also write to pendingClients so they surface in admin portal
+    await db.collection("pendingClients").doc(docRef.id).set({
+      name: data.name.trim(),
+      email: data.email.trim().toLowerCase(),
+      phone: data.phone?.trim() ?? "",
+      service: data.service?.trim() ?? "",
+      message: data.message.trim(),
+      status: "pending",
+      source: "contact_form",
+      createdAt: FieldValue.serverTimestamp(),
+    });
+
     // Call Apps Script webhook — fire and forget, never block the response
     const webhookUrl = process.env["APPS_SCRIPT_WEBHOOK_URL"];
     console.log("Webhook URL present:", !!webhookUrl);

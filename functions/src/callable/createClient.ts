@@ -6,6 +6,7 @@ interface CreateClientData {
   name: string;
   email: string;
   service: string;
+  pendingClientId?: string;
 }
 
 /**
@@ -24,7 +25,7 @@ export const createClient = onCall<CreateClientData>(
       throw new HttpsError("permission-denied", "Only admins can create clients.");
     }
 
-    const { name, email, service } = request.data;
+    const { name, email, service, pendingClientId } = request.data;
 
     if (!name?.trim() || !email?.trim() || !service?.trim()) {
       throw new HttpsError("invalid-argument", "name, email, and service are required.");
@@ -70,6 +71,10 @@ export const createClient = onCall<CreateClientData>(
       startDate: FieldValue.serverTimestamp(),
     });
 
+    if (pendingClientId) {
+      batch.delete(db.collection("pendingClients").doc(pendingClientId));
+    }
+
     await batch.commit();
 
     // 4. Generate password reset link & send welcome email
@@ -78,7 +83,7 @@ export const createClient = onCall<CreateClientData>(
       try {
         const resetLink = await auth.generatePasswordResetLink(email.trim());
         const payload = {
-          type: "welcomeClient",
+          action: "welcomeClient",
           clientName: name.trim(),
           clientEmail: email.trim(),
           service: service.trim(),

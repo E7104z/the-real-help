@@ -16,6 +16,16 @@ interface Client {
   createdAt: { toDate: () => Date } | null;
 }
 
+interface PendingClient {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  service: string;
+  message: string;
+  createdAt: { toDate: () => Date } | null;
+}
+
 const SERVICE_OPTIONS = [
   'Business Formation',
   'Business Plan',
@@ -35,6 +45,11 @@ export default function ClientManager() {
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState('');
 
+  const [pendingClients, setPendingClients] = useState<PendingClient[]>([]);
+  const [pendingLoading, setPendingLoading] = useState(true);
+  const [sendingInvite, setSendingInvite] = useState<Record<string, boolean>>({});
+  const [inviteError, setInviteError] = useState<Record<string, string>>({});
+
   useEffect(() => {
     const unsub = onSnapshot(
       query(collection(firestore, 'clients'), orderBy('createdAt', 'desc')),
@@ -46,6 +61,40 @@ export default function ClientManager() {
     );
     return unsub;
   }, []);
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      query(collection(firestore, 'pendingClients'), orderBy('createdAt', 'desc')),
+      (snap) => {
+        setPendingClients(snap.docs.map((d) => ({ id: d.id, ...d.data() } as PendingClient)));
+        setPendingLoading(false);
+      },
+      () => setPendingLoading(false)
+    );
+    return unsub;
+  }, []);
+
+  const handleSendInvite = async (lead: PendingClient) => {
+    setSendingInvite((s) => ({ ...s, [lead.id]: true }));
+    setInviteError((e) => ({ ...e, [lead.id]: '' }));
+    try {
+      const createClientFn = httpsCallable<
+        { name: string; email: string; service: string; pendingClientId: string },
+        { clientId: string }
+      >(functions, 'createClient');
+      await createClientFn({
+        name: lead.name,
+        email: lead.email,
+        service: lead.service || 'General',
+        pendingClientId: lead.id,
+      });
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Failed to send invite.';
+      setInviteError((e) => ({ ...e, [lead.id]: msg }));
+    } finally {
+      setSendingInvite((s) => ({ ...s, [lead.id]: false }));
+    }
+  };
 
   const handleCreate = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -141,6 +190,62 @@ export default function ClientManager() {
             </button>
           </div>
         </form>
+      )}
+
+      {/* New Leads from contact form */}
+      {(pendingLoading || pendingClients.length > 0) && (
+        <div className="space-y-3">
+          <div className="flex items-center gap-2">
+            <h2 className="font-semibold text-brand-black">New Leads</h2>
+            {pendingClients.length > 0 && (
+              <span className="rounded-full bg-yellow-100 px-2.5 py-0.5 text-xs font-bold text-yellow-700">
+                {pendingClients.length}
+              </span>
+            )}
+          </div>
+          {pendingLoading ? (
+            <div className="flex h-20 items-center justify-center">
+              <Loader2 className="h-5 w-5 animate-spin text-brand-silver-400" />
+            </div>
+          ) : (
+            <ul className="space-y-2">
+              {pendingClients.map((lead) => (
+                <li key={lead.id} className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
+                  <div className="flex items-start gap-4">
+                    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-200 text-yellow-700 font-bold text-sm">
+                      {lead.name?.charAt(0)?.toUpperCase() ?? '?'}
+                    </div>
+                    <div className="min-w-0 flex-1 space-y-0.5">
+                      <p className="font-semibold text-brand-black">{lead.name}</p>
+                      <p className="text-sm text-brand-silver-500">{lead.email}{lead.service ? ` · ${lead.service}` : ''}</p>
+                      {lead.message && (
+                        <p className="text-xs text-brand-silver-400 line-clamp-2">{lead.message}</p>
+                      )}
+                      {inviteError[lead.id] && (
+                        <p className="text-xs text-red-600">{inviteError[lead.id]}</p>
+                      )}
+                    </div>
+                    <div className="flex shrink-0 flex-col items-end gap-2">
+                      {lead.createdAt && (
+                        <span className="text-xs text-brand-silver-400">
+                          {formatDistanceToNow(lead.createdAt.toDate(), { addSuffix: true })}
+                        </span>
+                      )}
+                      <button
+                        onClick={() => handleSendInvite(lead)}
+                        disabled={sendingInvite[lead.id]}
+                        className="flex items-center gap-1.5 rounded-xl bg-brand-blue-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-blue-600 disabled:opacity-50 transition-colors"
+                      >
+                        {sendingInvite[lead.id] && <Loader2 className="h-3 w-3 animate-spin" />}
+                        {sendingInvite[lead.id] ? 'Sending…' : 'Send Invite'}
+                      </button>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
       )}
 
       {/* Client list */}
