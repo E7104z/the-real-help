@@ -8,6 +8,7 @@ const NAV_LINKS = [
   { label: 'About', to: '/about' },
   { label: 'Insights', to: '/insights' },
   { label: 'Contact', to: '/contact' },
+  { label: 'Client Portal', to: '/portal/login' },
 ];
 
 export default function MarketingLayout() {
@@ -153,6 +154,7 @@ export default function MarketingLayout() {
                 <li><Link to="/work" className="hover:text-white transition-colors">Work</Link></li>
                 <li><Link to="/insights" className="hover:text-white transition-colors">Insights</Link></li>
                 <li><Link to="/contact" className="hover:text-white transition-colors">Contact</Link></li>
+                <li><Link to="/portal/login" className="hover:text-white transition-colors">Client Portal</Link></li>
               </ul>
             </div>
             <div>
