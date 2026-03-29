@@ -43,6 +43,14 @@ service cloud.firestore {
       allow write: if false; // Cloud Functions only
     }
 
+    // ── Invite Requests (admin triggers client creation via Firestore trigger) ──
+
+    match /inviteRequests/{requestId} {
+      allow create: if isSignedIn();
+      allow read: if isSignedIn();
+      allow update, delete: if false; // Admin SDK / Cloud Functions only
+    }
+
     // ── Clients collection (portal) ──
 
     match /clients/{clientId} {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import { collection, onSnapshot, query, orderBy } from 'firebase/firestore';
-import { httpsCallable } from 'firebase/functions';
-import { firestore, functions } from '@/lib/firebase';
+import { collection, onSnapshot, query, orderBy, setDoc, doc, serverTimestamp, deleteDoc } from 'firebase/firestore';
+import { firestore } from '@/lib/firebase';
+import { getAuth } from 'firebase/auth';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '@/lib/constants/routes';
 import { Plus, Loader2, ChevronRight, User } from 'lucide-react';
@@ -74,20 +74,35 @@ export default function ClientManager() {
     return unsub;
   }, []);
 
+  const waitForInviteResult = (requestId: string): Promise<{ clientId: string }> =>
+    new Promise((resolve, reject) => {
+      const unsub = onSnapshot(doc(firestore, 'inviteRequests', requestId), (snap) => {
+        const data = snap.data();
+        if (!data) return;
+        if (data.status === 'complete') {
+          unsub();
+          deleteDoc(snap.ref).catch(() => {});
+          resolve({ clientId: data.clientId as string });
+        } else if (data.status === 'error') {
+          unsub();
+          deleteDoc(snap.ref).catch(() => {});
+          reject(new Error((data.error as string) || 'Unknown error.'));
+        }
+      });
+      setTimeout(() => { unsub(); reject(new Error('Request timed out.')); }, 30000);
+    });
+
   const handleSendInvite = async (lead: PendingClient) => {
     setSendingInvite((s) => ({ ...s, [lead.id]: true }));
     setInviteError((e) => ({ ...e, [lead.id]: '' }));
     try {
-      const createClientFn = httpsCallable<
-        { name: string; email: string; service: string; pendingClientId: string },
-        { clientId: string }
-      >(functions, 'createClient');
-      await createClientFn({
-        name: lead.name,
-        email: lead.email,
-        service: lead.service || 'General',
+      await setDoc(doc(firestore, 'inviteRequests', lead.id), {
         pendingClientId: lead.id,
+        requestedBy: getAuth().currentUser?.uid ?? '',
+        requestedAt: serverTimestamp(),
+        status: 'pending',
       });
+      await waitForInviteResult(lead.id);
     } catch (err: unknown) {
       const msg = err instanceof Error ? err.message : 'Failed to send invite.';
       setInviteError((e) => ({ ...e, [lead.id]: msg }));
@@ -103,11 +118,16 @@ export default function ClientManager() {
     setCreating(true);
     setCreateError('');
     try {
-      const createClient = httpsCallable<
-        { name: string; email: string; service: string },
-        { clientId: string }
-      >(functions, 'createClient');
-      await createClient(form);
+      const requestId = `direct_${Date.now()}`;
+      await setDoc(doc(firestore, 'inviteRequests', requestId), {
+        name: form.name.trim(),
+        email: form.email.trim().toLowerCase(),
+        service: form.service,
+        requestedBy: getAuth().currentUser?.uid ?? '',
+        requestedAt: serverTimestamp(),
+        status: 'pending',
+      });
+      await waitForInviteResult(requestId);
       setShowForm(false);
       setForm({ name: '', email: '', service: SERVICE_OPTIONS[0] as string });
     } catch (err: unknown) {
@@ -117,6 +137,7 @@ export default function ClientManager() {
       setCreating(false);
     }
   };
+
 
   const STATUS_COLOR: Record<string, string> = {
     active:   'bg-green-100 text-green-700',
