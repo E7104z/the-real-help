@@ -137,7 +137,7 @@ function sendAutoReply(data) {
     "therealhelp.com"
   ].join("\n");
 
-  GmailApp.sendEmail(data.email, "Got your message — The Real Help, LLC", body, {
+  sendEmailWithSig(data.email, "Got your message — The Real Help, LLC", body, {
     name: "Jason — The Real Help, LLC",
     replyTo: JASON_EMAIL
   });
@@ -172,7 +172,7 @@ function sendWelcomeClientEmail(name, email, service, resetLink) {
     "therealhelp.com"
   ].join("\n");
 
-  GmailApp.sendEmail(email, "Your portal is ready — The Real Help, LLC", body, {
+  sendEmailWithSig(email, "Your portal is ready — The Real Help, LLC", body, {
     name: "Jason — The Real Help, LLC",
     replyTo: JASON_EMAIL
   });
@@ -257,7 +257,7 @@ function sendDay2FollowUp(name, email, service) {
     "The Real Help, LLC"
   ].join("\n");
 
-  GmailApp.sendEmail(email, "Just checking in — The Real Help", body, {
+  sendEmailWithSig(email, "Just checking in — The Real Help", body, {
     name: "Jason — The Real Help, LLC",
     replyTo: JASON_EMAIL
   });
@@ -282,7 +282,7 @@ function sendDay5FollowUp(name, email, service) {
     "The Real Help, LLC"
   ].join("\n");
 
-  GmailApp.sendEmail(email, "Leaving the door open — The Real Help", body, {
+  sendEmailWithSig(email, "Leaving the door open — The Real Help", body, {
     name: "Jason — The Real Help, LLC",
     replyTo: JASON_EMAIL
   });
@@ -352,6 +352,27 @@ function getEmailTemplates() {
   return ContentService
     .createTextOutput(JSON.stringify({ success: true, templates: templates }))
     .setMimeType(ContentService.MimeType.JSON);
+}
+
+// Returns a plain object for use with google.script.run (not ContentService)
+function getEmailTemplatesForDialog() {
+  var ss = SpreadsheetApp.getActiveSpreadsheet();
+  var sheet = ss.getSheetByName(SHEET_NAME_TEMPLATES);
+  if (!sheet) return { success: true, templates: [] };
+
+  var data = sheet.getDataRange().getValues();
+  var templates = [];
+  for (var i = 1; i < data.length; i++) {
+    if (data[i][0]) {
+      templates.push({
+        id: data[i][0],
+        campaignName: data[i][1],
+        subject: data[i][3],
+        body: data[i][4]
+      });
+    }
+  }
+  return { success: true, templates: templates };
 }
 
 function updateTemplateLastSent(templateId) {
@@ -460,7 +481,7 @@ function sendBulkEmail(config) {
 
   for (var k = 0; k < recipients.length; k++) {
     try {
-      GmailApp.sendEmail(
+      sendEmailWithSig(
         recipients[k].email,
         applyMergeFields(config.subject, recipients[k]),
         applyMergeFields(config.body, recipients[k]),
@@ -522,30 +543,52 @@ function menuSendToSelectedRows() {
   var html = HtmlService.createHtmlOutput(
     '<style>' +
     'body{font-family:Arial,sans-serif;padding:20px;}' +
-    'label{display:block;margin-top:15px;font-weight:bold;}' +
-    'input,textarea{width:100%;padding:8px;margin-top:5px;box-sizing:border-box;}' +
-    'textarea{height:200px;font-family:monospace;}' +
-    'button{margin-top:20px;padding:10px 20px;background:#1E3A8A;color:white;border:none;cursor:pointer;border-radius:4px;}' +
+    'label{display:block;margin-top:14px;font-weight:bold;}' +
+    'input,select,textarea{width:100%;padding:8px;margin-top:5px;box-sizing:border-box;}' +
+    'textarea{height:180px;font-family:monospace;}' +
+    'button{margin-top:20px;padding:10px 22px;background:#1E3A8A;color:white;border:none;cursor:pointer;border-radius:4px;font-size:14px;}' +
     'button:hover{background:#163080;}' +
-    '.info{background:#e8f0fe;padding:10px;border-radius:4px;margin-bottom:15px;}' +
-    '.help{font-size:11px;color:#666;font-style:italic;}' +
+    '.info{background:#e8f0fe;padding:10px;border-radius:4px;margin-bottom:15px;font-size:13px;}' +
+    '.help{font-size:11px;color:#666;font-style:italic;margin-top:3px;}' +
     '</style>' +
-    '<h2>📧 Send to Selected Rows</h2>' +
+    '<h2>✉️ Email Selected Rows</h2>' +
     '<div class="info">' +
-    '📊 Sheet: <strong>' + sheet.getName() + '</strong><br>' +
-    '📍 Rows: <strong>' + startRow + ' to ' + (startRow + numRows - 1) + '</strong> (' + numRows + ' row' + (numRows > 1 ? 's' : '') + ')' +
+    '📊 <strong>' + sheet.getName() + '</strong> &nbsp;|&nbsp; ' +
+    '📍 Rows <strong>' + startRow + '&ndash;' + (startRow + numRows - 1) + '</strong> (' + numRows + ' recipient' + (numRows !== 1 ? 's' : '') + ')' +
     '</div>' +
     '<label>Campaign Name:</label>' +
-    '<input type="text" id="campaignName" placeholder="e.g., Selected Leads Follow-Up"/>' +
-    '<label>Email Subject:</label>' +
+    '<input type="text" id="campaignName" placeholder="e.g., Follow-Up — March 2026"/>' +
+    '<label>Load a Saved Template:</label>' +
+    '<select id="templatePicker"><option value="">Loading templates…</option></select>' +
+    '<label>Subject:</label>' +
     '<input type="text" id="subject" placeholder="Use {{firstName}}, {{name}}, {{service}}"/>' +
-    '<div class="help">Merge fields: {{firstName}}, {{name}}, {{email}}, {{service}}, {{phone}}</div>' +
-    '<label>Email Body:</label>' +
-    '<textarea id="body" placeholder="Hi {{firstName}},\n\nYour message here...\n\n— Jason"></textarea>' +
-    '<label><input type="checkbox" id="previewOnly" checked/> Preview Only (don\'t send yet)</label>' +
-    '<br/>' +
-    '<button onclick="send()">🚀 Send to Selected</button>' +
+    '<p class="help">Merge fields: {{firstName}} &nbsp;{{name}} &nbsp;{{email}} &nbsp;{{service}}</p>' +
+    '<label>Body:</label>' +
+    '<textarea id="body" placeholder="Hi {{firstName}},\n\nYour message here...\n\n— Jason\nThe Real Help, LLC"></textarea>' +
+    '<label style="font-weight:normal;margin-top:12px;"><input type="checkbox" id="previewOnly" checked/> &nbsp;Preview Only — count recipients without sending</label>' +
+    '<div><button onclick="send()">🚀 Send Emails</button></div>' +
     '<script>' +
+    // Load saved templates into the dropdown on open
+    'google.script.run.withSuccessHandler(function(r){' +
+    '  var sel=document.getElementById("templatePicker");' +
+    '  sel.innerHTML="<option value=\'\'>— Write custom email —</option>";' +
+    '  if(r.templates&&r.templates.length){' +
+    '    r.templates.forEach(function(t){' +
+    '      var opt=document.createElement("option");' +
+    '      opt.value=JSON.stringify({subject:t.subject,body:t.body});' +
+    '      opt.textContent=t.campaignName;' +
+    '      sel.appendChild(opt);' +
+    '    });' +
+    '  } else {' +
+    '    sel.innerHTML="<option value=\'\'>— No saved templates (write custom) —</option>";' +
+    '  }' +
+    '  sel.onchange=function(){' +
+    '    if(!sel.value) return;' +
+    '    var tpl=JSON.parse(sel.value);' +
+    '    document.getElementById("subject").value=tpl.subject||"",' +
+    '    document.getElementById("body").value=tpl.body||"";' +
+    '  };' +
+    '}).getEmailTemplatesForDialog();' +
     'function send(){' +
     '  var config={' +
     '    campaignName:document.getElementById("campaignName").value,' +
@@ -560,7 +603,7 @@ function menuSendToSelectedRows() {
     '  if(!config.subject||!config.body){alert("Please fill in subject and body");return;}' +
     '  google.script.run' +
     '    .withSuccessHandler(function(r){' +
-    '      if(r.preview){alert("PREVIEW\\n\\nWould send to "+r.recipientCount+" recipients.\\nUncheck Preview Only to send.");}' +
+    '      if(r.preview){alert("PREVIEW\\n\\nWould send to "+r.recipientCount+" recipient(s).\\nUncheck \'Preview Only\' to actually send.");}' +
     '      else{alert("Done!\\nSent: "+r.sentCount+"\\nErrors: "+r.errorCount);}' +
     '      google.script.host.close();' +
     '    })' +
@@ -568,9 +611,9 @@ function menuSendToSelectedRows() {
     '    .sendToSelectedRows(config);' +
     '}' +
     '</script>'
-  ).setWidth(500).setHeight(580);
+  ).setWidth(520).setHeight(640);
 
-  SpreadsheetApp.getUi().showModalDialog(html, 'Send to Selected Rows');
+  SpreadsheetApp.getUi().showModalDialog(html, 'Email Selected Rows');
 }
 
 function sendToSelectedRows(config) {
@@ -618,7 +661,7 @@ function sendToSelectedRows(config) {
 
   for (var k = 0; k < recipients.length; k++) {
     try {
-      GmailApp.sendEmail(
+      sendEmailWithSig(
         recipients[k].email,
         applyMergeFields(config.subject, recipients[k]),
         applyMergeFields(config.body, recipients[k]),
@@ -659,6 +702,40 @@ function applyMergeFields(text, recipient) {
     .replace(/\{\{email\}\}/g, recipient.email || "")
     .replace(/\{\{service\}\}/g, recipient.service || "")
     .replace(/\{\{phone\}\}/g, recipient.phone || "");
+}
+
+// ─── GMAIL SIGNATURE ─────────────────────────────────────────────────────
+
+var _signatureCache = null;
+
+// Fetches your default Gmail signature.
+// Requires: Apps Script editor → ＋ Services → Gmail API (enable it once).
+function getMySignature() {
+  if (_signatureCache !== null) return _signatureCache;
+  try {
+    var aliases = Gmail.Users.Settings.SendAs.list('me').sendAs;
+    for (var i = 0; i < aliases.length; i++) {
+      if (aliases[i].isDefault) {
+        _signatureCache = aliases[i].signature || '';
+        return _signatureCache;
+      }
+    }
+  } catch (e) {
+    // Gmail API not yet enabled — no signature appended
+  }
+  _signatureCache = '';
+  return '';
+}
+
+// Use this instead of GmailApp.sendEmail for all client-facing emails.
+// Appends your Gmail signature as htmlBody so it renders with logos/links.
+function sendEmailWithSig(to, subject, body, opts) {
+  opts = opts || {};
+  var sig = getMySignature();
+  if (sig) {
+    opts.htmlBody = body.replace(/\n/g, '<br>') + '<br><br>' + sig;
+  }
+  GmailApp.sendEmail(to, subject, body, opts);
 }
 
 // ─── BULK EMAIL LOG ───────────────────────────────────────────────────────
@@ -703,6 +780,8 @@ function generateCampaignId() {
 function onOpen() {
   var ui = SpreadsheetApp.getUi();
   ui.createMenu('🚀 CRM Actions')
+    .addItem('✉️ Email Selected Rows', 'menuSendToSelectedRows')
+    .addSeparator()
     .addSubMenu(ui.createMenu('📧 Bulk Email Campaigns')
       .addItem('📝 Create Custom Campaign', 'showCustomCampaignDialog')
       .addSeparator()
@@ -710,8 +789,6 @@ function onOpen() {
       .addItem('🆕 Email New Leads', 'menuSendToNewLeads')
       .addItem('💼 Email Active Clients', 'menuSendToActiveClients')
       .addItem('💀 Win-Back Dead Leads', 'menuWinBackDeadLeads')
-      .addSeparator()
-      .addItem('✅ Send to Selected Rows', 'menuSendToSelectedRows')
       .addSeparator()
       .addItem('👁️ Preview Campaign', 'menuPreviewCampaign'))
     .addSeparator()

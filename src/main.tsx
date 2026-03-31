@@ -4,6 +4,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { AppProviders } from '@/app/providers';
 import { AppRouter } from '@/app/router';
 import '@/styles/index.css';
+import { inject } from '@vercel/analytics'
 
 const rootEl = document.getElementById('root');
 if (!rootEl) throw new Error('Root element not found');
