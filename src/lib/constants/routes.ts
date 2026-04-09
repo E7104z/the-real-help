@@ -10,6 +10,7 @@ export const ROUTES = {
   ADMIN_SETTINGS: '/admin/settings',
   ADMIN_AUDIT: '/admin/audit',
   ADMIN_CLIENTS: '/admin/clients',
+  ADMIN_PROPERTY_TRANSFERS: '/admin/property-transfers',
   PORTAL: '/portal',
   PORTAL_LOGIN: '/portal/login',
   PORTAL_DASHBOARD: '/portal/dashboard',

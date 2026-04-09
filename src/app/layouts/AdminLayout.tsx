@@ -1,10 +1,11 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
-import { Settings, ScrollText, LayoutDashboard, ArrowLeft } from 'lucide-react';
+import { Settings, ScrollText, LayoutDashboard, ArrowLeft, FileStack } from 'lucide-react';
 import { ROUTES } from '@/lib/constants/routes';
 import { cn } from '@/lib/utils/cn';
 
 const ADMIN_NAV = [
   { label: 'Overview', path: ROUTES.ADMIN, icon: LayoutDashboard, exact: true },
+  { label: 'Property Transfers', path: ROUTES.ADMIN_PROPERTY_TRANSFERS, icon: FileStack },
   { label: 'Settings', path: ROUTES.ADMIN_SETTINGS, icon: Settings },
   { label: 'Audit Log', path: ROUTES.ADMIN_AUDIT, icon: ScrollText },
 ];

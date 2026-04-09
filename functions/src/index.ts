@@ -6,4 +6,5 @@ export { submitContactForm } from "./callable/submitContactForm";
 export { createClient } from "./callable/createClient";
 export { onRecordStatusChange } from "./triggers/auditLog";
 export { onInviteRequest } from "./triggers/onInviteRequest";
+export { onPropertyTransferCreated } from "./triggers/onPropertyTransferCreated";
 export { dailyCleanup } from "./jobs/cleanup";

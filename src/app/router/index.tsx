@@ -25,6 +25,7 @@ const SettingsPage = lazy(() => import('@/features/admin/SettingsPage'));
 const AuditLogPage = lazy(() => import('@/features/admin/AuditLogPage'));
 const ClientManager = lazy(() => import('@/features/admin/ClientManager'));
 const ClientDetailPage = lazy(() => import('@/features/admin/ClientDetailPage'));
+const PropertyTransfersTab = lazy(() => import('@/features/admin/PropertyTransfersTab'));
 const PortalLoginPage = lazy(() => import('@/features/portal/PortalLoginPage'));
 const PortalDashboard = lazy(() => import('@/features/portal/PortalDashboard'));
 const PortalLayout = lazy(() => import('@/app/layouts/PortalLayout'));
@@ -134,6 +135,7 @@ export function AppRouter() {
           <Route path="audit" element={<AuditLogPage />} />
           <Route path="clients" element={<ClientManager />} />
           <Route path="clients/:clientId" element={<ClientDetailPage />} />
+          <Route path="property-transfers" element={<PropertyTransfersTab />} />
         </Route>
 
         {/* Portal routes */}
