@@ -51,6 +51,7 @@ const ArticleWebAppStLouis = lazy(() => import('@/pages/blog/ArticleWebAppStLoui
 const ArticleGoogleWorkspace = lazy(() => import('@/pages/blog/ArticleGoogleWorkspace'));
 const ArticleCapabilityStatement = lazy(() => import('@/pages/blog/ArticleCapabilityStatement'));
 const ArticleMedicaidBillingErrors = lazy(() => import('@/pages/blog/ArticleMedicaidBillingErrors'));
+const PropertyTransfer = lazy(() => import('@/pages/PropertyTransfer'));
 
 function PageLoader() {
   return (
@@ -148,6 +149,9 @@ export function AppRouter() {
           <Route index element={<Navigate to="dashboard" replace />} />
           <Route path="dashboard" element={<PortalDashboard />} />
         </Route>
+
+        {/* Property Transfer intake form — standalone, no marketing nav */}
+        <Route path="/property-transfer" element={<PropertyTransfer />} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />
