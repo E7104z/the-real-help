@@ -8,7 +8,7 @@ import { ROLES } from '@/lib/constants/roles';
 import { Loader2 } from 'lucide-react';
 
 export default function PortalLoginPage() {
-  const { signIn, currentUser, role, isAdmin, authLoading } = useAuth();
+  const { signIn, signOut, currentUser, role, isAdmin, authLoading } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState('');
@@ -25,12 +25,16 @@ export default function PortalLoginPage() {
     if (!authLoading && currentUser) {
       if (isAdmin || role === ROLES.STAFF) {
         void navigate(ROUTES.ADMIN, { replace: true });
-      } else {
+      } else if (role === ROLES.CLIENT) {
         const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
         void navigate(from ?? ROUTES.PORTAL_DASHBOARD, { replace: true });
+      } else {
+        // Signed in but has no client role — sign out and show a clear error
+        void signOut();
+        setError('This account is not set up for client portal access. Contact Jason for help.');
       }
     }
-  }, [authLoading, currentUser, role, isAdmin, navigate, location]);
+  }, [authLoading, currentUser, role, isAdmin, navigate, location, signOut]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
