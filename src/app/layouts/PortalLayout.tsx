@@ -1,12 +1,15 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
 import { useAuth } from '@/app/providers/AuthProvider';
 
 export default function PortalLayout() {
   const { currentUser, signOut } = useAuth();
+  const navigate = useNavigate();
 
   const handleSignOut = () => {
-    void signOut();
+    void signOut().then(() => {
+      void navigate('/portal/login', { replace: true, state: { signedOut: true } });
+    });
   };
 
   return (

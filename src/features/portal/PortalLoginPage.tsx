@@ -1,6 +1,8 @@
 import { useState, useEffect, type FormEvent } from 'react';
+import { sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/app/providers/AuthProvider';
+import { auth } from '@/lib/firebase';
 import { ROUTES } from '@/lib/constants/routes';
 import { ROLES } from '@/lib/constants/roles';
 import { Loader2 } from 'lucide-react';
@@ -13,6 +15,10 @@ export default function PortalLoginPage() {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [resetLoading, setResetLoading] = useState(false);
+  const [resetMessage, setResetMessage] = useState('');
+
+  const signedOut = (location.state as { signedOut?: boolean } | null)?.signedOut === true;
 
   // Redirect if already authenticated
   useEffect(() => {
@@ -30,6 +36,7 @@ export default function PortalLoginPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setResetMessage('');
     try {
       await signIn(email, password);
       // redirect handled by useEffect above
@@ -37,6 +44,24 @@ export default function PortalLoginPage() {
       setError('Incorrect email or password. Check your inbox for a setup link if this is your first sign-in.');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleForgotPassword = async () => {
+    if (!email) {
+      setError('Enter your email address above, then click "Forgot password?".');
+      return;
+    }
+    setResetLoading(true);
+    setError('');
+    setResetMessage('');
+    try {
+      await sendPasswordResetEmail(auth, email);
+      setResetMessage('Password reset email sent — check your inbox.');
+    } catch {
+      setResetMessage('If that email is registered, a reset link has been sent.');
+    } finally {
+      setResetLoading(false);
     }
   };
 
@@ -66,6 +91,12 @@ export default function PortalLoginPage() {
           </p>
         </div>
 
+        {signedOut && (
+          <p className="mb-4 rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-center text-sm text-green-700">
+            You&apos;ve been signed out successfully.
+          </p>
+        )}
+
         <div className="rounded-2xl bg-white p-8 shadow-sm border border-brand-silver-200">
           <form onSubmit={(e) => void handleSubmit(e)} className="space-y-5">
             <div>
@@ -85,9 +116,19 @@ export default function PortalLoginPage() {
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-semibold text-brand-black mb-1.5">
-                Password
-              </label>
+              <div className="flex items-center justify-between mb-1.5">
+                <label htmlFor="password" className="block text-sm font-semibold text-brand-black">
+                  Password
+                </label>
+                <button
+                  type="button"
+                  onClick={() => void handleForgotPassword()}
+                  disabled={resetLoading}
+                  className="text-xs text-brand-blue-500 hover:underline disabled:opacity-50"
+                >
+                  {resetLoading ? 'Sending…' : 'Forgot password?'}
+                </button>
+              </div>
               <input
                 id="password"
                 type="password"
@@ -103,6 +144,12 @@ export default function PortalLoginPage() {
             {error && (
               <p className="rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-700">
                 {error}
+              </p>
+            )}
+
+            {resetMessage && (
+              <p className="rounded-xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-700">
+                {resetMessage}
               </p>
             )}
 

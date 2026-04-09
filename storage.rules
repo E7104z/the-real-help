@@ -28,5 +28,14 @@ service firebase.storage {
       allow update: if isStaff(tenantId);
       allow delete: if isAdmin(tenantId);
     }
+
+    // Client portal document uploads
+    match /clients/{clientId}/documents/{fileName} {
+      allow read: if isSignedIn() && request.auth.uid == clientId;
+      allow create: if isSignedIn()
+        && request.auth.uid == clientId
+        && request.resource.size < 25 * 1024 * 1024; // 25 MB max
+      allow update, delete: if false;
+    }
   }
 }
