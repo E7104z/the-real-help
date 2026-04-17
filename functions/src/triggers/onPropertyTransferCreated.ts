@@ -3,7 +3,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import fetch from "node-fetch";
 import { db as _db } from "../config/index";
 
-const WEBHOOK_URL = process.env["APPS_SCRIPT_PROPERTY_TRANSFER_URL"] ?? "";
+const WEBHOOK_URL = process.env["APPS_SCRIPT_WEBHOOK_URL"] ?? "";
 
 export const onPropertyTransferCreated = onDocumentCreated(
   {
@@ -21,7 +21,7 @@ export const onPropertyTransferCreated = onDocumentCreated(
     console.log(`Client: ${data["clientName"]}, Properties: ${(data["properties"] as unknown[]).length}`);
 
     if (!WEBHOOK_URL) {
-      console.warn("APPS_SCRIPT_PROPERTY_TRANSFER_URL not set — skipping webhook");
+      console.warn("APPS_SCRIPT_WEBHOOK_URL not set — skipping webhook");
       await snap.ref.update({
         status: "pending",
         error: "Webhook URL not configured",
@@ -34,7 +34,7 @@ export const onPropertyTransferCreated = onDocumentCreated(
       const response = await fetch(WEBHOOK_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...data, transferId }),
+        body: JSON.stringify({ action: 'propertyTransfer', ...data, transferId }),
       });
 
       const result = await response.json() as { success: boolean; documents?: { propertyAddress: string; deedUrl: string }[]; error?: string };

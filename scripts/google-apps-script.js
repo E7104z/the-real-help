@@ -48,6 +48,9 @@ function doPost(e) {
     case 'deleteTemplate':
       return deleteEmailTemplate(data.templateId);
 
+    case 'propertyTransfer':
+      return handlePropertyTransfer(data);
+
     default:
       return ContentService
         .createTextOutput(JSON.stringify({
@@ -1054,4 +1057,74 @@ function runSetup() {
     'Daily follow-up trigger created (runs at 9 AM).\nBulk Email Log sheet initialized.\n\nYou\'re all set!',
     SpreadsheetApp.getUi().ButtonSet.OK
   );
+}
+
+// ─── PROPERTY TRANSFER HANDLER ────────────────────────────────────────────
+
+function handlePropertyTransfer(data) {
+  var clientName  = data.clientName  || "Unknown";
+  var clientEmail = data.clientEmail || "";
+  var clientPhone = data.clientPhone || "";
+  var properties  = data.properties  || [];
+  var transferId  = data.transferId  || "";
+
+  // Build property detail block for the notification email
+  var propLines = [];
+  for (var i = 0; i < properties.length; i++) {
+    var p = properties[i];
+    propLines.push("  Property " + (i + 1) + ":");
+    if (p.address)           propLines.push("    Address:         " + p.address);
+    if (p.parcelNumber)      propLines.push("    Parcel #:        " + p.parcelNumber);
+    if (p.jurisdiction)      propLines.push("    Jurisdiction:    " + p.jurisdiction);
+    if (p.grantor)           propLines.push("    Grantor:         " + p.grantor);
+    if (p.grantee)           propLines.push("    Grantee:         " + p.grantee);
+    if (p.consideration)     propLines.push("    Consideration:   " + p.consideration);
+    if (p.legalDescription)  propLines.push("    Legal Desc:      " + p.legalDescription);
+    propLines.push("");
+  }
+
+  // Notification to Jason
+  var subject = "New Property Transfer Request — " + clientName + " (" + properties.length + " propert" + (properties.length === 1 ? "y" : "ies") + ")";
+
+  var body = [
+    "New property transfer intake form submission.",
+    "",
+    "Client:  " + clientName,
+    "Email:   " + clientEmail,
+    "Phone:   " + clientPhone,
+    "Properties Submitted: " + properties.length,
+    ""
+  ].concat(propLines).concat([
+    "──────────────────────────",
+    "View in Admin: https://therealhelp.com/admin/property-transfers",
+    "Transfer ID: " + transferId
+  ]).join("\n");
+
+  GmailApp.sendEmail(JASON_EMAIL, subject, body);
+
+  // Auto-reply to client
+  if (clientEmail) {
+    var firstName = clientName.split(" ")[0] || "there";
+
+    var replyBody = [
+      "Hi " + firstName + ",",
+      "",
+      "I received your property transfer request for " + properties.length + " propert" + (properties.length === 1 ? "y" : "ies") + ".",
+      "",
+      "I'll review the details and send you a quote within 4 business hours. If you have any questions in the meantime, just reply to this email.",
+      "",
+      "— Jason",
+      "The Real Help, LLC",
+      "therealhelp.com"
+    ].join("\n");
+
+    sendEmailWithSig(clientEmail, "Got your property transfer request — The Real Help, LLC", replyBody, {
+      name: "Jason — The Real Help, LLC",
+      replyTo: JASON_EMAIL
+    });
+  }
+
+  return ContentService
+    .createTextOutput(JSON.stringify({ success: true }))
+    .setMimeType(ContentService.MimeType.JSON);
 }
