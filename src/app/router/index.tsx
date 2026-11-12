@@ -5,6 +5,7 @@ import { AdminLayout } from '../layouts/AdminLayout';
 import HomePage from '../../pages/HomePage';
 import AboutPage from '../../pages/AboutPage';
 import WorkPage from '../../pages/WorkPage';
+import ContactPage from '../../pages/ContactPage';
 import LoginPage from '../../features/auth/LoginPage';
 import DashboardPage from '../../features/dashboard/DashboardPage';
 import RecordsListPage from '../../features/records/RecordsListPage';
@@ -49,6 +50,7 @@ export const router = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'work', element: <WorkPage /> },
+      { path: 'contact', element: <ContactPage /> },
       // Blog articles
       { path: 'blog/cds-evv-compliance-missouri', element: <ArticleCdsEvvCompliance /> },
       { path: 'blog/mwbe-certification-guide-st-louis', element: <ArticleMwbeCertGuide /> },
