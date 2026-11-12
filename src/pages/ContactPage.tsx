@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { Mail, MapPin, ArrowRight, Loader2 } from 'lucide-react';
 import { httpsCallable } from 'firebase/functions';
 import { functions } from '@/lib/firebase/functions';
-
-const BOOKING_URL = 'https://calendar.app.google/ubdfXKUbazhjgs2VA';
+import { CONTACT_EMAIL, BOOKING_URL, isExternalUrl } from '@/lib/constants/site';
 
 const SERVICES = [
   'Compliance & Certification',
@@ -31,7 +30,7 @@ export default function ContactPage() {
       await submit(form);
       setSubmitted(true);
     } catch {
-      setError('Something went wrong. Please try again or email info@therealhelp.com directly.');
+      setError(`Something went wrong. Please try again or email ${CONTACT_EMAIL} directly.`);
     } finally {
       setLoading(false);
     }
@@ -63,8 +62,8 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <p className="text-sm font-semibold text-brand-silver-400 uppercase tracking-wide">Email</p>
-                    <a href="mailto:info@therealhelp.com" className="text-brand-black font-medium hover:text-brand-blue-500">
-                      info@therealhelp.com
+                    <a href={`mailto:${CONTACT_EMAIL}`} className="text-brand-black font-medium hover:text-brand-blue-500">
+                      {CONTACT_EMAIL}
                     </a>
                   </div>
                 </div>
@@ -86,8 +85,8 @@ export default function ContactPage() {
                 </p>
                 <a
                   href={BOOKING_URL}
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  target={isExternalUrl(BOOKING_URL) ? '_blank' : undefined}
+                  rel={isExternalUrl(BOOKING_URL) ? 'noopener noreferrer' : undefined}
                   className="mt-4 inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-6 py-3 text-sm font-bold text-white hover:bg-brand-blue-600 transition-colors"
                 >
                   Schedule a Call <ArrowRight className="h-4 w-4" />
@@ -113,8 +112,8 @@ export default function ContactPage() {
                     <p className="mt-6 text-sm text-brand-silver-400">Want to talk sooner?</p>
                     <a
                       href={BOOKING_URL}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                      target={isExternalUrl(BOOKING_URL) ? '_blank' : undefined}
+                      rel={isExternalUrl(BOOKING_URL) ? 'noopener noreferrer' : undefined}
                       className="mt-3 inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-6 py-3 text-sm font-bold text-white hover:bg-brand-blue-600 transition-colors"
                     >
                       Book a Free Call <ArrowRight className="h-4 w-4" />

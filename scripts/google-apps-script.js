@@ -5,8 +5,8 @@
 
 // ─── CONFIG ────────────────────────────────────────────────────────────────
 
-var JASON_EMAIL = "info@therealhelp.com";
-var BOOKING_URL = "https://calendar.app.google/ubdfXKUbazhjgs2VA";
+var JASON_EMAIL = "jasonhgriffin@gmail.com";
+var BOOKING_URL = "https://cal.com/jason-griffin-0covhm";
 var SHEET_NAME_LEADS = "Lead Pipeline";
 var SHEET_NAME_FOLLOWUPS = "FollowUp Queue";
 var SHEET_NAME_ACTIVE = "Active Clients";

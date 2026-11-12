@@ -1,9 +1,20 @@
 import { useState } from 'react';
 import { Link, Outlet, useLocation } from 'react-router-dom';
-import { Menu, X, Mail } from 'lucide-react';
+import { Menu, X, Mail, ChevronDown } from 'lucide-react';
+import { CONTACT_EMAIL, BOOKING_URL, isExternalUrl } from '@/lib/constants/site';
+
+const SERVICES_DROPDOWN = [
+  { label: 'MWBE Certification', path: '/st-louis/mwbe-certification-assistance' },
+  { label: 'DBE Certification Missouri', path: '/dbe-certification-missouri' },
+  { label: 'MBE Certification Missouri', path: '/mbe-certification-missouri' },
+  { label: 'Government Contracting', path: '/government-contracting-consultant-st-louis' },
+  { label: 'CDS Compliance', path: '/missouri/cds-compliance-consulting' },
+  { label: 'Start a CDS Agency', path: '/start-a-cds-agency-missouri' },
+  { label: 'Business Consulting', path: '/st-louis/business-consultant' },
+  { label: 'Web App Development', path: '/st-louis/web-app-development' },
+];
 
 const NAV_LINKS = [
-  { label: 'Services', to: '/services' },
   { label: 'Work', to: '/work' },
   { label: 'About', to: '/about' },
   { label: 'Insights', to: '/insights' },
@@ -13,6 +24,7 @@ const NAV_LINKS = [
 
 export default function MarketingLayout() {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
   const { pathname } = useLocation();
 
   return (
@@ -20,9 +32,9 @@ export default function MarketingLayout() {
       {/* Top bar */}
       <div className="bg-brand-black py-2 text-center text-xs text-brand-silver-400">
         <div className="mx-auto flex max-w-7xl items-center justify-center gap-6 px-4">
-          <a href="mailto:info@therealhelp.com" className="inline-flex items-center gap-1 hover:text-white transition-colors">
+          <a href={`mailto:${CONTACT_EMAIL}`} className="inline-flex items-center gap-1 hover:text-white transition-colors">
             <Mail className="h-3 w-3" />
-            info@therealhelp.com
+            {CONTACT_EMAIL}
           </a>
         </div>
       </div>
@@ -40,6 +52,36 @@ export default function MarketingLayout() {
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">
+            {/* Services Dropdown */}
+            <div className="relative" onMouseEnter={() => setServicesOpen(true)} onMouseLeave={() => setServicesOpen(false)}>
+              <button
+                className={`inline-flex items-center gap-1 text-sm font-semibold transition-colors hover:text-brand-blue-500 ${
+                  pathname.startsWith('/st-louis/') || pathname.startsWith('/missouri/') || pathname.startsWith('/dbe-') || pathname.startsWith('/mbe-') || pathname.startsWith('/government-') || pathname.startsWith('/start-a-')
+                    ? 'text-brand-blue-500'
+                    : 'text-brand-silver-600'
+                }`}
+              >
+                Services
+                <ChevronDown className={`h-4 w-4 transition-transform ${servicesOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {servicesOpen && (
+                <div className="absolute left-0 top-full mt-1 w-64 bg-white border border-brand-silver-200 rounded-lg shadow-lg py-2 z-50">
+                  {SERVICES_DROPDOWN.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className={`block px-4 py-2 text-sm hover:bg-brand-blue-50 transition-colors ${
+                        pathname === item.path ? 'text-brand-blue-500 font-semibold' : 'text-brand-silver-600'
+                      }`}
+                      onClick={() => setServicesOpen(false)}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
@@ -52,9 +94,9 @@ export default function MarketingLayout() {
               </Link>
             ))}
             <a
-              href="https://calendar.app.google/ubdfXKUbazhjgs2VA"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={BOOKING_URL}
+              target={isExternalUrl(BOOKING_URL) ? '_blank' : undefined}
+              rel={isExternalUrl(BOOKING_URL) ? 'noopener noreferrer' : undefined}
               className="rounded-lg border border-brand-blue-500 px-5 py-2.5 text-sm font-bold text-brand-blue-500 hover:bg-brand-blue-50 transition-colors"
             >
               Book a Call
@@ -63,7 +105,7 @@ export default function MarketingLayout() {
               to="/contact"
               className="rounded-lg bg-brand-blue-500 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-blue-600 transition-colors"
             >
-              Let&apos;s Talk
+              Let's Talk
             </Link>
           </nav>
 
@@ -80,6 +122,26 @@ export default function MarketingLayout() {
         {/* Mobile menu */}
         {mobileOpen && (
           <div className="md:hidden border-t border-brand-silver-200 bg-white px-4 py-4 space-y-3">
+            {/* Mobile services dropdown */}
+            <details className="group">
+              <summary className="flex items-center justify-between text-base font-semibold text-brand-silver-700 py-1 cursor-pointer">
+                Services
+                <ChevronDown className="h-4 w-4" />
+              </summary>
+              <div className="ml-4 mt-2 space-y-2 pb-2">
+                {SERVICES_DROPDOWN.map((item) => (
+                  <Link
+                    key={item.path}
+                    to={item.path}
+                    className="block text-sm text-brand-silver-600 hover:text-brand-blue-500 py-1"
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {item.label}
+                  </Link>
+                ))}
+              </div>
+            </details>
+
             {NAV_LINKS.map((link) => (
               <Link
                 key={link.to}
@@ -95,12 +157,12 @@ export default function MarketingLayout() {
               className="block rounded-lg bg-brand-blue-500 px-5 py-3 text-center text-sm font-bold text-white"
               onClick={() => setMobileOpen(false)}
             >
-              Let&apos;s Talk
+              Let's Talk
             </Link>
             <a
-              href="https://calendar.app.google/ubdfXKUbazhjgs2VA"
-              target="_blank"
-              rel="noopener noreferrer"
+              href={BOOKING_URL}
+              target={isExternalUrl(BOOKING_URL) ? '_blank' : undefined}
+              rel={isExternalUrl(BOOKING_URL) ? 'noopener noreferrer' : undefined}
               className="block rounded-lg border border-brand-blue-500 px-5 py-3 text-center text-sm font-bold text-brand-blue-500"
               onClick={() => setMobileOpen(false)}
             >
@@ -156,13 +218,17 @@ export default function MarketingLayout() {
             <div>
               <h4 className="text-sm font-semibold uppercase tracking-wider text-brand-silver-400 mb-4">Contact</h4>
               <ul className="space-y-2 text-sm text-brand-silver-300">
-                <li><a href="mailto:info@therealhelp.com" className="hover:text-white transition-colors">info@therealhelp.com</a></li>
+                <li><a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-white transition-colors">{CONTACT_EMAIL}</a></li>
                 <li className="text-brand-silver-500">St. Louis, Missouri</li>
               </ul>
             </div>
           </div>
-          <div className="mt-12 border-t border-brand-silver-800 pt-6 text-center text-xs text-brand-silver-500">
-            © {new Date().getFullYear()} The Real Help, LLC. All rights reserved.
+          <div className="mt-12 flex flex-col items-center gap-4 border-t border-brand-silver-800 pt-6 text-center text-xs text-brand-silver-500 sm:flex-row sm:justify-between">
+            <span>© {new Date().getFullYear()} The Real Help, LLC. All rights reserved.</span>
+            <span className="flex items-center gap-4">
+              <Link to="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+              <Link to="/terms" className="hover:text-white transition-colors">Terms &amp; Conditions</Link>
+            </span>
           </div>
         </div>
       </footer>

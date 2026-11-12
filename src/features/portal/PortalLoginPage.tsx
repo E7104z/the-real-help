@@ -5,6 +5,7 @@ import { useAuth } from '@/app/providers/AuthProvider';
 import { auth } from '@/lib/firebase';
 import { ROUTES } from '@/lib/constants/routes';
 import { ROLES } from '@/lib/constants/roles';
+import { CONTACT_EMAIL } from '@/lib/constants/site';
 import { Loader2 } from 'lucide-react';
 
 export default function PortalLoginPage() {
@@ -168,7 +169,7 @@ export default function PortalLoginPage() {
 
           <p className="mt-6 text-center text-xs text-brand-silver-400">
             Need help?{' '}
-            <a href="mailto:info@therealhelp.com" className="text-brand-blue-500 hover:underline">
+            <a href={`mailto:${CONTACT_EMAIL}`} className="text-brand-blue-500 hover:underline">
               Contact Jason
             </a>
           </p>

@@ -1,163 +1,128 @@
-import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import { lazy, Suspense, useEffect } from 'react';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
+import MarketingLayout from '../layouts/MarketingLayout';
+import { AppLayout } from '../layouts/AppLayout';
+import { AdminLayout } from '../layouts/AdminLayout';
+import HomePage from '../../pages/HomePage';
+import AboutPage from '../../pages/AboutPage';
+import WorkPage from '../../pages/WorkPage';
+import LoginPage from '../../features/auth/LoginPage';
+import DashboardPage from '../../features/dashboard/DashboardPage';
+import RecordsListPage from '../../features/records/RecordsListPage';
+import RecordDetailPage from '../../features/records/RecordDetailPage';
+import FilesPage from '../../features/files/FilesPage';
+import { AuthenticatedGuard, AdminGuard } from './guards';
+import UnauthorizedPage from '../../pages/UnauthorizedPage';
+import ClientManager from '../../features/admin/ClientManager';
+import ClientDetailPage from '../../features/admin/ClientDetailPage';
+import PropertyTransfer from '../../pages/PropertyTransfer';
+import PrivacyPolicyPage from '../../pages/PrivacyPolicyPage';
+import TermsPage from '../../pages/TermsPage';
+import AuditLogPage from '../../features/admin/AuditLogPage';
+import PortalLoginPage from '../../features/portal/PortalLoginPage';
+import PortalDashboard from '../../features/portal/PortalDashboard';
+import WebAppDevelopmentStLouis from '../../pages/local/WebAppDevelopmentStLouis';
+import CdsComplianceMissouri from '../../pages/local/CdsComplianceMissouri';
+import MwbeCertificationStLouis from '../../pages/local/MwbeCertificationStLouis';
+import BusinessConsultantStLouis from '../../pages/local/BusinessConsultantStLouis';
+import GovernmentContractingStLouis from '../../pages/local/GovernmentContractingStLouis';
+import DbeCertificationMissouri from '../../pages/local/DbeCertificationMissouri';
+import MbeCertificationMissouri from '../../pages/local/MbeCertificationMissouri';
+import StartCdsAgencyMissouri from '../../pages/local/StartCdsAgencyMissouri';
+import ArticleCdsEvvCompliance from '../../pages/blog/ArticleCdsEvvCompliance';
+import ArticleMwbeCertGuide from '../../pages/blog/ArticleMwbeCertGuide';
+import ArticleGoogleWorkspace from '../../pages/blog/ArticleGoogleWorkspace';
+import ArticleWebAppStLouis from '../../pages/blog/ArticleWebAppStLouis';
+import ArticleCapabilityStatement from '../../pages/blog/ArticleCapabilityStatement';
+import ArticleMedicaidBillingErrors from '../../pages/blog/ArticleMedicaidBillingErrors';
 
-function ScrollToTop() {
-  const { pathname } = useLocation();
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
-  return null;
-}
-import { AuthenticatedGuard, PublicOnlyGuard, ClientGuard, AdminGuard } from './guards';
-import { AppLayout } from '@/app/layouts/AppLayout';
-import { AdminLayout } from '@/app/layouts/AdminLayout';
-import { PublicLayout } from '@/app/layouts/PublicLayout';
-import MarketingLayout from '@/app/layouts/MarketingLayout';
-import { Spinner } from '@/components/ui/Spinner';
+// Programmatic SEO routes
+import { certificationPages } from '../../data/seo/certificationRoutes';
+import { contractPages } from '../../data/seo/contractRoutes';
+import { cdsPages } from '../../data/seo/cdsPages';
 
-// Lazy-loaded pages
-const LoginPage = lazy(() => import('@/features/auth/LoginPage'));
-const DashboardPage = lazy(() => import('@/features/dashboard/DashboardPage'));
-const RecordsListPage = lazy(() => import('@/features/records/RecordsListPage'));
-const RecordDetailPage = lazy(() => import('@/features/records/RecordDetailPage'));
-const WorkflowsPage = lazy(() => import('@/features/workflows/WorkflowsPage'));
-const FilesPage = lazy(() => import('@/features/files/FilesPage'));
-const AdminDashboard = lazy(() => import('@/features/admin/AdminDashboard'));
-const SettingsPage = lazy(() => import('@/features/admin/SettingsPage'));
-const AuditLogPage = lazy(() => import('@/features/admin/AuditLogPage'));
-const ClientManager = lazy(() => import('@/features/admin/ClientManager'));
-const ClientDetailPage = lazy(() => import('@/features/admin/ClientDetailPage'));
-const PropertyTransfersTab = lazy(() => import('@/features/admin/PropertyTransfersTab'));
-const PortalLoginPage = lazy(() => import('@/features/portal/PortalLoginPage'));
-const PortalDashboard = lazy(() => import('@/features/portal/PortalDashboard'));
-const PortalLayout = lazy(() => import('@/app/layouts/PortalLayout'));
+export const router = createBrowserRouter([
+  // ── Public / Marketing Pages ──────────────────────────────
+  {
+    path: '/',
+    element: <MarketingLayout />,
+    children: [
+      { index: true, element: <HomePage /> },
+      { path: 'about', element: <AboutPage /> },
+      { path: 'work', element: <WorkPage /> },
+      // Blog articles
+      { path: 'blog/cds-evv-compliance-missouri', element: <ArticleCdsEvvCompliance /> },
+      { path: 'blog/mwbe-certification-guide-st-louis', element: <ArticleMwbeCertGuide /> },
+      { path: 'blog/google-workspace-automation', element: <ArticleGoogleWorkspace /> },
+      { path: 'blog/web-app-development-st-louis', element: <ArticleWebAppStLouis /> },
+      { path: 'blog/capability-statement-guide', element: <ArticleCapabilityStatement /> },
+      { path: 'blog/medicaid-billing-errors', element: <ArticleMedicaidBillingErrors /> },
+      // Local landing pages
+      { path: 'st-louis/web-app-development', element: <WebAppDevelopmentStLouis /> },
+      { path: 'missouri/cds-compliance-consulting', element: <CdsComplianceMissouri /> },
+      { path: 'st-louis/mwbe-certification-assistance', element: <MwbeCertificationStLouis /> },
+      { path: 'st-louis/business-consultant', element: <BusinessConsultantStLouis /> },
+      // NEW local-intent SEO pages (canonical root-level + nested aliases)
+      { path: 'government-contracting-consultant-st-louis', element: <GovernmentContractingStLouis /> },
+      { path: 'dbe-certification-missouri', element: <DbeCertificationMissouri /> },
+      { path: 'mbe-certification-missouri', element: <MbeCertificationMissouri /> },
+      { path: 'start-a-cds-agency-missouri', element: <StartCdsAgencyMissouri /> },
+      { path: 'st-louis/government-contracting-consultant', element: <GovernmentContractingStLouis /> },
+      { path: 'missouri/dbe-certification', element: <DbeCertificationMissouri /> },
+      { path: 'missouri/mbe-certification', element: <MbeCertificationMissouri /> },
+      { path: 'missouri/start-a-cds-agency', element: <StartCdsAgencyMissouri /> },
+      // Programmatic SEO – Certification pages (Set A, 12 pages)
+      ...certificationPages,
+      // Programmatic SEO – Win the Contract pages (Set B)
+      ...contractPages,
+      // Programmatic SEO – CDS pages (Set C)
+      ...cdsPages,
+      // Public-facing portal login
+      { path: 'portal/login', element: <PortalLoginPage /> },
+      { path: 'portal/dashboard', element: <PortalDashboard /> },
+      { path: 'property-transfer', element: <PropertyTransfer /> },
+      { path: 'privacy', element: <PrivacyPolicyPage /> },
+      { path: 'terms', element: <TermsPage /> },
+    ],
+  },
+  // ── Authenticated App Pages ────────────────────────────────
+  {
+    path: '/app',
+    element: (
+      <AuthenticatedGuard>
+        <AppLayout />
+      </AuthenticatedGuard>
+    ),
+    children: [
+      { path: 'dashboard', element: <DashboardPage /> },
+      { path: 'records', element: <RecordsListPage /> },
+      { path: 'records/:id', element: <RecordDetailPage /> },
+      { path: 'files', element: <FilesPage /> },
+    ],
+  },
+  // ── Admin Pages ───────────────────────────────────────────
+  {
+    path: '/admin',
+    element: (
+      <AdminGuard>
+        <AdminLayout />
+      </AdminGuard>
+    ),
+    children: [
+      { path: 'clients', element: <ClientManager /> },
+      { path: 'clients/:clientId', element: <ClientDetailPage /> },
+      { path: 'audit-log', element: <AuditLogPage /> },
+    ],
+  },
+  // ── Misc ──────────────────────────────────────────────────
+  { path: '/login', element: <LoginPage /> },
+  { path: '/unauthorized', element: <UnauthorizedPage /> },
+  { path: '*', element: <Navigate to="/" replace /> },
+]);
 
-// Marketing pages
-const HomePage = lazy(() => import('@/pages/HomePage'));
-const AboutPage = lazy(() => import('@/pages/AboutPage'));
-const ServicesPage = lazy(() => import('@/pages/ServicesPage'));
-const ServiceDetailPage = lazy(() => import('@/pages/ServiceDetailPage'));
-const WorkPage = lazy(() => import('@/pages/WorkPage'));
-const InsightsPage = lazy(() => import('@/pages/InsightsPage'));
-const ContactPage = lazy(() => import('@/pages/ContactPage'));
-
-// Local SEO pages
-const BusinessConsultantStLouis = lazy(() => import('@/pages/local/BusinessConsultantStLouis'));
-const MwbeCertificationStLouis = lazy(() => import('@/pages/local/MwbeCertificationStLouis'));
-const CdsComplianceMissouri = lazy(() => import('@/pages/local/CdsComplianceMissouri'));
-const WebAppDevelopmentStLouis = lazy(() => import('@/pages/local/WebAppDevelopmentStLouis'));
-
-// Blog articles
-const ArticleMwbeCertGuide = lazy(() => import('@/pages/blog/ArticleMwbeCertGuide'));
-const ArticleCdsEvvCompliance = lazy(() => import('@/pages/blog/ArticleCdsEvvCompliance'));
-const ArticleWebAppStLouis = lazy(() => import('@/pages/blog/ArticleWebAppStLouis'));
-const ArticleGoogleWorkspace = lazy(() => import('@/pages/blog/ArticleGoogleWorkspace'));
-const ArticleCapabilityStatement = lazy(() => import('@/pages/blog/ArticleCapabilityStatement'));
-const ArticleMedicaidBillingErrors = lazy(() => import('@/pages/blog/ArticleMedicaidBillingErrors'));
-const PropertyTransfer = lazy(() => import('@/pages/PropertyTransfer'));
-
-function PageLoader() {
-  return (
-    <div className="flex h-64 items-center justify-center">
-      <Spinner size="lg" />
-    </div>
-  );
-}
+import { RouterProvider } from 'react-router-dom';
 
 export function AppRouter() {
-  return (
-    <Suspense fallback={<PageLoader />}>
-      <ScrollToTop />
-      <Routes>
-        {/* Marketing routes */}
-        <Route element={<MarketingLayout />}>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/services/:slug" element={<ServiceDetailPage />} />
-          <Route path="/work" element={<WorkPage />} />
-          <Route path="/insights" element={<InsightsPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-
-          {/* Local SEO pages */}
-          <Route path="/business-consultant-st-louis" element={<BusinessConsultantStLouis />} />
-          <Route path="/mwbe-certification-st-louis" element={<MwbeCertificationStLouis />} />
-          <Route path="/cds-compliance-missouri" element={<CdsComplianceMissouri />} />
-          <Route path="/web-app-development-st-louis" element={<WebAppDevelopmentStLouis />} />
-
-          {/* Blog articles */}
-          <Route path="/insights/mwbe-certification-st-louis-guide" element={<ArticleMwbeCertGuide />} />
-          <Route path="/insights/cds-evv-compliance-missouri-2026" element={<ArticleCdsEvvCompliance />} />
-          <Route path="/insights/affordable-web-app-development-st-louis" element={<ArticleWebAppStLouis />} />
-          <Route path="/insights/google-workspace-small-business" element={<ArticleGoogleWorkspace />} />
-          <Route path="/insights/capability-statement-guide" element={<ArticleCapabilityStatement />} />
-          <Route path="/insights/medicaid-billing-errors" element={<ArticleMedicaidBillingErrors />} />
-        </Route>
-
-        {/* Public routes */}
-        <Route element={<PublicLayout />}>
-          <Route
-            path="/login"
-            element={
-              <PublicOnlyGuard>
-                <LoginPage />
-              </PublicOnlyGuard>
-            }
-          />
-        </Route>
-
-        {/* Authenticated app routes */}
-        <Route
-          path="/app"
-          element={
-            <AuthenticatedGuard>
-              <AppLayout />
-            </AuthenticatedGuard>
-          }
-        >
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<DashboardPage />} />
-          <Route path="records" element={<RecordsListPage />} />
-          <Route path="records/:recordId" element={<RecordDetailPage />} />
-          <Route path="workflows" element={<WorkflowsPage />} />
-          <Route path="files" element={<FilesPage />} />
-        </Route>
-
-        {/* Admin routes */}
-        <Route
-          path="/admin"
-          element={
-            <AdminGuard>
-              <AdminLayout />
-            </AdminGuard>
-          }
-        >
-          <Route index element={<AdminDashboard />} />
-          <Route path="settings" element={<SettingsPage />} />
-          <Route path="audit" element={<AuditLogPage />} />
-          <Route path="clients" element={<ClientManager />} />
-          <Route path="clients/:clientId" element={<ClientDetailPage />} />
-          <Route path="property-transfers" element={<PropertyTransfersTab />} />
-        </Route>
-
-        {/* Portal routes */}
-        <Route path="/portal/login" element={<PortalLoginPage />} />
-        <Route
-          path="/portal"
-          element={
-            <ClientGuard>
-              <PortalLayout />
-            </ClientGuard>
-          }
-        >
-          <Route index element={<Navigate to="dashboard" replace />} />
-          <Route path="dashboard" element={<PortalDashboard />} />
-        </Route>
-
-        {/* Property Transfer intake form — standalone, no marketing nav */}
-        <Route path="/property-transfer" element={<PropertyTransfer />} />
-
-        {/* Fallback */}
-        <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Suspense>
-  );
+  return <RouterProvider router={router} />;
 }
+
+export default router;

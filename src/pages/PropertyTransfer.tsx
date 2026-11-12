@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
+import { CONTACT_EMAIL } from '@/lib/constants/site';
 
 interface Party {
   name: string;
@@ -81,7 +82,7 @@ export default function PropertyTransfer() {
       });
       setSubmitted(true);
     } catch {
-      alert('Submission failed. Please try again or email info@therealhelp.com.');
+      alert(`Submission failed. Please try again or email ${CONTACT_EMAIL}.`);
     } finally {
       setLoading(false);
     }

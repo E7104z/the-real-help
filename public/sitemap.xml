@@ -1,114 +1,216 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-
-  <!-- Core pages -->
+  <!-- Core Pages -->
   <url>
     <loc>https://therealhelp.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
-  <url>
-    <loc>https://therealhelp.com/services</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/compliance-certification</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/business-systems</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/app-development</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/ai-automation</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/branding-design</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/medicaid-cds</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/services/government-contracting</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
-  </url>
-
-  <!-- About & Contact -->
   <url>
     <loc>https://therealhelp.com/about</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
-  <url>
-    <loc>https://therealhelp.com/contact</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <!-- Work & Insights -->
   <url>
     <loc>https://therealhelp.com/work</loc>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>
-  <url>
-    <loc>https://therealhelp.com/insights</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
 
-  <!-- Local SEO Pages -->
+  <!-- Service / Local Landing Pages (high priority) -->
   <url>
-    <loc>https://therealhelp.com/business-consultant-st-louis</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://therealhelp.com/st-louis/mwbe-certification-assistance</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
   <url>
-    <loc>https://therealhelp.com/mwbe-certification-st-louis</loc>
-    <changefreq>monthly</changefreq>
+    <loc>https://therealhelp.com/missouri/cds-compliance-consulting</loc>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
   <url>
-    <loc>https://therealhelp.com/cds-compliance-missouri</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <loc>https://therealhelp.com/st-louis/business-consultant</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
   <url>
-    <loc>https://therealhelp.com/web-app-development-st-louis</loc>
+    <loc>https://therealhelp.com/st-louis/web-app-development</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.8</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+
+  <!-- New High-Intent Local SEO Pages -->
+  <url>
+    <loc>https://therealhelp.com/government-contracting-consultant-st-louis</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/dbe-certification-missouri</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/mbe-certification-missouri</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/start-a-cds-agency-missouri</loc>
+    <changefreq>weekly</changefreq>
+    <priority>0.88</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
 
   <!-- Blog Articles -->
   <url>
-    <loc>https://therealhelp.com/insights/mwbe-certification-st-louis-guide</loc>
+    <loc>https://therealhelp.com/blog/mwbe-certification-guide-st-louis</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.65</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
   <url>
-    <loc>https://therealhelp.com/insights/cds-evv-compliance-missouri-2026</loc>
+    <loc>https://therealhelp.com/blog/cds-evv-compliance-missouri</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.65</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
   <url>
-    <loc>https://therealhelp.com/insights/affordable-web-app-development-st-louis</loc>
+    <loc>https://therealhelp.com/blog/capability-statement-guide</loc>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.65</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/blog/web-app-development-st-louis</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/blog/google-workspace-automation</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/blog/medicaid-billing-errors</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+    <lastmod>2026-07-09</lastmod>
   </url>
 
+  <!-- Misc -->
+  <url>
+    <loc>https://therealhelp.com/property-transfer</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+    <lastmod>2026-07-09</lastmod>
+  </url>
+
+  <!-- Programmatic SEO – Certification Pages (Set A) -->
+  <url>
+    <loc>https://therealhelp.com/certifications/sldc-mbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/sldc-wbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/mo-oeo-mbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/modot-dbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/sba-8a-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/wosb-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/sdvosb-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/hubzone-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/st-louis-county-mbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/metro-bi-state-dbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/acdbe-certification</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/certifications/msd-diversity-program</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+
+  <!-- Programmatic SEO – Contract Strategy Pages (Set B) -->
+  <url>
+    <loc>https://therealhelp.com/contracts/mbe-supplier-vs-subcontractor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.80</priority>
+    <lastmod>2026-07-10</lastmod>
+  </url>
+
+  <!-- Legal Pages -->
+  <url>
+    <loc>https://therealhelp.com/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <lastmod>2026-07-13</lastmod>
+  </url>
+  <url>
+    <loc>https://therealhelp.com/terms</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.30</priority>
+    <lastmod>2026-07-13</lastmod>
+  </url>
 </urlset>

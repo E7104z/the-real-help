@@ -1,6 +1,7 @@
 import { Outlet, Link, useNavigate } from 'react-router-dom';
 import { LogOut } from 'lucide-react';
 import { useAuth } from '@/app/providers/AuthProvider';
+import { CONTACT_EMAIL } from '@/lib/constants/site';
 
 export default function PortalLayout() {
   const { currentUser, signOut } = useAuth();
@@ -53,8 +54,8 @@ export default function PortalLayout() {
       {/* Footer */}
       <footer className="border-t border-brand-silver-200 bg-white py-4 text-center text-xs text-brand-silver-400">
         © {new Date().getFullYear()} The Real Help, LLC · St. Louis, Missouri ·{' '}
-        <a href="mailto:info@therealhelp.com" className="hover:text-brand-blue-500">
-          info@therealhelp.com
+        <a href={`mailto:${CONTACT_EMAIL}`} className="hover:text-brand-blue-500">
+          {CONTACT_EMAIL}
         </a>
       </footer>
     </div>

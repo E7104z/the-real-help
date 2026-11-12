@@ -1,5 +1,6 @@
 node_modules/
 dist/
+dist-ssr/
 functions/lib/
 emulator-data/
 .env
