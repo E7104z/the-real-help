@@ -6,6 +6,9 @@ import HomePage from '../../pages/HomePage';
 import AboutPage from '../../pages/AboutPage';
 import WorkPage from '../../pages/WorkPage';
 import ContactPage from '../../pages/ContactPage';
+import InsightsPage from '../../pages/InsightsPage';
+import ServicesPage from '../../pages/ServicesPage';
+import ServiceDetailPage from '../../pages/ServiceDetailPage';
 import LoginPage from '../../features/auth/LoginPage';
 import DashboardPage from '../../features/dashboard/DashboardPage';
 import RecordsListPage from '../../features/records/RecordsListPage';
@@ -51,6 +54,9 @@ export const router = createBrowserRouter([
       { path: 'about', element: <AboutPage /> },
       { path: 'work', element: <WorkPage /> },
       { path: 'contact', element: <ContactPage /> },
+      { path: 'insights', element: <InsightsPage /> },
+      { path: 'services', element: <ServicesPage /> },
+      { path: 'services/:slug', element: <ServiceDetailPage /> },
       // Blog articles
       { path: 'blog/cds-evv-compliance-missouri', element: <ArticleCdsEvvCompliance /> },
       { path: 'blog/mwbe-certification-guide-st-louis', element: <ArticleMwbeCertGuide /> },

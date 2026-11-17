@@ -6,7 +6,7 @@ import { CardVisual } from '@/components/illustrations/CardVisual';
 const ARTICLES = [
   {
     slug: 'mwbe-certification-st-louis-guide',
-    href: '/insights/mwbe-certification-st-louis-guide',
+    href: '/blog/mwbe-certification-guide-st-louis',
     category: 'Certification',
     title: 'How to Get MWBE Certified in St. Louis (2026 Complete Guide)',
     excerpt: 'Most denials come down to documentation gaps, ownership structure issues, or pass-through red flags. Here is what to watch for before you submit.',
@@ -15,7 +15,7 @@ const ARTICLES = [
   },
   {
     slug: 'cds-evv-compliance-missouri-2026',
-    href: '/insights/cds-evv-compliance-missouri-2026',
+    href: '/blog/cds-evv-compliance-missouri',
     category: 'Medicaid / CDS',
     title: 'CDS EVV Compliance in Missouri: What Changed in 2026',
     excerpt: 'Electronic Visit Verification is not going away. Here is how to align your operations so audits are not a crisis.',
@@ -24,7 +24,7 @@ const ARTICLES = [
   },
   {
     slug: 'affordable-web-app-development-st-louis',
-    href: '/insights/affordable-web-app-development-st-louis',
+    href: '/blog/web-app-development-st-louis',
     category: 'App Development',
     title: 'Affordable Web App Development for Small Businesses in St. Louis',
     excerpt: 'Most St. Louis businesses overpay for development or never get started. Here is what a realistic project looks like and how to scope it right.',
@@ -33,7 +33,7 @@ const ARTICLES = [
   },
   {
     slug: 'google-workspace-small-business',
-    href: '/insights/google-workspace-small-business',
+    href: '/blog/google-workspace-automation',
     category: 'Business Systems',
     title: 'How Google Workspace Can Replace 5 Tools You Are Currently Paying For',
     excerpt: 'Most small businesses are overpaying for disconnected tools. Here is how to consolidate and actually use what you have.',
@@ -42,7 +42,7 @@ const ARTICLES = [
   },
   {
     slug: 'capability-statement-guide',
-    href: '/insights/capability-statement-guide',
+    href: '/blog/capability-statement-guide',
     category: 'Government Contracting',
     title: 'Your Capability Statement Is Costing You Contracts. Here Is Why.',
     excerpt: 'A weak capability statement is one of the fastest ways to disqualify yourself before anyone reads your proposal.',
@@ -51,7 +51,7 @@ const ARTICLES = [
   },
   {
     slug: 'medicaid-billing-errors',
-    href: '/insights/medicaid-billing-errors',
+    href: '/blog/medicaid-billing-errors',
     category: 'Medicaid / CDS',
     title: 'Why Medicaid Claims Get Denied and What You Can Do About It Today',
     excerpt: 'Billing denials are almost always preventable. Here are the most common errors and how to eliminate them from your process.',
