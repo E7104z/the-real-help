@@ -1,10 +1,32 @@
 {
   "rewrites": [
-    { "source": "/app/:path*",    "destination": "/index.html" },
-    { "source": "/admin/:path*", "destination": "/index.html" },
-    { "source": "/portal/:path*","destination": "/index.html" },
-    { "source": "/login",        "destination": "/index.html" },
-    { "source": "/unauthorized", "destination": "/index.html" },
-    { "source": "/(.*)",         "destination": "/index.html" }
+    {
+      "source": "/api/:path*",
+      "destination": "/api/:path*"
+    },
+    {
+      "source": "/app/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/admin/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/portal/:path*",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/login",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/unauthorized",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
   ]
 }
