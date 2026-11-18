@@ -85,14 +85,12 @@ export type Work = {
 
 export const WORK: Work[] = [
   {
-    title: 'Scheduler Lite',
-    kind: 'Scheduling · Automation',
-    image: '/images/home/scheduler-lite.webp',
-    alt: 'Scheduler Lite landing page with a care plan turned into a weekly schedule',
-    problem: 'Turning a care plan into a compliant weekly schedule was slow, manual math.',
-    fix: 'Paste the care plan, click once, get a print-ready weekly schedule built to the state formula. It runs in the browser, so nothing leaves the device.',
-    href: 'https://app.cdsscheduler.com',
-    hrefLabel: 'Try it live',
+    title: 'Tracy Smith, artist site + bookings',
+    kind: 'Website · CRM automation',
+    image: '/images/home/tracy-smith.webp',
+    alt: 'Tracy Smith artist website hero with a Book Tracy button',
+    problem: 'Booking requests needed to land somewhere organized, not in a pile of texts and emails.',
+    fix: 'A premium artist site with a booking form wired straight into the booking CRM. Each inquiry is validated, spam-protected, and lands as a lead with a follow-up task already created.',
   },
   {
     title: 'Scheduler Pro',
