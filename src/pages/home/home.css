@@ -1178,3 +1178,153 @@ html:has(.rh) {
   .rh-whatever__tile:nth-child(n) { transform: none; }
 }
 
+
+/* ───────── Inbox on autopilot ───────── */
+.rh-inbox {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: clamp(2rem, 5vw, 4.5rem);
+  align-items: center;
+}
+.rh-inbox__lede {
+  font-size: 1.2rem;
+  max-width: 34rem;
+  margin: 1.2rem 0 1.4rem;
+}
+.rh-inbox__list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 2rem;
+  display: grid;
+  gap: 0.7rem;
+}
+.rh-inbox__list li {
+  position: relative;
+  padding-left: 2rem;
+  font-weight: 500;
+}
+.rh-inbox__list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  top: -0.05rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  display: grid;
+  place-items: center;
+  font-size: 0.85rem;
+  font-weight: 800;
+  background: var(--leaf);
+  color: var(--white);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+.rh-phone {
+  width: min(100%, 24rem);
+  justify-self: center;
+  background: var(--white);
+  border: 3px solid var(--ink);
+  border-radius: 26px;
+  box-shadow: var(--shadow-lg);
+  padding: 1rem 1rem 1.1rem;
+  transform: rotate(1.5deg);
+}
+.rh-phone__bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.2rem 0.4rem 0.8rem;
+  border-bottom: 2px dashed rgba(22, 19, 15, 0.25);
+  margin-bottom: 0.9rem;
+}
+.rh-phone__bar span:last-child {
+  font-weight: 500;
+  opacity: 0.7;
+}
+.rh-mail {
+  border: 2px solid var(--ink);
+  border-radius: 14px;
+  padding: 0.8rem 0.9rem;
+  font-size: 0.95rem;
+}
+.rh-mail p {
+  margin: 0.3rem 0 0;
+  line-height: 1.45;
+}
+.rh-mail__meta {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+.rh-mail__meta span {
+  opacity: 0.65;
+}
+.rh-mail--in {
+  background: var(--paper);
+}
+.rh-mail--draft {
+  background: var(--sun);
+  box-shadow: 4px 4px 0 var(--ink);
+  margin-top: 0.4rem;
+}
+.rh-mail__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.8rem;
+}
+.rh-mail__edit,
+.rh-mail__send {
+  border: 2px solid var(--ink);
+  border-radius: 999px;
+  padding: 0.35rem 0.9rem;
+  font-size: 0.85rem;
+  font-weight: 700;
+  background: var(--white);
+}
+.rh-mail__send {
+  background: var(--ink);
+  color: var(--white);
+}
+.rh-typing {
+  display: flex;
+  gap: 0.3rem;
+  padding: 0.7rem 0.3rem 0.3rem;
+  height: 1.7rem;
+}
+.rh-typing i {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: var(--ink);
+  opacity: 0.5;
+  animation: rh-dot 1s ease-in-out infinite;
+}
+.rh-typing i:nth-child(2) { animation-delay: 0.15s; }
+.rh-typing i:nth-child(3) { animation-delay: 0.3s; }
+@keyframes rh-dot {
+  50% { transform: translateY(-4px); opacity: 1; }
+}
+.rh-mail--draft,
+.rh-phone__note {
+  animation: rh-pop 0.5s 1.6s both;
+}
+@keyframes rh-pop {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+.rh-phone__note {
+  margin: 0.9rem 0 0;
+  text-align: center;
+  font-family: var(--marker);
+  font-size: 0.95rem;
+  color: var(--tomato);
+}
+@media (max-width: 859px) {
+  .rh-inbox { grid-template-columns: 1fr; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rh-mail--draft, .rh-phone__note, .rh-typing i { animation: none; }
+}
+

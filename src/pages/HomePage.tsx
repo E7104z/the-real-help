@@ -195,6 +195,84 @@ export default function HomePage() {
           </div>
         </section>
 
+        {/* ───────── Inbox on autopilot ───────── */}
+        <section
+          className="rh-section rh-section--tint"
+          id="inbox"
+          aria-labelledby="inbox-h"
+        >
+          <div className="rh-inbox">
+            <div className="rh-inbox__copy">
+              <p className="rh-kicker">AI for your inbox</p>
+              <h2 id="inbox-h" className="rh-h2">
+                Never miss a lead again.
+              </h2>
+              <p className="rh-inbox__lede">
+                Customers write at 9pm and buy from whoever answers first. We
+                set up an AI that reads your inbox, tells real inquiries from
+                junk, and drafts a reply in your voice before you’ve finished
+                dinner.
+              </p>
+              <ul className="rh-inbox__list">
+                <li>Drafts in seconds, in your words and your tone</li>
+                <li>
+                  You review and hit send. It never replies on its own until you
+                  say so
+                </li>
+                <li>Skips spam, newsletters and no-reply mail</li>
+                <li>Works with the Gmail you already use</li>
+              </ul>
+              <div className="rh-cta-row">
+                <BookButton primary />
+              </div>
+            </div>
+
+            <div
+              className="rh-phone"
+              role="img"
+              aria-label="Example: a customer emails at 9:42pm asking about roof repair in Kirkwood, and the AI drafts a reply for the owner to review and send."
+            >
+              <div className="rh-phone__bar">
+                <span>Inbox</span>
+                <span>jobs@yourbusiness.com</span>
+              </div>
+              <div className="rh-mail rh-mail--in">
+                <div className="rh-mail__meta">
+                  <strong>Maria T.</strong>
+                  <span>9:42 PM</span>
+                </div>
+                <p>
+                  Hi, do you do roof repairs in Kirkwood? We got a leak after
+                  the storm.
+                </p>
+              </div>
+              <div className="rh-typing" aria-hidden="true">
+                <i />
+                <i />
+                <i />
+              </div>
+              <div className="rh-mail rh-mail--draft">
+                <div className="rh-mail__meta">
+                  <strong>Draft ready</strong>
+                  <span>9:42 PM</span>
+                </div>
+                <p>
+                  Hi Maria, yes, we repair storm leaks in Kirkwood. Could we
+                  come take a look Thursday morning? Reply with a good time and
+                  we’ll lock it in.
+                </p>
+                <div className="rh-mail__actions">
+                  <span className="rh-mail__edit">Edit</span>
+                  <span className="rh-mail__send">Review and send</span>
+                </div>
+              </div>
+              <p className="rh-phone__note">
+                Nothing goes out until you approve it.
+              </p>
+            </div>
+          </div>
+        </section>
+
         {/* ───────── Work ───────── */}
         <section
           className="rh-section rh-section--ink"
