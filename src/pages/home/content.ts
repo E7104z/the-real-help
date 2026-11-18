@@ -85,6 +85,14 @@ export type Work = {
 
 export const WORK: Work[] = [
   {
+    title: 'A-Z Discount Flooring, wholesale storefront',
+    kind: 'Website · Order requests',
+    image: 'https://azdiscountfloor.com/public/hero.png',
+    alt: 'A-Z Discount Flooring website: premium wholesale luxury vinyl plank, delivered on time',
+    problem: 'A wholesale flooring supplier needed contractors to browse colors and request pricing without a phone call every time.',
+    fix: 'A fast, branded storefront with the full colorway catalog, filters, a before and after slider, and an order-request form that sends the lead straight to the team.',
+  },
+  {
     title: 'Tracy Smith, artist site + bookings',
     kind: 'Website · CRM automation',
     image: '/images/home/tracy-smith.webp',
@@ -109,6 +117,7 @@ export const WORK: Work[] = [
     fix: 'One dashboard for the pipeline, clients, drivers, routes and payroll, with a paste-in importer to move off spreadsheets.',
   },
 ];
+
 
 export const ALSO_SHIPPED = [
   'A booking CRM for talent agencies',

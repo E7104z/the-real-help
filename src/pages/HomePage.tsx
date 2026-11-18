@@ -22,6 +22,7 @@ import '@fontsource/dm-sans/400.css';
 import '@fontsource/dm-sans/500.css';
 import '@fontsource/dm-sans/700.css';
 import '@fontsource/permanent-marker/400.css';
+import LeadForm from './home/LeadForm';
 import './home/home.css';
 
 const hasPhone = Boolean(CONTACT_PHONE && PHONE_HREF);
@@ -299,6 +300,7 @@ export default function HomePage() {
                 Email us
               </a>
             </div>
+            <LeadForm />
           </div>
         </section>
       </main>
