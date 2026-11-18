@@ -1138,3 +1138,43 @@ html:has(.rh) {
     transition: none;
   }
 }
+
+/* ───────── Whatever you need ───────── */
+.rh-whatever {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.4rem;
+}
+.rh-whatever__tile {
+  border: 3px solid var(--ink);
+  border-radius: 14px;
+  padding: 1.4rem 1.3rem 1.5rem;
+  box-shadow: 6px 6px 0 var(--ink);
+  background: var(--white);
+}
+.rh-whatever__tile:nth-child(odd) { transform: rotate(-1deg); }
+.rh-whatever__tile:nth-child(even) { transform: rotate(1deg); }
+.rh-whatever__tile--sun { background: var(--sun); }
+.rh-whatever__tile--tomato { background: var(--tomato); color: var(--white); }
+.rh-whatever__tile--leaf { background: var(--leaf); color: var(--white); }
+.rh-whatever__tile h3 {
+  font-size: 1.3rem;
+  line-height: 1.1;
+  margin: 0 0 0.6rem;
+}
+.rh-whatever__tile p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
+}
+@media (max-width: 1000px) {
+  .rh-whatever { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .rh-whatever { grid-template-columns: 1fr; }
+  .rh-whatever__tile:nth-child(n) { transform: none; }
+}
+

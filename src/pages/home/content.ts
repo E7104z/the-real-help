@@ -21,6 +21,9 @@ export const CHORES = [
 ];
 
 export const MARQUEE = [
+  'A website that takes orders',
+  'Booking pages that fill your calendar',
+  'A site that makes the phone ring',
   'Scheduling that runs itself',
   'AI assistants that know your business',
   'Customer portals',
@@ -29,6 +32,29 @@ export const MARQUEE = [
   'Spreadsheets, retired',
   'Reminders nobody has to send',
   'Dashboards you actually open',
+];
+
+export const WHATEVER: { title: string; text: string; tone: 'sun' | 'white' | 'tomato' | 'leaf' }[] = [
+  {
+    title: 'A website that books or sells',
+    text: 'Looks sharp, loads fast, and takes bookings, orders or quote requests while you sleep.',
+    tone: 'sun',
+  },
+  {
+    title: 'A custom app or portal',
+    text: 'Your customers, staff or drivers log in to one place built around how you really work.',
+    tone: 'white',
+  },
+  {
+    title: 'An AI assistant',
+    text: 'Answers customer questions from your own info, day and night.',
+    tone: 'tomato',
+  },
+  {
+    title: 'Automation',
+    text: 'Scheduling, reports, reminders and paperwork that run themselves.',
+    tone: 'leaf',
+  },
 ];
 
 export type Note = { you: string; we: string; tone: 'sun' | 'paper' | 'tomato' | 'leaf' | 'white'; tilt: number };

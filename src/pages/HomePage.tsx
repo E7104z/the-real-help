@@ -8,6 +8,7 @@ import {
   CONTACT_PHONE,
   FAQ,
   MARQUEE,
+  WHATEVER,
   NOTES,
   PHONE_HREF,
   PRICE_MONTHLY,
@@ -83,13 +84,14 @@ export default function HomePage() {
         {/* ───────── Hero ───────── */}
         <section className="rh-hero" id="top">
           <div className="rh-hero__copy">
-            <p className="rh-sticker">Custom software · AI · Automation</p>
+            <p className="rh-sticker">Websites · Apps · AI · Automation</p>
             <h1 className="rh-h1">
               Tired of doing it <span className="rh-scribble">by hand?</span>
             </h1>
             <p className="rh-lede">
-              We build the tool that does it for you. Custom software, AI and automation for small
-              businesses. Built in weeks, priced up front, <strong>starting at {PRICE_START}</strong>.
+              We build the tool that does it for you. Websites, custom apps, AI and automation for
+              small businesses. <strong>One shop, one price, one phone number.</strong> Built in
+              weeks, <strong>starting at {PRICE_START}</strong>.
             </p>
             <div className="rh-cta-row">
               {hasPhone ? <CallButton /> : null}
@@ -152,6 +154,24 @@ export default function HomePage() {
               </article>
             ))}
           </div>
+        </section>
+
+        {/* ───────── Whatever you need ───────── */}
+        <section className="rh-section" id="whatever" aria-labelledby="whatever-h">
+          <div className="rh-section__head">
+            <p className="rh-kicker">One stop</p>
+            <h2 id="whatever-h" className="rh-h2">
+              Whatever you need. One shop.
+            </h2>
+          </div>
+          <ul className="rh-whatever">
+            {WHATEVER.map((w) => (
+              <li key={w.title} className={`rh-whatever__tile rh-whatever__tile--${w.tone}`}>
+                <h3>{w.title}</h3>
+                <p>{w.text}</p>
+              </li>
+            ))}
+          </ul>
         </section>
 
         {/* ───────── Work ───────── */}
