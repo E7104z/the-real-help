@@ -7,7 +7,7 @@
  */
 
 export const CONTACT_EMAIL =
-  import.meta.env.VITE_CONTACT_EMAIL ?? 'jasonhgriffin@gmail.com';
+  import.meta.env.VITE_CONTACT_EMAIL ?? 'info@thecdscloud.com';
 
 /**
  * Destination for every "Book a Call" / "Schedule a Call" button.
@@ -18,11 +18,11 @@ export const BOOKING_URL =
   import.meta.env.VITE_BOOKING_URL ?? 'https://cal.com/jason-griffin-0covhm';
 
 /**
- * Public phone number for the "Call" buttons, e.g. "314-555-0123".
- * Set VITE_CONTACT_PHONE in Vercel. While it is empty, the call buttons are
- * hidden and the booking link becomes the primary action.
+ * Public phone number for the "Call" buttons. Override with VITE_CONTACT_PHONE.
+ * If set to an empty string, the call buttons are hidden and the booking link
+ * becomes the primary action.
  */
-export const CONTACT_PHONE: string = import.meta.env.VITE_CONTACT_PHONE ?? '';
+export const CONTACT_PHONE: string = import.meta.env.VITE_CONTACT_PHONE ?? '314-660-2890';
 
 /** True when a URL is a full http(s) link (open in a new tab). */
 export const isExternalUrl = (url: string): boolean => /^https?:\/\//i.test(url);
