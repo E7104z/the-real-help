@@ -113,7 +113,7 @@ export const WORK: Work[] = [
   {
     title: 'A-Z Discount Flooring, wholesale storefront',
     kind: 'Website · Order requests',
-    image: 'https://azdiscountfloor.com/public/hero.png',
+    image: '/images/home/az-flooring.webp',
     alt: 'A-Z Discount Flooring website: premium wholesale luxury vinyl plank, delivered on time',
     problem: 'A wholesale flooring supplier needed contractors to browse colors and request pricing without a phone call every time.',
     fix: 'A fast, branded storefront with the full colorway catalog, filters, a before and after slider, and an order-request form that sends the lead straight to the team.',
