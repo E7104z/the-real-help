@@ -1,289 +1,322 @@
-import { Helmet } from 'react-helmet-async';
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowRight, Shield, Cog, Code, Brain, Star, CheckCircle, Paintbrush } from 'lucide-react';
-import { BenefitsTicker } from '@/components/BenefitsTicker';
+import { ArrowUpRight, CalendarDays, Mail, Phone } from 'lucide-react';
+import {
+  ALSO_SHIPPED,
+  BOOKING_URL,
+  CHORES,
+  CONTACT_EMAIL,
+  CONTACT_PHONE,
+  FAQ,
+  MARQUEE,
+  NOTES,
+  PHONE_HREF,
+  PRICE_MONTHLY,
+  PRICE_START,
+  STEPS,
+  WORK,
+} from './home/content';
+import '@fontsource/bricolage-grotesque/500.css';
+import '@fontsource/bricolage-grotesque/700.css';
+import '@fontsource/bricolage-grotesque/800.css';
+import '@fontsource/dm-sans/400.css';
+import '@fontsource/dm-sans/500.css';
+import '@fontsource/dm-sans/700.css';
+import '@fontsource/permanent-marker/400.css';
+import './home/home.css';
 
-const TICKER_ITEMS = [
-  'Affordable Full-Stack Web Apps in Days',
-  'Business Start Up Support',
-  'MWBE Certification Setup',
-  'Medicaid / CDS Expert',
-  'Business Automation with AI',
-  'Custom Client Portals',
-  'Google Workspace Business Systems',
-  'CRM and Workflow Builds',
-  'Branding, Tech, and Operations Under One Roof',
-];
+const hasPhone = Boolean(CONTACT_PHONE && PHONE_HREF);
 
-const SERVICES_PREVIEW = [
-  {
-    icon: Shield,
-    title: 'Compliance & Certification',
-    description: 'MBE/WBE/DBE strategy, Medicaid compliance, and government contracting readiness.',
-  },
-  {
-    icon: Cog,
-    title: 'Business Systems',
-    description: 'Automate your operations with Google Workspace, custom workflows, and smart processes.',
-  },
-  {
-    icon: Code,
-    title: 'App Development',
-    description: 'Full-stack web applications built for real business needs — not tech demos.',
-  },
-  {
-    icon: Brain,
-    title: 'AI & Automation',
-    description: 'AI-powered workflows that save hours per week without requiring a CS degree.',
-  },
-  {
-    icon: Paintbrush,
-    title: 'Branding & Design',
-    description: 'Logo design, brand identity, capability statements, and marketing collateral.',
-  },
-];
+function CallButton({ className = '' }: { className?: string }) {
+  if (!hasPhone) return null;
+  return (
+    <a className={`rh-btn rh-btn--tomato ${className}`} href={PHONE_HREF}>
+      <Phone size={18} strokeWidth={2.6} aria-hidden="true" />
+      Call {CONTACT_PHONE}
+    </a>
+  );
+}
 
-const TRUST_ITEMS = [
-  'Government Contracting',
-  'Medicaid / CDS',
-  'Tech & SaaS',
-  'Small Business',
-  'Certification',
-  'Branding & Design',
-];
-
-const TESTIMONIALS = [
-  {
-    quote: "He didn't just give us advice — he built the actual system and walked us through every step. We went from overwhelmed to organized in two weeks.",
-    name: 'CDS Agency Owner',
-    location: 'St. Louis, MO',
-  },
-  {
-    quote: "I'd been trying to get my MBE certification for months. He got to the root of what was holding us up and cleared the path. Done in 30 days.",
-    name: 'Small Business Owner',
-    location: 'Missouri',
-  },
-  {
-    quote: "Most consultants talk. This one builds. Our scheduling app went from mess to machine.",
-    name: 'Healthcare Operations Director',
-    location: 'St. Louis, MO',
-  },
-];
+function BookButton({ className = '', primary = false }: { className?: string; primary?: boolean }) {
+  return (
+    <a
+      className={`rh-btn ${primary ? 'rh-btn--tomato' : 'rh-btn--white'} ${className}`}
+      href={BOOKING_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      <CalendarDays size={18} strokeWidth={2.6} aria-hidden="true" />
+      Book a free call
+    </a>
+  );
+}
 
 export default function HomePage() {
+  useEffect(() => {
+    document.title = 'The Real Help | Custom Software, AI & Automation for Small Business';
+  }, []);
+
   return (
-    <div>
-      <Helmet>
-        <title>Business Consultant St. Louis | The Real Help, LLC</title>
-        <meta name="description" content="St. Louis business consultant delivering MWBE certification, Medicaid CDS compliance, web app development, and AI automation. Real solutions, real fast." />
-        <link rel="canonical" href="https://therealhelp.com/" />
-      </Helmet>
-      {/* ═══════════════ HERO ═══════════════ */}
-      <section className="relative overflow-hidden bg-white">
-        {/* St. Louis skyline silhouette background */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-0">
-          <img
-            src="/images/branding/stl%20sil.png"
-            alt=""
-            aria-hidden="true"
-            className="w-full h-auto opacity-[0.08]"
-          />
-        </div>
+    <div className="rh">
+      <a className="rh-skip" href="#main">
+        Skip to content
+      </a>
 
-        <div className="relative z-10 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          {/* Business Services headline */}
-          <div className="pt-6">
-            <p className="text-center font-heading text-3xl font-bold tracking-wide text-brand-black sm:text-4xl">
-              Business Services
+      {/* ───────── Header ───────── */}
+      <header className="rh-header">
+        <a className="rh-brand" href="#top" aria-label="The Real Help, home">
+          <span className="rh-brand__mark" aria-hidden="true">
+            R
+          </span>
+          <span className="rh-brand__name">The Real Help</span>
+        </a>
+        <nav className="rh-nav" aria-label="Primary">
+          <a href="#fixes">What we fix</a>
+          <a href="#work">Receipts</a>
+          <a href="#price">Price</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+        {hasPhone ? <CallButton className="rh-btn--small" /> : <BookButton primary className="rh-btn--small" />}
+      </header>
+
+      <main id="main">
+        {/* ───────── Hero ───────── */}
+        <section className="rh-hero" id="top">
+          <div className="rh-hero__copy">
+            <p className="rh-sticker">Custom software · AI · Automation</p>
+            <h1 className="rh-h1">
+              Tired of doing it <span className="rh-scribble">by hand?</span>
+            </h1>
+            <p className="rh-lede">
+              We build the tool that does it for you. Custom software, AI and automation for small
+              businesses. Built in weeks, priced up front, <strong>starting at {PRICE_START}</strong>.
             </p>
-          </div>
-          {/* Ticker */}
-          <div className="pt-4 pb-4">
-            <BenefitsTicker items={TICKER_ITEMS} />
-          </div>
-
-          <div className="grid items-center gap-12 py-6 md:py-10 lg:grid-cols-2 lg:py-14">
-            {/* Text side */}
-            <div className="text-center lg:text-left">
-              <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-brand-blue-50 px-4 py-2 text-sm font-semibold text-brand-blue-600 border border-brand-blue-200">
-                💼 Built for the business owner who's figuring it out
-              </div>
-              <h1 className="font-heading text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl lg:text-6xl">
-                The Guy Who{' '}
-                <span className="text-brand-blue-500">Actually</span>{' '}
-                Fixes It.
-              </h1>
-              <p className="mt-6 text-lg leading-relaxed text-brand-silver-500 sm:text-xl max-w-xl mx-auto lg:mx-0">
-                Most small business owners can't afford a big firm —
-                and honestly, you don't need one. You need someone
-                who knows the work, does the work, and charges like
-                they actually want your business to succeed.
-              </p>
-              <div className="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center lg:justify-start">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg bg-brand-blue-500 px-8 py-4 text-base font-bold text-white shadow-lg hover:bg-brand-blue-600 transition-all hover:shadow-xl"
-                >
-                  Let&apos;s Talk — No Pressure
-                  <ArrowRight className="h-5 w-5" />
-                </Link>
-                <Link
-                  to="/work"
-                  className="inline-flex items-center justify-center gap-2 rounded-lg border border-brand-silver-300 px-8 py-4 text-base font-semibold text-brand-black hover:border-brand-blue-500 hover:text-brand-blue-500 transition-colors"
-                >
-                  See My Work
-                </Link>
-              </div>
+            <div className="rh-cta-row">
+              {hasPhone ? <CallButton /> : null}
+              <BookButton primary={!hasPhone} />
             </div>
+            <p className="rh-fine">St. Louis, MO · Fixed prices · No jargon</p>
+          </div>
 
-            {/* Portrait photo */}
-            <div className="flex justify-center">
-              <img
-                src="/images/hero/hero.png"
-                alt="Jason Griffin, St. Louis business consultant at The Real Help, LLC"
-                className="w-auto max-h-[40rem] object-contain"
-                loading="eager"
-              />
+          <div className="rh-hero__art" aria-hidden="true">
+            <div className="rh-pad">
+              <p className="rh-pad__title">This week’s to-do</p>
+              <ul className="rh-pad__list">
+                {CHORES.map((c, i) => (
+                  <li key={c} style={{ ['--i' as string]: i }}>
+                    <span className="rh-pad__text">{c}</span>
+                  </li>
+                ))}
+              </ul>
+              <div className="rh-pad__stamp">Let a computer do it</div>
+            </div>
+            <div className="rh-badge">
+              <span>from</span>
+              <strong>{PRICE_START}</strong>
+              <span>fixed price</span>
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ═══════════════ TRUST BAR ═══════════════ */}
-      <section className="border-b border-brand-silver-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-6">
-          <div className="flex flex-wrap items-center justify-center gap-x-8 gap-y-3">
-            {TRUST_ITEMS.map((item) => (
-              <span key={item} className="text-sm font-semibold tracking-wide text-brand-silver-400 uppercase">
-                {item}
+        {/* ───────── Marquee ───────── */}
+        <div className="rh-marquee" aria-hidden="true">
+          <div className="rh-marquee__track">
+            {[...MARQUEE, ...MARQUEE].map((m, i) => (
+              <span key={`${m}-${i}`}>
+                {m}
+                <i>✱</i>
               </span>
             ))}
           </div>
         </div>
-      </section>
 
-      {/* ═══════════════ WHAT I DO ═══════════════ */}
-      <section className="py-20 sm:py-28 bg-white">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-3xl font-bold text-brand-black sm:text-4xl">What I Do</h2>
-            <p className="mt-4 text-lg text-brand-silver-500 max-w-2xl mx-auto">
-              One person. Multiple capabilities. No passing you off to a junior.
-              When you work with me, you work with <em>me</em>.
-            </p>
+        {/* ───────── Pain → fix ───────── */}
+        <section className="rh-section" id="fixes" aria-labelledby="fixes-h">
+          <div className="rh-section__head">
+            <p className="rh-kicker">Sound familiar?</p>
+            <h2 id="fixes-h" className="rh-h2">
+              The chores we love to kill
+            </h2>
           </div>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {SERVICES_PREVIEW.map((svc) => (
-              <div key={svc.title} className="rounded-2xl border border-brand-silver-200 bg-white p-6 hover:border-brand-blue-300 hover:shadow-soft transition-all">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-brand-blue-50 text-brand-blue-500">
-                  <svc.icon className="h-6 w-6" />
-                </div>
-                <h3 className="font-heading text-lg font-bold text-brand-black">{svc.title}</h3>
-                <p className="mt-2 text-sm text-brand-silver-500 leading-relaxed">{svc.description}</p>
-              </div>
+          <div className="rh-notes">
+            {NOTES.map((n) => (
+              <article
+                key={n.you}
+                className={`rh-note rh-note--${n.tone}`}
+                style={{ ['--tilt' as string]: `${n.tilt}deg` }}
+              >
+                <p className="rh-note__label">You say</p>
+                <p className="rh-note__you">{n.you}</p>
+                <p className="rh-note__label rh-note__label--we">We build</p>
+                <p className="rh-note__we">{n.we}</p>
+              </article>
             ))}
           </div>
-          <div className="mt-12 text-center">
-            <Link to="/services" className="inline-flex items-center gap-2 text-brand-blue-500 font-semibold hover:underline">
-              View All Services <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
+        </section>
 
-      {/* ═══════════════ HOW IT WORKS ═══════════════ */}
-      <section className="py-20 sm:py-28 bg-brand-silver-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-3xl font-bold text-brand-black sm:text-4xl">How It Works</h2>
-            <p className="mt-4 text-lg text-brand-silver-500 max-w-xl mx-auto">
-              No intake packets. No waiting rooms. Just a straight path forward.
-            </p>
+        {/* ───────── Work ───────── */}
+        <section className="rh-section rh-section--ink" id="work" aria-labelledby="work-h">
+          <div className="rh-section__head">
+            <p className="rh-kicker rh-kicker--light">Proof</p>
+            <h2 id="work-h" className="rh-h2 rh-h2--light">
+              Receipts, not promises.
+            </h2>
+            <p className="rh-sub rh-sub--light">A few things we’ve already built and shipped.</p>
           </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {[
-              {
-                step: '01',
-                title: 'Tell me what you need',
-                body: 'No forms, no intake packets. Just a conversation about what you\'re dealing with and where you want to go.',
-              },
-              {
-                step: '02',
-                title: 'I give you a straight answer',
-                body: 'What it costs, how long it takes, what you get. No vague proposals, no bait-and-switch.',
-              },
-              {
-                step: '03',
-                title: 'We get to work',
-                body: 'No handoffs, no juniors. Just me and your business — from kickoff to done.',
-              },
-            ].map(({ step, title, body }) => (
-              <div key={step} className="relative rounded-2xl border border-brand-silver-200 bg-white p-8">
-                <p className="font-heading text-5xl font-extrabold text-brand-blue-100 leading-none mb-4">{step}</p>
-                <h3 className="font-heading text-xl font-bold text-brand-black">{title}</h3>
-                <p className="mt-3 text-brand-silver-500 leading-relaxed">{body}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-12 text-center">
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-2 rounded-lg bg-brand-blue-500 px-8 py-4 text-base font-bold text-white hover:bg-brand-blue-600 transition-colors"
-            >
-              Start Step 1 <ArrowRight className="h-5 w-5" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ TESTIMONIALS ═══════════════ */}
-      <section className="py-20 sm:py-28 bg-brand-silver-50">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-heading text-3xl font-bold text-brand-black sm:text-4xl">What Clients Say</h2>
-          </div>
-          <div className="grid gap-8 md:grid-cols-3">
-            {TESTIMONIALS.map((t) => (
-              <div key={t.name} className="rounded-2xl bg-white p-8 shadow-card border border-brand-silver-200">
-                <div className="flex gap-1 mb-4">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-brand-blue-500 text-brand-blue-500" />
-                  ))}
-                </div>
-                <p className="text-brand-silver-600 leading-relaxed italic">&ldquo;{t.quote}&rdquo;</p>
-                <div className="mt-6 flex items-center gap-3">
-                  <div className="h-10 w-10 rounded-full bg-brand-blue-100 flex items-center justify-center">
-                    <CheckCircle className="h-5 w-5 text-brand-blue-500" />
+          <div className="rh-work">
+            {WORK.map((w, i) => (
+              <article key={w.title} className="rh-card" style={{ ['--tilt' as string]: i % 2 ? '1deg' : '-1deg' }}>
+                <div className="rh-browser">
+                  <div className="rh-browser__bar" aria-hidden="true">
+                    <i />
+                    <i />
+                    <i />
                   </div>
-                  <div>
-                    <p className="text-sm font-semibold text-brand-black">{t.name}</p>
-                    <p className="text-xs text-brand-silver-400">{t.location}</p>
-                  </div>
+                  <img src={w.image} alt={w.alt} loading="lazy" width={1400} height={800} />
                 </div>
-              </div>
+                <div className="rh-card__body">
+                  <p className="rh-chip">{w.kind}</p>
+                  <h3 className="rh-h3">{w.title}</h3>
+                  <p className="rh-card__line">
+                    <b>The chore:</b> {w.problem}
+                  </p>
+                  <p className="rh-card__line">
+                    <b>The fix:</b> {w.fix}
+                  </p>
+                  {w.href ? (
+                    <a className="rh-link" href={w.href} target="_blank" rel="noopener noreferrer">
+                      {w.hrefLabel ?? 'See it live'} <ArrowUpRight size={16} strokeWidth={2.8} aria-hidden="true" />
+                    </a>
+                  ) : null}
+                </div>
+              </article>
             ))}
           </div>
-        </div>
-      </section>
-
-      {/* ═══════════════ CTA ═══════════════ */}
-      <section className="py-20 bg-brand-blue-500">
-        <div className="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-heading text-3xl font-bold text-white sm:text-4xl">
-            Ready to Stop Spinning Your Wheels?
-          </h2>
-          <p className="mt-4 text-lg text-blue-100">
-            Tell me what you need. I&apos;ll tell you if I can help — no pressure, no pitch, no confusion.
+          <p className="rh-also">
+            <span>Also shipped:</span>
+            {ALSO_SHIPPED.map((a) => (
+              <em key={a}>{a}</em>
+            ))}
           </p>
-          <Link
-            to="/contact"
-            className="mt-8 inline-flex items-center gap-2 rounded-lg bg-white px-8 py-4 text-base font-bold text-brand-blue-500 shadow-lg hover:bg-brand-silver-50 transition-colors"
-          >
-            Let&apos;s Talk
-            <ArrowRight className="h-5 w-5" />
-          </Link>
-        </div>
-      </section>
+        </section>
+
+        {/* ───────── How it works ───────── */}
+        <section className="rh-section" id="how" aria-labelledby="how-h">
+          <div className="rh-section__head">
+            <p className="rh-kicker">How it works</p>
+            <h2 id="how-h" className="rh-h2">
+              Three steps. Zero surprises.
+            </h2>
+          </div>
+          <ol className="rh-steps">
+            {STEPS.map((s) => (
+              <li key={s.n} className="rh-step">
+                <span className="rh-step__n" aria-hidden="true">
+                  {s.n}
+                </span>
+                <h3 className="rh-h3">{s.title}</h3>
+                <p>{s.body}</p>
+              </li>
+            ))}
+          </ol>
+        </section>
+
+        {/* ───────── Pricing ───────── */}
+        <section className="rh-section rh-section--tint" id="price" aria-labelledby="price-h">
+          <div className="rh-section__head">
+            <p className="rh-kicker">Pricing</p>
+            <h2 id="price-h" className="rh-h2">
+              Cheap enough to just try.
+            </h2>
+            <p className="rh-sub">No hourly meter. You know the price before we start.</p>
+          </div>
+          <div className="rh-prices">
+            <article className="rh-price rh-price--hot">
+              <p className="rh-price__tag">Start here</p>
+              <h3 className="rh-h3">The Quick Fix</h3>
+              <p className="rh-price__big">
+                {PRICE_START}
+                <small> one time</small>
+              </p>
+              <p className="rh-price__sub">
+                + {PRICE_MONTHLY}/month to keep it running
+              </p>
+              <ul className="rh-ticks">
+                <li>One real chore, solved with a working tool</li>
+                <li>Built around the way you already work</li>
+                <li>Fixed price, agreed before we start</li>
+                <li>Live in weeks, not months</li>
+              </ul>
+              <BookButton primary className="rh-btn--block" />
+            </article>
+            <article className="rh-price">
+              <p className="rh-price__tag rh-price__tag--alt">Bigger idea?</p>
+              <h3 className="rh-h3">Custom Build</h3>
+              <p className="rh-price__big rh-price__big--text">Fixed quote</p>
+              <p className="rh-price__sub">after a free intro call</p>
+              <ul className="rh-ticks">
+                <li>Multi-step automations and full apps</li>
+                <li>AI assistants trained on your own info</li>
+                <li>Customer portals and dashboards</li>
+                <li>Priced to the job, never by the hour</li>
+              </ul>
+              {hasPhone ? <CallButton className="rh-btn--block" /> : <BookButton className="rh-btn--block" />}
+            </article>
+          </div>
+        </section>
+
+        {/* ───────── FAQ ───────── */}
+        <section className="rh-section" id="faq" aria-labelledby="faq-h">
+          <div className="rh-section__head">
+            <p className="rh-kicker">Quick answers</p>
+            <h2 id="faq-h" className="rh-h2">
+              Fair questions
+            </h2>
+          </div>
+          <div>
+            <div className="rh-faq">
+              {FAQ.map((f) => (
+                <details key={f.q}>
+                  <summary>{f.q}</summary>
+                  <p>{f.a}</p>
+                </details>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ───────── Final CTA ───────── */}
+        <section className="rh-final" aria-labelledby="final-h">
+          <div className="rh-final__box">
+            <h2 id="final-h" className="rh-h2 rh-h2--huge">
+              Tell us what’s eating your week.
+            </h2>
+            <p className="rh-sub">Free intro call. We’ll tell you honestly if we can help.</p>
+            <div className="rh-cta-row rh-cta-row--center">
+              {hasPhone ? <CallButton /> : null}
+              <BookButton primary={!hasPhone} />
+              <a className="rh-btn rh-btn--white" href={`mailto:${CONTACT_EMAIL}`}>
+                <Mail size={18} strokeWidth={2.6} aria-hidden="true" />
+                Email us
+              </a>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* ───────── Footer ───────── */}
+      <footer className="rh-footer">
+        <p>© {new Date().getFullYear()} The Real Help, LLC · St. Louis, MO</p>
+        <p>
+          <Link to="/privacy">Privacy</Link> · <Link to="/terms">Terms</Link>
+        </p>
+      </footer>
+
+      {/* Mobile action bar */}
+      <div className="rh-bar">
+        {hasPhone ? <CallButton className="rh-btn--small" /> : null}
+        <BookButton primary={!hasPhone} className="rh-btn--small" />
+      </div>
     </div>
   );
 }

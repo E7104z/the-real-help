@@ -11,6 +11,7 @@ interface ImportMetaEnv {
   readonly VITE_USE_EMULATORS: string;
   readonly VITE_CONTACT_EMAIL?: string;
   readonly VITE_BOOKING_URL?: string;
+  readonly VITE_CONTACT_PHONE?: string;
 }
 
 interface ImportMeta {

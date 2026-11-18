@@ -1,14 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom';
-import MarketingLayout from '../layouts/MarketingLayout';
 import { AppLayout } from '../layouts/AppLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
 import HomePage from '../../pages/HomePage';
-import AboutPage from '../../pages/AboutPage';
-import WorkPage from '../../pages/WorkPage';
-import ContactPage from '../../pages/ContactPage';
-import InsightsPage from '../../pages/InsightsPage';
-import ServicesPage from '../../pages/ServicesPage';
-import ServiceDetailPage from '../../pages/ServiceDetailPage';
+import SimpleLayout from '../layouts/SimpleLayout';
 import LoginPage from '../../features/auth/LoginPage';
 import DashboardPage from '../../features/dashboard/DashboardPage';
 import RecordsListPage from '../../features/records/RecordsListPage';
@@ -24,66 +18,14 @@ import TermsPage from '../../pages/TermsPage';
 import AuditLogPage from '../../features/admin/AuditLogPage';
 import PortalLoginPage from '../../features/portal/PortalLoginPage';
 import PortalDashboard from '../../features/portal/PortalDashboard';
-import WebAppDevelopmentStLouis from '../../pages/local/WebAppDevelopmentStLouis';
-import CdsComplianceMissouri from '../../pages/local/CdsComplianceMissouri';
-import MwbeCertificationStLouis from '../../pages/local/MwbeCertificationStLouis';
-import BusinessConsultantStLouis from '../../pages/local/BusinessConsultantStLouis';
-import GovernmentContractingStLouis from '../../pages/local/GovernmentContractingStLouis';
-import DbeCertificationMissouri from '../../pages/local/DbeCertificationMissouri';
-import MbeCertificationMissouri from '../../pages/local/MbeCertificationMissouri';
-import StartCdsAgencyMissouri from '../../pages/local/StartCdsAgencyMissouri';
-import ArticleCdsEvvCompliance from '../../pages/blog/ArticleCdsEvvCompliance';
-import ArticleMwbeCertGuide from '../../pages/blog/ArticleMwbeCertGuide';
-import ArticleGoogleWorkspace from '../../pages/blog/ArticleGoogleWorkspace';
-import ArticleWebAppStLouis from '../../pages/blog/ArticleWebAppStLouis';
-import ArticleCapabilityStatement from '../../pages/blog/ArticleCapabilityStatement';
-import ArticleMedicaidBillingErrors from '../../pages/blog/ArticleMedicaidBillingErrors';
 
-// Programmatic SEO routes
-import { certificationPages } from '../../data/seo/certificationRoutes';
-import { contractPages } from '../../data/seo/contractRoutes';
-import { cdsPages } from '../../data/seo/cdsPages';
 
 export const router = createBrowserRouter([
-  // ── Public / Marketing Pages ──────────────────────────────
+  // ── Public site ───────────────────────────────────────────
+  { path: '/', element: <HomePage /> },
   {
-    path: '/',
-    element: <MarketingLayout />,
+    element: <SimpleLayout />,
     children: [
-      { index: true, element: <HomePage /> },
-      { path: 'about', element: <AboutPage /> },
-      { path: 'work', element: <WorkPage /> },
-      { path: 'contact', element: <ContactPage /> },
-      { path: 'insights', element: <InsightsPage /> },
-      { path: 'services', element: <ServicesPage /> },
-      { path: 'services/:slug', element: <ServiceDetailPage /> },
-      // Blog articles
-      { path: 'blog/cds-evv-compliance-missouri', element: <ArticleCdsEvvCompliance /> },
-      { path: 'blog/mwbe-certification-guide-st-louis', element: <ArticleMwbeCertGuide /> },
-      { path: 'blog/google-workspace-automation', element: <ArticleGoogleWorkspace /> },
-      { path: 'blog/web-app-development-st-louis', element: <ArticleWebAppStLouis /> },
-      { path: 'blog/capability-statement-guide', element: <ArticleCapabilityStatement /> },
-      { path: 'blog/medicaid-billing-errors', element: <ArticleMedicaidBillingErrors /> },
-      // Local landing pages
-      { path: 'st-louis/web-app-development', element: <WebAppDevelopmentStLouis /> },
-      { path: 'missouri/cds-compliance-consulting', element: <CdsComplianceMissouri /> },
-      { path: 'st-louis/mwbe-certification-assistance', element: <MwbeCertificationStLouis /> },
-      { path: 'st-louis/business-consultant', element: <BusinessConsultantStLouis /> },
-      // NEW local-intent SEO pages (canonical root-level + nested aliases)
-      { path: 'government-contracting-consultant-st-louis', element: <GovernmentContractingStLouis /> },
-      { path: 'dbe-certification-missouri', element: <DbeCertificationMissouri /> },
-      { path: 'mbe-certification-missouri', element: <MbeCertificationMissouri /> },
-      { path: 'start-a-cds-agency-missouri', element: <StartCdsAgencyMissouri /> },
-      { path: 'st-louis/government-contracting-consultant', element: <GovernmentContractingStLouis /> },
-      { path: 'missouri/dbe-certification', element: <DbeCertificationMissouri /> },
-      { path: 'missouri/mbe-certification', element: <MbeCertificationMissouri /> },
-      { path: 'missouri/start-a-cds-agency', element: <StartCdsAgencyMissouri /> },
-      // Programmatic SEO – Certification pages (Set A, 12 pages)
-      ...certificationPages,
-      // Programmatic SEO – Win the Contract pages (Set B)
-      ...contractPages,
-      // Programmatic SEO – CDS pages (Set C)
-      ...cdsPages,
       // Public-facing portal login
       { path: 'portal/login', element: <PortalLoginPage /> },
       { path: 'portal/dashboard', element: <PortalDashboard /> },
