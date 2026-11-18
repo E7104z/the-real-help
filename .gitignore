@@ -1,6 +1,9 @@
 node_modules/
 dist/
 dist-ssr/
+
+# Old duplicate site copy - always ignore
+the-real-help/
 functions/lib/
 emulator-data/
 .env
