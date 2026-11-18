@@ -1,5 +1,5 @@
-import { useEffect } from 'react';
-import { ArrowUpRight, CalendarDays, Mail, Phone } from 'lucide-react';
+import { useEffect } from "react";
+import { ArrowUpRight, CalendarDays, Mail, Phone } from "lucide-react";
 import {
   ALSO_SHIPPED,
   BOOKING_URL,
@@ -15,20 +15,20 @@ import {
   PRICE_START,
   STEPS,
   WORK,
-} from './home/content';
-import '@fontsource/bricolage-grotesque/500.css';
-import '@fontsource/bricolage-grotesque/700.css';
-import '@fontsource/bricolage-grotesque/800.css';
-import '@fontsource/dm-sans/400.css';
-import '@fontsource/dm-sans/500.css';
-import '@fontsource/dm-sans/700.css';
-import '@fontsource/permanent-marker/400.css';
-import LeadForm from './home/LeadForm';
-import './home/home.css';
+} from "./home/content";
+import "@fontsource/bricolage-grotesque/500.css";
+import "@fontsource/bricolage-grotesque/700.css";
+import "@fontsource/bricolage-grotesque/800.css";
+import "@fontsource/dm-sans/400.css";
+import "@fontsource/dm-sans/500.css";
+import "@fontsource/dm-sans/700.css";
+import "@fontsource/permanent-marker/400.css";
+import LeadForm from "./home/LeadForm";
+import "./home/home.css";
 
 const hasPhone = Boolean(CONTACT_PHONE && PHONE_HREF);
 
-function CallButton({ className = '' }: { className?: string }) {
+function CallButton({ className = "" }: { className?: string }) {
   if (!hasPhone) return null;
   return (
     <a className={`rh-btn rh-btn--tomato ${className}`} href={PHONE_HREF}>
@@ -38,10 +38,16 @@ function CallButton({ className = '' }: { className?: string }) {
   );
 }
 
-function BookButton({ className = '', primary = false }: { className?: string; primary?: boolean }) {
+function BookButton({
+  className = "",
+  primary = false,
+}: {
+  className?: string;
+  primary?: boolean;
+}) {
   return (
     <a
-      className={`rh-btn ${primary ? 'rh-btn--tomato' : 'rh-btn--white'} ${className}`}
+      className={`rh-btn ${primary ? "rh-btn--tomato" : "rh-btn--white"} ${className}`}
       href={BOOKING_URL}
       target="_blank"
       rel="noopener noreferrer"
@@ -54,7 +60,8 @@ function BookButton({ className = '', primary = false }: { className?: string; p
 
 export default function HomePage() {
   useEffect(() => {
-    document.title = 'The Real Help | Custom Software, AI & Automation for Small Business';
+    document.title =
+      "The Real Help | Custom Software, AI & Automation for Small Business";
   }, []);
 
   return (
@@ -77,7 +84,11 @@ export default function HomePage() {
           <a href="#price">Price</a>
           <a href="#faq">FAQ</a>
         </nav>
-        {hasPhone ? <CallButton className="rh-btn--small" /> : <BookButton primary className="rh-btn--small" />}
+        {hasPhone ? (
+          <CallButton className="rh-btn--small" />
+        ) : (
+          <BookButton primary className="rh-btn--small" />
+        )}
       </header>
 
       <main id="main">
@@ -89,8 +100,9 @@ export default function HomePage() {
               Tired of doing it <span className="rh-scribble">by hand?</span>
             </h1>
             <p className="rh-lede">
-              We build the tool that does it for you. Websites, custom apps, AI and automation for
-              small businesses. <strong>One shop, one price, one phone number.</strong> Built in
+              We build the tool that does it for you. Websites, custom apps, AI
+              and automation for small businesses.{" "}
+              <strong>One shop, one price, one phone number.</strong> Built in
               weeks, <strong>starting at {PRICE_START}</strong>.
             </p>
             <div className="rh-cta-row">
@@ -105,7 +117,7 @@ export default function HomePage() {
               <p className="rh-pad__title">This week’s to-do</p>
               <ul className="rh-pad__list">
                 {CHORES.map((c, i) => (
-                  <li key={c} style={{ ['--i' as string]: i }}>
+                  <li key={c} style={{ ["--i" as string]: i }}>
                     <span className="rh-pad__text">{c}</span>
                   </li>
                 ))}
@@ -145,7 +157,7 @@ export default function HomePage() {
               <article
                 key={n.you}
                 className={`rh-note rh-note--${n.tone}`}
-                style={{ ['--tilt' as string]: `${n.tilt}deg` }}
+                style={{ ["--tilt" as string]: `${n.tilt}deg` }}
               >
                 <p className="rh-note__label">You say</p>
                 <p className="rh-note__you">{n.you}</p>
@@ -157,42 +169,67 @@ export default function HomePage() {
         </section>
 
         {/* ───────── Whatever you need ───────── */}
-        <section className="rh-section" id="whatever" aria-labelledby="whatever-h">
+        <section
+          className="rh-section"
+          id="whatever"
+          aria-labelledby="whatever-h"
+        >
           <div className="rh-section__head">
             <p className="rh-kicker">One stop</p>
             <h2 id="whatever-h" className="rh-h2">
               Whatever you need. One shop.
             </h2>
           </div>
-          <ul className="rh-whatever">
-            {WHATEVER.map((w) => (
-              <li key={w.title} className={`rh-whatever__tile rh-whatever__tile--${w.tone}`}>
-                <h3>{w.title}</h3>
-                <p>{w.text}</p>
-              </li>
-            ))}
-          </ul>
+          <div>
+            <ul className="rh-whatever">
+              {WHATEVER.map((w) => (
+                <li
+                  key={w.title}
+                  className={`rh-whatever__tile rh-whatever__tile--${w.tone}`}
+                >
+                  <h3>{w.title}</h3>
+                  <p>{w.text}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* ───────── Work ───────── */}
-        <section className="rh-section rh-section--ink" id="work" aria-labelledby="work-h">
+        <section
+          className="rh-section rh-section--ink"
+          id="work"
+          aria-labelledby="work-h"
+        >
           <div className="rh-section__head">
             <p className="rh-kicker rh-kicker--light">Proof</p>
             <h2 id="work-h" className="rh-h2 rh-h2--light">
               Receipts, not promises.
             </h2>
-            <p className="rh-sub rh-sub--light">A few things we’ve already built and shipped.</p>
+            <p className="rh-sub rh-sub--light">
+              A few things we’ve already built and shipped.
+            </p>
           </div>
           <div className="rh-work">
             {WORK.map((w, i) => (
-              <article key={w.title} className="rh-card" style={{ ['--tilt' as string]: i % 2 ? '1deg' : '-1deg' }}>
+              <article
+                key={w.title}
+                className="rh-card"
+                style={{ ["--tilt" as string]: i % 2 ? "1deg" : "-1deg" }}
+              >
                 <div className="rh-browser">
                   <div className="rh-browser__bar" aria-hidden="true">
                     <i />
                     <i />
                     <i />
                   </div>
-                  <img src={w.image} alt={w.alt} loading="lazy" width={1400} height={800} />
+                  <img
+                    src={w.image}
+                    alt={w.alt}
+                    loading="lazy"
+                    width={1400}
+                    height={800}
+                  />
                 </div>
                 <div className="rh-card__body">
                   <p className="rh-chip">{w.kind}</p>
@@ -204,8 +241,18 @@ export default function HomePage() {
                     <b>The fix:</b> {w.fix}
                   </p>
                   {w.href ? (
-                    <a className="rh-link" href={w.href} target="_blank" rel="noopener noreferrer">
-                      {w.hrefLabel ?? 'See it live'} <ArrowUpRight size={16} strokeWidth={2.8} aria-hidden="true" />
+                    <a
+                      className="rh-link"
+                      href={w.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      {w.hrefLabel ?? "See it live"}{" "}
+                      <ArrowUpRight
+                        size={16}
+                        strokeWidth={2.8}
+                        aria-hidden="true"
+                      />
                     </a>
                   ) : null}
                 </div>
@@ -242,13 +289,19 @@ export default function HomePage() {
         </section>
 
         {/* ───────── Pricing ───────── */}
-        <section className="rh-section rh-section--tint" id="price" aria-labelledby="price-h">
+        <section
+          className="rh-section rh-section--tint"
+          id="price"
+          aria-labelledby="price-h"
+        >
           <div className="rh-section__head">
             <p className="rh-kicker">Pricing</p>
             <h2 id="price-h" className="rh-h2">
               Cheap enough to just try.
             </h2>
-            <p className="rh-sub">No hourly meter. You know the price before we start.</p>
+            <p className="rh-sub">
+              No hourly meter. You know the price before we start.
+            </p>
           </div>
           <div className="rh-prices">
             <article className="rh-price rh-price--hot">
@@ -280,7 +333,11 @@ export default function HomePage() {
                 <li>Customer portals and dashboards</li>
                 <li>Priced to the job, never by the hour</li>
               </ul>
-              {hasPhone ? <CallButton className="rh-btn--block" /> : <BookButton className="rh-btn--block" />}
+              {hasPhone ? (
+                <CallButton className="rh-btn--block" />
+              ) : (
+                <BookButton className="rh-btn--block" />
+              )}
             </article>
           </div>
         </section>
@@ -311,11 +368,16 @@ export default function HomePage() {
             <h2 id="final-h" className="rh-h2 rh-h2--huge">
               Tell us what’s eating your week.
             </h2>
-            <p className="rh-sub">Free intro call. We’ll tell you honestly if we can help.</p>
+            <p className="rh-sub">
+              Free intro call. We’ll tell you honestly if we can help.
+            </p>
             <div className="rh-cta-row rh-cta-row--center">
               {hasPhone ? <CallButton /> : null}
               <BookButton primary={!hasPhone} />
-              <a className="rh-btn rh-btn--white" href={`mailto:${CONTACT_EMAIL}`}>
+              <a
+                className="rh-btn rh-btn--white"
+                href={`mailto:${CONTACT_EMAIL}`}
+              >
                 <Mail size={18} strokeWidth={2.6} aria-hidden="true" />
                 Email us
               </a>
