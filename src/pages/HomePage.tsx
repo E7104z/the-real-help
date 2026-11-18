@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import { ArrowUpRight, CalendarDays, Mail, Phone } from 'lucide-react';
 import {
   ALSO_SHIPPED,
@@ -308,7 +307,7 @@ export default function HomePage() {
       <footer className="rh-footer">
         <p>© {new Date().getFullYear()} The Real Help, LLC · St. Louis, MO</p>
         <p>
-          <Link to="/privacy">Privacy</Link> · <Link to="/terms">Terms</Link>
+          <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
         </p>
       </footer>
 
