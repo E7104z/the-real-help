@@ -5,8 +5,11 @@
  *
  * For each marketing route it:
  *  1. Replaces <title>, <meta description>, <link canonical>, OG/Twitter tags
- *  2. Appends a FAQ JSON-LD <script> before </head> if the page has FAQ data
+ *  2. Injects shared JSON-LD (Organization, LocalBusiness, Service) plus
+ *     page-specific JSON-LD (FAQPage, BreadcrumbList) before </head>
  *  3. Writes dist/{route}/index.html
+ *
+ * It also regenerates dist/sitemap.xml from the same route map.
  *
  * Vercel serves static files before applying rewrites, so pre-rendered pages
  * get their specific head tags; app/admin/portal routes fall through to the SPA.
@@ -31,7 +34,11 @@ if (!existsSync(SSR_BUNDLE)) {
 }
 
 const SHELL = readFileSync(resolve(DIST, 'index.html'), 'utf-8');
-const { META, getRouteMeta } = await import(pathToFileURL(SSR_BUNDLE).href);
+const { META, SHARED_JSONLD, getRouteMeta } = await import(pathToFileURL(SSR_BUNDLE).href);
+
+const sharedJsonLdTags = SHARED_JSONLD.map(
+  (o) => `    <script type="application/ld+json">${JSON.stringify(o)}</script>`,
+).join('\n');
 
 // ── Helpers ──────────────────────────────────────────────────────────────
 
@@ -60,10 +67,35 @@ function replaceCanonical(html, value) {
   );
 }
 
-function injectFaq(html, faqJson) {
-  if (!faqJson) return html;
-  const tag = `\n    <script type="application/ld+json">${faqJson}</script>`;
+function injectJsonLd(html, tags) {
+  if (!tags) return html;
+  return html.replace('</head>', `${tags}\n  </head>`);
+}
+
+function injectKeywords(html, keywords) {
+  if (!keywords?.length) return html;
+  const value = keywords.join(', ').replace(/&/g, '&amp;').replace(/"/g, '&quot;');
+  const tag = `<meta name="keywords" content="${value}" />`;
   return html.replace('</head>', `${tag}\n  </head>`);
+}
+
+function buildSitemap() {
+  const now = new Date().toISOString().slice(0, 10);
+  const urls = Object.keys(META)
+    .map((url) => {
+      const loc = META[url].canonical;
+      const isHome = loc === 'https://therealhelp.com/' || loc === 'https://therealhelp.com';
+      return [
+        '  <url>',
+        `    <loc>${loc}</loc>`,
+        `    <lastmod>${now}</lastmod>`,
+        `    <changefreq>${isHome ? 'weekly' : 'monthly'}</changefreq>`,
+        `    <priority>${isHome ? '1.0' : '0.6'}</priority>`,
+        '  </url>',
+      ].join('\n');
+    })
+    .join('\n');
+  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
 }
 
 // ── Main ─────────────────────────────────────────────────────────────────
@@ -74,7 +106,7 @@ let ok = 0, skipped = 0;
 
 for (const url of Object.keys(META)) {
   try {
-    const { faqSchemaJson } = getRouteMeta(url);
+    const { jsonLdTags } = getRouteMeta(url);
     const m = META[url];
 
     let html = SHELL;
@@ -86,7 +118,8 @@ for (const url of Object.keys(META)) {
     html = replaceMetaContent(html, 'og:url', m.canonical);
     html = replaceMetaContent(html, 'twitter:title', m.title);
     html = replaceMetaContent(html, 'twitter:description', m.description);
-    html = injectFaq(html, faqSchemaJson);
+    html = injectKeywords(html, m.keywords);
+    html = injectJsonLd(html, [sharedJsonLdTags, jsonLdTags].filter(Boolean).join('\n'));
 
     const outPath =
       url === '/'
@@ -102,5 +135,8 @@ for (const url of Object.keys(META)) {
     skipped++;
   }
 }
+
+writeFileSync(resolve(DIST, 'sitemap.xml'), buildSitemap(), 'utf-8');
+console.log('  ✓  sitemap.xml');
 
 console.log(`\n✅  Done — ${ok} pre-rendered, ${skipped} skipped.\n`);

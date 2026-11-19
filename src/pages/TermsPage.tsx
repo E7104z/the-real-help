@@ -1,18 +1,10 @@
-import SeoHead from '../components/seo/SeoHead';
 import { CONTACT_EMAIL } from '@/lib/constants/site';
 
 const LAST_UPDATED = 'July 13, 2026';
 
 export default function TermsPage() {
   return (
-    <>
-      <SeoHead
-        title="Terms and Conditions | The Real Help, LLC"
-        description="Terms and Conditions for The Real Help, LLC, including website use, SMS/text messaging terms, message frequency, and message and data rates disclosure."
-        canonicalPath="/terms"
-      />
-
-      <div className="bg-white">
+    <div className="bg-white">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
           <h1 className="text-4xl font-bold tracking-tight text-brand-black">
             Terms and Conditions
@@ -152,6 +144,5 @@ export default function TermsPage() {
           </div>
         </div>
       </div>
-    </>
   );
 }
