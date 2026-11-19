@@ -1,4 +1,4 @@
-import { useRef, useState, type SyntheticEvent } from 'react';
+import { useMemo, useRef, useState, type SyntheticEvent } from 'react';
 import { CONTACT_EMAIL, CONTACT_PHONE } from './content';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
@@ -9,6 +9,28 @@ export default function LeadForm() {
   const [status, setStatus] = useState<Status>('idle');
   const [fieldError, setFieldError] = useState('');
   const openedAt = useRef(Date.now());
+
+  // Attribution captured once when the form mounts (partner ref, UTM params,
+  // landing page, referrer). Guarded so the component stays SSR-safe.
+  const attribution = useMemo(() => {
+    if (typeof window === 'undefined') {
+      return { ref: '', utm: {}, landingPage: '/', referrer: '' };
+    }
+    const url = new URL(window.location.href);
+    const g = (k: string) => url.searchParams.get(k)?.trim() ?? '';
+    return {
+      ref: g('ref'),
+      utm: {
+        utm_source: g('utm_source'),
+        utm_medium: g('utm_medium'),
+        utm_campaign: g('utm_campaign'),
+        utm_term: g('utm_term'),
+        utm_content: g('utm_content'),
+      },
+      landingPage: url.pathname || '/',
+      referrer: document.referrer ?? '',
+    };
+  }, []);
 
   async function submit(form: HTMLFormElement) {
     if (status === 'sending') return;
@@ -35,10 +57,15 @@ export default function LeadForm() {
           name,
           contact,
           business: val('business'),
+          chore: val('chore'),
           message: val('message'),
           website: val('website'), // honeypot
           elapsedMs: Date.now() - openedAt.current,
           source: 'homepage',
+          ref: attribution.ref,
+          utm: attribution.utm,
+          landingPage: attribution.landingPage,
+          referrer: attribution.referrer,
         }),
       });
       const data = (await res.json().catch(() => null)) as { ok?: boolean } | null;
@@ -86,6 +113,12 @@ export default function LeadForm() {
             Business name <em>(optional)</em>
           </span>
           <input name="business" type="text" autoComplete="organization" maxLength={120} />
+        </label>
+        <label className="rh-form__wide">
+          <span>
+            What&rsquo;s the one chore you&rsquo;d hand off? <em>(optional)</em>
+          </span>
+          <input name="chore" type="text" maxLength={300} />
         </label>
         <label className="rh-form__wide">
           <span>

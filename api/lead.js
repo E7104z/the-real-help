@@ -1,3 +1,5 @@
+import crypto from 'node:crypto';
+
 /**
  * POST /api/lead
  * Receives the homepage lead form and appends it to a Google Sheet through a
@@ -14,6 +16,32 @@ const MAX = { name: 100, contact: 120, business: 120, message: 1500 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const clean = (v, max) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '');
+
+/**
+ * Forward a copy of the lead to AgentLab so it can reply in minutes.
+ * HMAC-signed per the AgentLab repo's docs/WEBSITE_HOOK.md. A failed forward
+ * never blocks the visitor's success — the Sheet already has the lead, and
+ * AgentLab's daily digest makes any gap visible.
+ */
+async function forwardToAgentLab(lead) {
+  const url = process.env.AGENTLAB_LEAD_URL;
+  const secret = process.env.AGENTLAB_LEAD_SECRET;
+  if (!url || !secret) return;
+  const raw = JSON.stringify(lead);
+  const t = Math.floor(Date.now() / 1000);
+  const v1 = crypto.createHmac('sha256', secret).update(`${t}.${raw}`).digest('hex');
+  try {
+    const r = await fetch(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'X-Signature': `t=${t},v1=${v1}` },
+      body: raw,
+      signal: AbortSignal.timeout(8000),
+    });
+    if (!r.ok) console.error('agentlab forward failed', r.status);
+  } catch (err) {
+    console.error('agentlab forward error', err instanceof Error ? err.message : err);
+  }
+}
 
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
@@ -68,6 +96,20 @@ export default async function handler(req, res) {
       console.error('lead: sheet write failed', upstream.status, result?.error);
       return res.status(502).json({ ok: false, error: 'upstream_failed' });
     }
+
+    await forwardToAgentLab({
+      leadId: crypto.randomUUID(),
+      name,
+      contact,
+      business,
+      message,
+      chore: clean(body.chore, 300),
+      ref: clean(body.ref, 40),
+      utm: typeof body.utm === 'object' && body.utm ? body.utm : {},
+      landingPage: clean(body.landingPage, 300),
+      source: clean(body.source, 60) || 'homepage',
+    });
+
     return res.status(200).json({ ok: true });
   } catch (err) {
     console.error('lead: request error', err instanceof Error ? err.message : err);
