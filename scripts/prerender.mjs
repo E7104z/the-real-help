@@ -1,18 +1,19 @@
 /**
- * Pre-render script — injects page-specific <head> tags into per-route
- * HTML files at build time. Uses a pure data-driven approach (no React
- * rendering) so it works correctly with React 19 + react-helmet-async v3.
+ * Pre-render script — renders every marketing route to full static HTML
+ * (body + head) at build time and writes dist/{route}/index.html.
  *
  * For each marketing route it:
- *  1. Replaces <title>, <meta description>, <link canonical>, OG/Twitter tags
- *  2. Injects shared JSON-LD (Organization, LocalBusiness, Service) plus
+ *  1. Renders the page body with the SSR entry (renderToString) and injects it
+ *     into the #root element
+ *  2. Replaces <title>, <meta description>, <link canonical>, OG/Twitter tags
+ *  3. Injects shared JSON-LD (Organization, LocalBusiness, Service) plus
  *     page-specific JSON-LD (FAQPage, BreadcrumbList) before </head>
- *  3. Writes dist/{route}/index.html
+ *  4. Writes dist/{route}/index.html
  *
  * It also regenerates dist/sitemap.xml from the same route map.
  *
  * Vercel serves static files before applying rewrites, so pre-rendered pages
- * get their specific head tags; app/admin/portal routes fall through to the SPA.
+ * get their full content; /app, /admin and /portal fall through to the SPA.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
@@ -34,7 +35,7 @@ if (!existsSync(SSR_BUNDLE)) {
 }
 
 const SHELL = readFileSync(resolve(DIST, 'index.html'), 'utf-8');
-const { META, SHARED_JSONLD, getRouteMeta } = await import(pathToFileURL(SSR_BUNDLE).href);
+const { META, SHARED_JSONLD, getRouteMeta, renderBody } = await import(pathToFileURL(SSR_BUNDLE).href);
 
 const sharedJsonLdTags = SHARED_JSONLD.map(
   (o) => `    <script type="application/ld+json">${JSON.stringify(o)}</script>`,
@@ -79,6 +80,11 @@ function injectKeywords(html, keywords) {
   return html.replace('</head>', `${tag}\n  </head>`);
 }
 
+function injectBody(html, body) {
+  if (!body) return html;
+  return html.replace(/<div id="root">\s*<\/div>/, `<div id="root">${body}</div>`);
+}
+
 function buildSitemap() {
   const now = new Date().toISOString().slice(0, 10);
   const urls = Object.keys(META)
@@ -120,6 +126,7 @@ for (const url of Object.keys(META)) {
     html = replaceMetaContent(html, 'twitter:description', m.description);
     html = injectKeywords(html, m.keywords);
     html = injectJsonLd(html, [sharedJsonLdTags, jsonLdTags].filter(Boolean).join('\n'));
+    html = injectBody(html, renderBody(url));
 
     const outPath =
       url === '/'

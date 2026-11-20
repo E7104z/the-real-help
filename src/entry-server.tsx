@@ -1,11 +1,16 @@
 /**
- * Data-driven SSR entry point — NO React rendering.
+ * SSR entry point for pre-rendering marketing pages.
  *
- * react-helmet-async v3 disabled SSR context support for React 19.
- * Instead, we export a static meta map. The prerender script reads this map
- * and injects correct <head> tags into the built HTML at build time.
+ * Exports the route metadata and structured data used to build each page's
+ * <head>, plus renderBody() which renders a route's full visible content to
+ * HTML with renderToString (not renderToStaticMarkup) so the client can
+ * hydrate it in place with hydrateRoot instead of wiping and re-drawing it.
  */
-
+import { renderToString } from 'react-dom/server';
+import type { ReactElement } from 'react';
+import HomePage from '@/pages/HomePage';
+import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
+import TermsPage from '@/pages/TermsPage';
 import {
   breadcrumbSchema,
   faqSchema,
@@ -89,4 +94,22 @@ export function getRouteMeta(url: string): { jsonLdTags: string } {
     .join('\n');
 
   return { jsonLdTags };
+}
+
+// ── Body rendering ────────────────────────────────────────────────────────
+
+const MARKETING_BODIES: Record<string, () => ReactElement> = {
+  '/': () => <HomePage />,
+  '/privacy': () => <PrivacyPolicyPage />,
+  '/terms': () => <TermsPage />,
+};
+
+/**
+ * Renders a marketing route's full visible content to an HTML string for the
+ * pre-rendered body. Returns an empty string for routes with no body.
+ */
+export function renderBody(url: string): string {
+  const build = MARKETING_BODIES[url];
+  if (!build) return '';
+  return renderToString(build());
 }

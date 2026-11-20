@@ -25,7 +25,7 @@
       "destination": "/index.html"
     },
     {
-      "source": "/(.*)",
+      "source": "/property-transfer",
       "destination": "/index.html"
     }
   ]
