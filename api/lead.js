@@ -108,6 +108,7 @@ export default async function handler(req, res) {
       ref: clean(body.ref, 40),
       utm: typeof body.utm === 'object' && body.utm ? body.utm : {},
       landingPage: clean(body.landingPage, 300),
+      referrer: clean(body.referrer, 300),
       source: clean(body.source, 60) || 'homepage',
     });
 
