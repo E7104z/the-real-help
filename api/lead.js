@@ -19,8 +19,9 @@ const clean = (v, max) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim()
 
 /**
  * Forward a copy of the lead to AgentLab so it can reply in minutes.
- * HMAC-signed per the AgentLab repo's docs/WEBSITE_HOOK.md. A failed forward
- * never blocks the visitor's success — the Sheet already has the lead, and
+ * HMAC-signed per the AgentLab repo's docs/WEBSITE_HOOK.md. The forward is
+ * awaited with a short timeout, so a slow or down AgentLab can delay the
+ * visitor's success by at most ~3s; the Sheet already has the lead, and
  * AgentLab's daily digest makes any gap visible.
  */
 async function forwardToAgentLab(lead) {
@@ -35,7 +36,7 @@ async function forwardToAgentLab(lead) {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-Signature': `t=${t},v1=${v1}` },
       body: raw,
-      signal: AbortSignal.timeout(8000),
+      signal: AbortSignal.timeout(3000),
     });
     if (!r.ok) console.error('agentlab forward failed', r.status);
   } catch (err) {
