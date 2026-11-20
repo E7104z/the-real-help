@@ -34,27 +34,40 @@ Status of the marketing-site SEO / pre-rendering work on `feature/part-c`.
 - Homepage nav "Receipts" now links to `/work`.
 - Added `.rh-work-empty` styles to `src/pages/home/home.css`.
 - **Verified:** `npm run typecheck` and `npm run build` pass; prerender now
-  emits 4 pages (`/`, `/privacy`, `/terms`, `/work`) plus `sitemap.xml`. The
+  emits 8 pages (`/`, `/privacy`, `/terms`, `/work`, `/services`, `/pricing`,
+  `/about`, `/st-louis`) plus `sitemap.xml`. The
   `/work` HTML contains the canonical + breadcrumb/FAQ JSON-LD and the
   empty-state copy; the prerendered homepage no longer contains any of the
   removed client names (A-Z Discount Flooring, Tracy Smith, Scheduler Pro,
   KIDZ, "Also shipped").
 
+### C3a — /services, /pricing, /about, /st-louis pages
+- Added four public marketing pages — `/services`, `/pricing`, `/about`,
+  `/st-louis` — each with a full `<h1>` and pre-rendered copy, wired into
+  `src/app/router/index.tsx`, `src/main.tsx` (lazy loader), and
+  `src/entry-server.tsx` (`META` + `MARKETING_BODIES`) with title, meta
+  description, canonical, keywords and breadcrumb JSON-LD (`/pricing` also
+  gets FAQ JSON-LD).
+- New `src/pages/marketing/SiteChrome.tsx` centralizes header, footer,
+  mobile bar, call/book/email buttons, CTA row and price-card button so the
+  four pages stay consistent with `/` and `/work`.
+- Copy uses only approved facts (Quick Fix $500 + $30/mo, Custom Build fixed
+  quote, St. Louis MO, Jason Griffin, booking/phone/email). No invented
+  claims; case studies remain gated on `docs/approved-claims.md`.
+
 ### Verification
 - `npm run typecheck` — pass.
 - `npm run build` — pass (client build → SSR build → prerender).
 - Pre-rendered HTML confirmed to contain the full visible copy inside `#root`
-  for `/`, `/privacy`, `/terms` (title, meta description, JSON-LD, section
-  headings, CTA "Book a free call", phone `314-660-2890`, email
-  `info@thecdscloud.com` all present). `sitemap.xml` lists only `/`, `/privacy`,
-  `/terms`. `/app`, `/admin`, `/portal`, `/login`, `/unauthorized`,
-  `/property-transfer` are **not** pre-rendered (SPA). `dist/404.html` present.
+  for the 8 public routes (title, meta description, JSON-LD, section headings,
+  CTA "Book a free call", phone `314-660-2890`, email `info@thecdscloud.com`
+  all present). `sitemap.xml` lists only the 8 public routes. `/app`, `/admin`,
+  `/portal`, `/login`, `/unauthorized`, `/property-transfer` are **not**
+  pre-rendered (SPA). `dist/404.html` present.
 - `npm test` — no-op stub ("No test runner configured yet"), exit 0.
-- ⚠️ `npm run lint` — fails with 66 pre-existing errors in files **not** touched
-  by C1 (`AuthProvider`, router, admin/portal/records features,
-  `PropertyTransfer`, `LeadForm`, `src/pages/.gitkeep.ts`, etc.). The files
-  changed in C1 pass `npx eslint` cleanly. Recommend a separate lint-cleanup
-  commit (out of C1 scope).
+- ✅ `npm run lint` — 0 errors (4 pre-existing `react-refresh` warnings in
+  `AuthProvider` and `router` remain). The 66 errors were resolved in a
+  separate lint-cleanup commit across 18 files.
 
 ## Next phases
 
@@ -101,16 +114,17 @@ an OAuth refresh token. Env vars E-1 needs (per `.clinerules` Part A):
 - `ANTHROPIC_API_KEY`
 - `MODEL`, `MODEL_WRITER` (if not already present)
 
+## Resolved this phase
+- Lint: 66 pre-existing errors fixed in a separate cleanup commit (`npm run
+  lint` now 0 errors, 4 warnings).
+- Footer year: frozen to `COPYRIGHT_YEAR` in `src/lib/constants/site.ts`
+  (used by HomePage, WorkPage, PortalLayout, SiteChrome).
+- `.clinerules` and `docs/` committed.
+
 ## Decisions needed from Jason
-1. `npm run lint` is failing with 66 pre-existing errors (unrelated to C1).
-   Fix them in a separate cleanup commit?
-2. Kept `/login`, `/unauthorized`, `/property-transfer` as SPA fallbacks in
-   `vercel.json` (removing them would break auth refresh and the
-   property-transfer page). `/property-transfer` is also pending the C2
-   remove/move/noindex decision.
-3. Footer year is `new Date().getFullYear()` (HomePage and WorkPage). SSR bakes
-   the build year, hydrate reads the visit year — a mismatch only at a year
-   boundary. Consider freezing it to a constant (or leaving as-is).
-4. E-1: confirm the exact Gmail OAuth scope and Google Cloud project.
-5. `.clinerules` and `docs/` are still untracked in git (created in an earlier
-   phase). Commit them (process files) or add them to `.gitignore`?
+1. `/property-transfer` — still client-rendered and `noindex`ed. Confirm the
+   C2 remove/move/noindex decision.
+2. E-1: confirm the exact Gmail OAuth scope and Google Cloud project, and
+   provide `GMAIL_REFRESH_TOKEN_MAIN` / `ANTHROPIC_API_KEY`.
+3. Receipts/case studies — gated on `docs/approved-claims.md` (empty). Do not
+   open a PR to `master` until preview checks pass and this is settled.
