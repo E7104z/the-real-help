@@ -41,7 +41,7 @@ export default function ClientManager() {
   const [clients, setClients] = useState<Client[]>([]);
   const [loading, setLoading] = useState(true);
   const [showForm, setShowForm] = useState(false);
-  const [form, setForm] = useState<{ name: string; email: string; service: string }>({ name: '', email: '', service: SERVICE_OPTIONS[0] as string });
+  const [form, setForm] = useState({ name: '', email: '', service: SERVICE_OPTIONS[0] as string });
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState('');
 
@@ -111,7 +111,7 @@ export default function ClientManager() {
     }
   };
 
-  const handleCreate = async (e: React.FormEvent) => {
+  const handleCreate = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!form.name.trim() || !form.email.trim()) return;
 
@@ -160,7 +160,7 @@ export default function ClientManager() {
 
       {/* New client form */}
       {showForm && (
-        <form onSubmit={handleCreate} className="rounded-2xl border border-brand-silver-200 bg-white p-6 shadow-sm space-y-4">
+        <form onSubmit={(e) => { void handleCreate(e); }} className="rounded-2xl border border-brand-silver-200 bg-white p-6 shadow-sm space-y-4">
           <h2 className="font-semibold text-brand-black">New Client</h2>
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
@@ -234,7 +234,7 @@ export default function ClientManager() {
                 <li key={lead.id} className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-200 text-yellow-700 font-bold text-sm">
-                      {lead.name?.charAt(0)?.toUpperCase() ?? '?'}
+                      {lead.name.charAt(0).toUpperCase()}
                     </div>
                     <div className="min-w-0 flex-1 space-y-0.5">
                       <p className="font-semibold text-brand-black">{lead.name}</p>
@@ -253,7 +253,7 @@ export default function ClientManager() {
                         </span>
                       )}
                       <button
-                        onClick={() => handleSendInvite(lead)}
+                        onClick={() => { void handleSendInvite(lead); }}
                         disabled={sendingInvite[lead.id]}
                         className="flex items-center gap-1.5 rounded-xl bg-brand-blue-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-blue-600 disabled:opacity-50 transition-colors"
                       >
@@ -284,11 +284,11 @@ export default function ClientManager() {
           {clients.map((client) => (
             <li key={client.id}>
               <button
-                onClick={() => navigate(`${ROUTES.ADMIN_CLIENTS}/${client.id}`)}
+                onClick={() => { void navigate(`${ROUTES.ADMIN_CLIENTS}/${client.id}`); }}
                 className="w-full flex items-center gap-4 rounded-2xl border border-brand-silver-200 bg-white p-4 shadow-sm text-left hover:border-brand-blue-300 hover:shadow-md transition-all"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-blue-100 text-brand-blue-600 font-bold text-sm">
-                  {client.name?.charAt(0)?.toUpperCase() ?? '?'}
+                  {client.name.charAt(0).toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-brand-black">{client.name}</p>
@@ -301,7 +301,7 @@ export default function ClientManager() {
                     </span>
                   )}
                   <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_COLOR[client.status] ?? 'bg-gray-100 text-gray-500'}`}>
-                    {client.status ?? 'active'}
+                    {client.status}
                   </span>
                   <ChevronRight className="h-4 w-4 text-brand-silver-400" />
                 </div>

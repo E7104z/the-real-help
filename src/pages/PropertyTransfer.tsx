@@ -39,7 +39,7 @@ export default function PropertyTransfer() {
   const [clientName, setClientName] = useState('');
   const [clientEmail, setClientEmail] = useState('');
   const [clientPhone, setClientPhone] = useState('');
-  const [properties, setProperties] = useState<Property[]>([defaultProperty()]);
+  const [properties, setProperties] = useState([defaultProperty()]);
   const [loading, setLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
 
@@ -66,7 +66,7 @@ export default function PropertyTransfer() {
 
   // ── Submit ──────────────────────────────────────────────────────────────
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {

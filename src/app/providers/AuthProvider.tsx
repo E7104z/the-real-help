@@ -23,25 +23,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
-      setCurrentUser(user);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      void (async () => {
+        setCurrentUser(user);
 
-      if (user) {
-        const tokenResult = await user.getIdTokenResult();
-        const claims = tokenResult.claims as unknown as CustomClaims;
-        setRole((claims.role as UserRole) ?? null);
-        setTenantId(claims.tenantId ?? null);
+        if (user) {
+          const tokenResult = await user.getIdTokenResult();
+          const claims = tokenResult.claims as unknown as CustomClaims;
+          setRole(claims.role ?? null);
+          setTenantId(claims.tenantId ?? null);
 
-        // Firestore-based admin check
-        const adminSnap = await getDoc(doc(firestore, 'admins', user.uid));
-        setIsAdmin(adminSnap.exists() && adminSnap.data()?.isAdmin === true);
-      } else {
-        setRole(null);
-        setTenantId(null);
-        setIsAdmin(false);
-      }
+          // Firestore-based admin check
+          const adminSnap = await getDoc(doc(firestore, 'admins', user.uid));
+          setIsAdmin(adminSnap.exists() && adminSnap.data().isAdmin === true);
+        } else {
+          setRole(null);
+          setTenantId(null);
+          setIsAdmin(false);
+        }
 
-      setAuthLoading(false);
+        setAuthLoading(false);
+      })();
     });
 
     return unsubscribe;

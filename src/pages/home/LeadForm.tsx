@@ -28,7 +28,7 @@ export default function LeadForm() {
         utm_content: g('utm_content'),
       },
       landingPage: url.pathname || '/',
-      referrer: document.referrer ?? '',
+      referrer: document.referrer,
     };
   }, []);
 
