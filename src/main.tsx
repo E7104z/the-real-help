@@ -19,6 +19,10 @@ type MarketingLoader = () => Promise<{ default: ComponentType }>;
 const MARKETING_LOADERS: Record<string, MarketingLoader> = {
   '/': () => import('@/pages/HomePage'),
   '/work': () => import('@/pages/WorkPage'),
+  '/services': () => import('@/pages/ServicesPage'),
+  '/pricing': () => import('@/pages/PricingPage'),
+  '/about': () => import('@/pages/AboutPage'),
+  '/st-louis': () => import('@/pages/StLouisPage'),
   '/privacy': () => import('@/pages/PrivacyPolicyPage'),
   '/terms': () => import('@/pages/TermsPage'),
 };

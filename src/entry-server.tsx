@@ -12,6 +12,10 @@ import HomePage from '@/pages/HomePage';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsPage from '@/pages/TermsPage';
 import WorkPage from '@/pages/WorkPage';
+import ServicesPage from '@/pages/ServicesPage';
+import PricingPage from '@/pages/PricingPage';
+import AboutPage from '@/pages/AboutPage';
+import StLouisPage from '@/pages/StLouisPage';
 import {
   breadcrumbSchema,
   faqSchema,
@@ -88,6 +92,66 @@ export const META: Record<string, RouteMeta> = {
     ],
     faqs: FAQ,
   },
+  '/services': {
+    title: 'Services | The Real Help | Custom Software, AI & Automation',
+    description:
+      'Websites, apps, AI and automation for small businesses. The Real Help builds custom software in weeks, at a fixed price. St. Louis, MO.',
+    canonical: 'https://therealhelp.com/services',
+    keywords: [
+      'custom software',
+      'small business automation',
+      'AI tools',
+      'custom app development',
+      'workflow automation',
+    ],
+    breadcrumb: [
+      { name: 'Home', path: '/' },
+      { name: 'Services', path: '/services' },
+    ],
+  },
+  '/pricing': {
+    title: 'Pricing | The Real Help | Fixed Price, No Hourly Meter',
+    description:
+      'The Quick Fix: $500 one time + $30/month. Custom builds get a fixed quote after a free intro call. No hourly billing. St. Louis, MO.',
+    canonical: 'https://therealhelp.com/pricing',
+    keywords: [
+      'custom software pricing',
+      'small business automation cost',
+      'fixed price software',
+      'AI tools cost',
+    ],
+    breadcrumb: [
+      { name: 'Home', path: '/' },
+      { name: 'Pricing', path: '/pricing' },
+    ],
+    faqs: FAQ,
+  },
+  '/about': {
+    title: 'About | The Real Help | Custom Software & AI for Small Business',
+    description:
+      'The Real Help, LLC is a St. Louis, MO company founded by Jason Griffin that builds custom software, AI tools and workflow automation for small businesses.',
+    canonical: 'https://therealhelp.com/about',
+    breadcrumb: [
+      { name: 'Home', path: '/' },
+      { name: 'About', path: '/about' },
+    ],
+  },
+  '/st-louis': {
+    title: 'Custom Software & AI for St. Louis Small Business | The Real Help',
+    description:
+      'The Real Help, LLC builds custom software, AI tools and workflow automation for small businesses in St. Louis, MO. Fixed price, live in weeks.',
+    canonical: 'https://therealhelp.com/st-louis',
+    keywords: [
+      'St. Louis custom software',
+      'St. Louis small business automation',
+      'St. Louis AI tools',
+      'St. Louis web development',
+    ],
+    breadcrumb: [
+      { name: 'Home', path: '/' },
+      { name: 'St. Louis', path: '/st-louis' },
+    ],
+  },
 };
 
 export const SHARED_JSONLD: object[] = [
@@ -121,6 +185,10 @@ const MARKETING_BODIES: Record<string, () => ReactElement> = {
   '/privacy': () => <PrivacyPolicyPage />,
   '/terms': () => <TermsPage />,
   '/work': () => <WorkPage />,
+  '/services': () => <ServicesPage />,
+  '/pricing': () => <PricingPage />,
+  '/about': () => <AboutPage />,
+  '/st-louis': () => <StLouisPage />,
 };
 
 /**

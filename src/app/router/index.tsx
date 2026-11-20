@@ -3,6 +3,10 @@ import { AppLayout } from '../layouts/AppLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
 import HomePage from '../../pages/HomePage';
 import WorkPage from '../../pages/WorkPage';
+import ServicesPage from '../../pages/ServicesPage';
+import PricingPage from '../../pages/PricingPage';
+import AboutPage from '../../pages/AboutPage';
+import StLouisPage from '../../pages/StLouisPage';
 import SimpleLayout from '../layouts/SimpleLayout';
 import LoginPage from '../../features/auth/LoginPage';
 import DashboardPage from '../../features/dashboard/DashboardPage';
@@ -25,6 +29,10 @@ export const router = createBrowserRouter([
   // ── Public site ───────────────────────────────────────────
   { path: '/', element: <HomePage /> },
   { path: '/work', element: <WorkPage /> },
+  { path: '/services', element: <ServicesPage /> },
+  { path: '/pricing', element: <PricingPage /> },
+  { path: '/about', element: <AboutPage /> },
+  { path: '/st-louis', element: <StLouisPage /> },
   {
     element: <SimpleLayout />,
     children: [
