@@ -38,7 +38,7 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
 
 export default function PortalDashboard() {
   const { currentUser } = useAuth();
-  const clientId = currentUser!.uid;
+  const clientId = currentUser?.uid ?? '';
 
   const [tab, setTab] = useState<Tab>('overview');
   const [profile, setProfile] = useState<ClientProfile | null>(null);
@@ -47,6 +47,7 @@ export default function PortalDashboard() {
   const [unreadCount, setUnreadCount] = useState(0);
 
   useEffect(() => {
+    if (!clientId) return;
     const profileUnsub = onSnapshot(doc(firestore, 'clients', clientId), (snap) => {
       if (snap.exists()) setProfile(snap.data() as ClientProfile);
     });
@@ -70,7 +71,7 @@ export default function PortalDashboard() {
     return () => { profileUnsub(); projectsUnsub(); messagesUnsub(); };
   }, [clientId]);
 
-  const firstName = profile?.name?.split(' ')[0] ?? currentUser?.email?.split('@')[0] ?? 'there';
+  const firstName = profile?.name.split(' ')[0] ?? currentUser?.email?.split('@')[0] ?? 'there';
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: 'overview', label: 'Overview', icon: <ChevronRight className="h-4 w-4" /> },
@@ -147,8 +148,8 @@ export default function PortalDashboard() {
 
 function ProjectCard({ project }: { project: Project }) {
   const status = STATUS_LABELS[project.status] ?? { label: project.status, color: 'bg-gray-100 text-gray-600' };
-  const completed = project.milestones?.filter((m) => m.complete).length ?? 0;
-  const total = project.milestones?.length ?? 0;
+  const completed = project.milestones.filter((m) => m.complete).length;
+  const total = project.milestones.length;
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (
@@ -179,7 +180,7 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       {/* Milestone timeline */}
-      {project.milestones?.length > 0 && (
+      {project.milestones.length > 0 && (
         <div className="mt-6">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand-silver-400">
             Milestones
@@ -204,7 +205,7 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       {/* Next steps */}
-      {project.nextSteps?.length > 0 && (
+      {project.nextSteps.length > 0 && (
         <div className="mt-6 rounded-xl bg-brand-blue-50 border border-brand-blue-100 p-4">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand-blue-600">
             Action Required

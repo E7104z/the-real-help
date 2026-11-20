@@ -34,7 +34,7 @@ export default function RecordsListPage() {
   const filtered = search
     ? data.filter((r) =>
         r.displayName.toLowerCase().includes(search.toLowerCase()) ||
-        r.summary?.toLowerCase().includes(search.toLowerCase()),
+        r.summary.toLowerCase().includes(search.toLowerCase()),
       )
     : data;
 
@@ -67,7 +67,7 @@ export default function RecordsListPage() {
       header: 'Last Updated',
       render: (item: TenantRecord) => (
         <span className="text-brand-silver-500">
-          {item.lastUpdatedAt ? formatRelative(item.lastUpdatedAt) : '—'}
+          {formatRelative(item.lastUpdatedAt)}
         </span>
       ),
     },
@@ -112,7 +112,7 @@ export default function RecordsListPage() {
           <DataTable
             columns={columns}
             data={filtered}
-            onRowClick={(item) => { navigate(`/app/records/${item.id}`); }}
+            onRowClick={(item) => { void navigate(`/app/records/${item.id}`); }}
             emptyMessage="No records found."
           />
         )}

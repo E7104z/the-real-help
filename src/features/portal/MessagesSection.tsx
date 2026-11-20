@@ -29,15 +29,17 @@ export default function MessagesSection({ clientId }: MessagesSectionProps) {
   useEffect(() => {
     const unsub = onSnapshot(
       query(collection(firestore, 'clients', clientId, 'messages'), orderBy('timestamp', 'asc')),
-      async (snap) => {
-        setMessages(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Message)));
-        setLoading(false);
+      (snap) => {
+        void (async () => {
+          setMessages(snap.docs.map((d) => ({ id: d.id, ...d.data() } as Message)));
+          setLoading(false);
 
-        // Mark unread jason messages as read
-        const unread = snap.docs.filter((d) => !d.data().read && d.data().sender === 'jason');
-        for (const msg of unread) {
-          await updateDoc(doc(firestore, 'clients', clientId, 'messages', msg.id), { read: true });
-        }
+          // Mark unread jason messages as read
+          const unread = snap.docs.filter((d) => !d.data().read && d.data().sender === 'jason');
+          for (const msg of unread) {
+            await updateDoc(doc(firestore, 'clients', clientId, 'messages', msg.id), { read: true });
+          }
+        })();
       }
     );
     return unsub;
@@ -65,7 +67,7 @@ export default function MessagesSection({ clientId }: MessagesSectionProps) {
   };
 
   const handleKey = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); send(); }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void send(); }
   };
 
   if (loading) {
@@ -105,7 +107,7 @@ export default function MessagesSection({ clientId }: MessagesSectionProps) {
             className="flex-1 resize-none rounded-xl border border-brand-silver-200 px-3 py-2 text-sm text-brand-black placeholder:text-brand-silver-400 focus:border-brand-blue-400 focus:outline-none focus:ring-2 focus:ring-brand-blue-100"
           />
           <button
-            onClick={send}
+            onClick={() => void send()}
             disabled={!text.trim() || sending}
             className="shrink-0 rounded-xl bg-brand-blue-500 p-2.5 text-white hover:bg-brand-blue-600 disabled:opacity-40 transition-colors"
           >

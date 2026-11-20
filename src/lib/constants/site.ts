@@ -24,5 +24,13 @@ export const BOOKING_URL =
  */
 export const CONTACT_PHONE: string = import.meta.env.VITE_CONTACT_PHONE ?? '314-660-2890';
 
+/**
+ * Copyright year shown in the footer. Frozen to a constant so the
+ * server-rendered and client-hydrated HTML always match (a live
+ * `new Date().getFullYear()` would drift at the year boundary). Bump manually
+ * each January.
+ */
+export const COPYRIGHT_YEAR = 2026;
+
 /** True when a URL is a full http(s) link (open in a new tab). */
 export const isExternalUrl = (url: string): boolean => /^https?:\/\//i.test(url);

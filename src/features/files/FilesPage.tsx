@@ -56,7 +56,7 @@ export default function FilesPage() {
                   <div className="flex items-center gap-2 text-xs text-brand-silver-500">
                     <span>{formatFileSize(file.sizeBytes)}</span>
                     <span>&middot;</span>
-                    <span>{file.createdAt ? formatRelative(file.createdAt) : '—'}</span>
+                    <span>{formatRelative(file.createdAt)}</span>
                   </div>
                 </div>
                 <Badge variant="success">{file.status}</Badge>

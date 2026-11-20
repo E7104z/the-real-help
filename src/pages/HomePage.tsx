@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import { ArrowUpRight, CalendarDays, Mail, Phone } from "lucide-react";
 import {
-  ALSO_SHIPPED,
   BOOKING_URL,
   CHORES,
   CONTACT_EMAIL,
@@ -14,8 +13,9 @@ import {
   PRICE_MONTHLY,
   PRICE_START,
   STEPS,
-  WORK,
 } from "./home/content";
+import { CASE_STUDIES } from "@/content/case-studies";
+import { COPYRIGHT_YEAR } from "@/lib/constants/site";
 import "@fontsource/bricolage-grotesque/500.css";
 import "@fontsource/bricolage-grotesque/700.css";
 import "@fontsource/bricolage-grotesque/800.css";
@@ -80,7 +80,7 @@ export default function HomePage() {
         </a>
         <nav className="rh-nav" aria-label="Primary">
           <a href="#fixes">What we fix</a>
-          <a href="#work">Receipts</a>
+          <a href="/work">Receipts</a>
           <a href="#price">Price</a>
           <a href="#faq">FAQ</a>
         </nav>
@@ -288,61 +288,70 @@ export default function HomePage() {
               A few things we’ve already built and shipped.
             </p>
           </div>
-          <div className="rh-work">
-            {WORK.map((w, i) => (
-              <article
-                key={w.title}
-                className="rh-card"
-                style={{ ["--tilt" as string]: i % 2 ? "1deg" : "-1deg" }}
-              >
-                <div className="rh-browser">
-                  <div className="rh-browser__bar" aria-hidden="true">
-                    <i />
-                    <i />
-                    <i />
+          {CASE_STUDIES.length ? (
+            <div className="rh-work">
+              {CASE_STUDIES.map((w, i) => (
+                <article
+                  key={w.title}
+                  className="rh-card"
+                  style={{ ["--tilt" as string]: i % 2 ? "1deg" : "-1deg" }}
+                >
+                  <div className="rh-browser">
+                    <div className="rh-browser__bar" aria-hidden="true">
+                      <i />
+                      <i />
+                      <i />
+                    </div>
+                    <img
+                      src={w.image}
+                      alt={w.alt}
+                      loading="lazy"
+                      width={1400}
+                      height={800}
+                    />
                   </div>
-                  <img
-                    src={w.image}
-                    alt={w.alt}
-                    loading="lazy"
-                    width={1400}
-                    height={800}
-                  />
-                </div>
-                <div className="rh-card__body">
-                  <p className="rh-chip">{w.kind}</p>
-                  <h3 className="rh-h3">{w.title}</h3>
-                  <p className="rh-card__line">
-                    <b>The chore:</b> {w.problem}
-                  </p>
-                  <p className="rh-card__line">
-                    <b>The fix:</b> {w.fix}
-                  </p>
-                  {w.href ? (
-                    <a
-                      className="rh-link"
-                      href={w.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                    >
-                      {w.hrefLabel ?? "See it live"}{" "}
-                      <ArrowUpRight
-                        size={16}
-                        strokeWidth={2.8}
-                        aria-hidden="true"
-                      />
-                    </a>
-                  ) : null}
-                </div>
-              </article>
-            ))}
-          </div>
-          <p className="rh-also">
-            <span>Also shipped:</span>
-            {ALSO_SHIPPED.map((a) => (
-              <em key={a}>{a}</em>
-            ))}
-          </p>
+                  <div className="rh-card__body">
+                    <p className="rh-chip">{w.kind}</p>
+                    <h3 className="rh-h3">{w.title}</h3>
+                    <p className="rh-card__line">
+                      <b>The chore:</b> {w.problem}
+                    </p>
+                    <p className="rh-card__line">
+                      <b>The fix:</b> {w.fix}
+                    </p>
+                    {w.href ? (
+                      <a
+                        className="rh-link"
+                        href={w.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        {w.hrefLabel ?? "See it live"}{" "}
+                        <ArrowUpRight
+                          size={16}
+                          strokeWidth={2.8}
+                          aria-hidden="true"
+                        />
+                      </a>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="rh-work-empty">
+              <p className="rh-work-empty__mark" aria-hidden="true">
+                ✦
+              </p>
+              <p>
+                <b>We only publish work we have permission to share.</b>
+              </p>
+              <p>Case studies are on the way — here&rsquo;s how we work meanwhile.</p>
+              <a className="rh-btn rh-btn--tomato" href="/work">
+                See our work
+              </a>
+            </div>
+          )}
         </section>
 
         {/* ───────── How it works ───────── */}
@@ -467,7 +476,7 @@ export default function HomePage() {
 
       {/* ───────── Footer ───────── */}
       <footer className="rh-footer">
-        <p>© {new Date().getFullYear()} The Real Help, LLC · St. Louis, MO</p>
+        <p>© {COPYRIGHT_YEAR} The Real Help, LLC · St. Louis, MO</p>
         <p>
           <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
         </p>
