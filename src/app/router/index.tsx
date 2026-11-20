@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { AppLayout } from '../layouts/AppLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
 import HomePage from '../../pages/HomePage';
+import WorkPage from '../../pages/WorkPage';
 import SimpleLayout from '../layouts/SimpleLayout';
 import LoginPage from '../../features/auth/LoginPage';
 import DashboardPage from '../../features/dashboard/DashboardPage';
@@ -23,6 +24,7 @@ import PortalDashboard from '../../features/portal/PortalDashboard';
 export const router = createBrowserRouter([
   // ── Public site ───────────────────────────────────────────
   { path: '/', element: <HomePage /> },
+  { path: '/work', element: <WorkPage /> },
   {
     element: <SimpleLayout />,
     children: [

@@ -17,6 +17,29 @@ Status of the marketing-site SEO / pre-rendering work on `feature/part-c`.
   `/unauthorized`, `/property-transfer` shells — fall back to `index.html`.
 - `public/404.html`: new static, `noindex`ed "Page not found" page.
 
+### C3 — /work page + gated case studies
+- Added `/work` as a full public route: `src/pages/WorkPage.tsx` (new), wired
+  into `src/app/router/index.tsx`, `src/main.tsx` (lazy loader), and
+  `src/entry-server.tsx` (`META` + `MARKETING_BODIES`), so it is pre-rendered
+  with its own title, meta description, canonical, keywords, breadcrumb
+  JSON-LD and FAQ JSON-LD.
+- New `src/content/case-studies.ts` is the single source of truth for case
+  studies (`CASE_STUDIES`), intentionally empty until claims are approved in
+  `docs/approved-claims.md`.
+- Removed the hardcoded client claims from the homepage "Receipts" section:
+  `Work` type, `WORK` and `ALSO_SHIPPED` are gone from
+  `src/pages/home/content.ts`. The homepage and `/work` now render an honest
+  empty state ("We only publish work we have permission to share") when
+  `CASE_STUDIES` is empty — no unapproved client names anywhere.
+- Homepage nav "Receipts" now links to `/work`.
+- Added `.rh-work-empty` styles to `src/pages/home/home.css`.
+- **Verified:** `npm run typecheck` and `npm run build` pass; prerender now
+  emits 4 pages (`/`, `/privacy`, `/terms`, `/work`) plus `sitemap.xml`. The
+  `/work` HTML contains the canonical + breadcrumb/FAQ JSON-LD and the
+  empty-state copy; the prerendered homepage no longer contains any of the
+  removed client names (A-Z Discount Flooring, Tracy Smith, Scheduler Pro,
+  KIDZ, "Also shipped").
+
 ### Verification
 - `npm run typecheck` — pass.
 - `npm run build` — pass (client build → SSR build → prerender).
@@ -35,15 +58,15 @@ Status of the marketing-site SEO / pre-rendering work on `feature/part-c`.
 
 ## Next phases
 
-Order: C3 → open C2 items → C5 (Lighthouse reports in `docs/seo-reports/`).
+Order: open C2 items → C5 (Lighthouse reports in `docs/seo-reports/`).
 
-- **C3** — `/work` + case studies. BLOCKED on `docs/approved-claims.md`
-  (currently an empty template). No case-study content until Jason approves
-  claims in writing. Build `/work` last or as a stub.
 - **C2 open items** — decide remove/move/noindex for `/property-transfer`
   (currently client-rendered and `noindex`ed via robots.txt); image dimensions;
   Lighthouse.
 - **C5** — Lighthouse screenshots into `docs/seo-reports/`.
+- **Case studies** — gated on `docs/approved-claims.md`. Once Jason approves
+  claims in writing, add them to `src/content/case-studies.ts`; the homepage
+  "Receipts" section and `/work` render them automatically.
 
 ## E-1 Gmail OAuth & env setup (prep — not started)
 
@@ -85,10 +108,9 @@ an OAuth refresh token. Env vars E-1 needs (per `.clinerules` Part A):
    `vercel.json` (removing them would break auth refresh and the
    property-transfer page). `/property-transfer` is also pending the C2
    remove/move/noindex decision.
-3. The homepage "Receipts" section (`WORK` in `src/pages/home/content.ts`)
-   references clients (A-Z Discount Flooring, etc.) not yet in
-   `docs/approved-claims.md`. This is a C3/claims issue — confirm or remove.
-4. Footer year is `new Date().getFullYear()` (HomePage). SSR bakes the build
-   year, hydrate reads the visit year — a mismatch only at a year boundary.
-   Consider freezing it to a constant (or leaving as-is).
-5. E-1: confirm the exact Gmail OAuth scope and Google Cloud project.
+3. Footer year is `new Date().getFullYear()` (HomePage and WorkPage). SSR bakes
+   the build year, hydrate reads the visit year — a mismatch only at a year
+   boundary. Consider freezing it to a constant (or leaving as-is).
+4. E-1: confirm the exact Gmail OAuth scope and Google Cloud project.
+5. `.clinerules` and `docs/` are still untracked in git (created in an earlier
+   phase). Commit them (process files) or add them to `.gitignore`?

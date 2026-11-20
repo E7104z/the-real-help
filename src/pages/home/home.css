@@ -736,6 +736,28 @@ html:has(.rh) {
   font-size: 0.95rem;
 }
 
+.rh-work-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: clamp(2rem, 5vw, 3.5rem);
+  background: var(--white);
+  color: var(--ink);
+  border: 3px solid var(--white);
+  border-radius: 16px;
+  box-shadow: 8px 8px 0 var(--tomato);
+}
+.rh-work-empty__mark {
+  font-size: 2.4rem;
+  line-height: 1;
+}
+.rh-work-empty p {
+  max-width: 30rem;
+  font-size: 1.1rem;
+}
+
 /* ---------- Steps ---------- */
 
 .rh-steps {

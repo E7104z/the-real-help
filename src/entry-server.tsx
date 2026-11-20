@@ -11,6 +11,7 @@ import type { ReactElement } from 'react';
 import HomePage from '@/pages/HomePage';
 import PrivacyPolicyPage from '@/pages/PrivacyPolicyPage';
 import TermsPage from '@/pages/TermsPage';
+import WorkPage from '@/pages/WorkPage';
 import {
   breadcrumbSchema,
   faqSchema,
@@ -70,6 +71,23 @@ export const META: Record<string, RouteMeta> = {
       { name: 'Terms of Service', path: '/terms' },
     ],
   },
+  '/work': {
+    title: 'Our Work | The Real Help | Custom Software, AI & Automation',
+    description:
+      'How The Real Help works and what we build for small businesses: websites, custom apps, AI and automation. Built in weeks, fixed price, starting at $500.',
+    canonical: 'https://therealhelp.com/work',
+    keywords: [
+      'custom software portfolio',
+      'small business automation examples',
+      'AI tools for small business',
+      'St. Louis software company work',
+    ],
+    breadcrumb: [
+      { name: 'Home', path: '/' },
+      { name: 'Work', path: '/work' },
+    ],
+    faqs: FAQ,
+  },
 };
 
 export const SHARED_JSONLD: object[] = [
@@ -102,6 +120,7 @@ const MARKETING_BODIES: Record<string, () => ReactElement> = {
   '/': () => <HomePage />,
   '/privacy': () => <PrivacyPolicyPage />,
   '/terms': () => <TermsPage />,
+  '/work': () => <WorkPage />,
 };
 
 /**
