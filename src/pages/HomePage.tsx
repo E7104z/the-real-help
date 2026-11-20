@@ -15,6 +15,7 @@ import {
   STEPS,
 } from "./home/content";
 import { CASE_STUDIES } from "@/content/case-studies";
+import { COPYRIGHT_YEAR } from "@/lib/constants/site";
 import "@fontsource/bricolage-grotesque/500.css";
 import "@fontsource/bricolage-grotesque/700.css";
 import "@fontsource/bricolage-grotesque/800.css";
@@ -475,7 +476,7 @@ export default function HomePage() {
 
       {/* ───────── Footer ───────── */}
       <footer className="rh-footer">
-        <p>© {new Date().getFullYear()} The Real Help, LLC · St. Louis, MO</p>
+        <p>© {COPYRIGHT_YEAR} The Real Help, LLC · St. Louis, MO</p>
         <p>
           <a href="/privacy">Privacy</a> · <a href="/terms">Terms</a>
         </p>

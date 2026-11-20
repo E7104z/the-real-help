@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { CalendarDays, Mail, Phone } from "lucide-react";
 import { CASE_STUDIES } from "@/content/case-studies";
+import { COPYRIGHT_YEAR } from "@/lib/constants/site";
 import {
   BOOKING_URL,
   CONTACT_EMAIL,
@@ -318,7 +319,7 @@ export default function WorkPage() {
       </main>
 
       <footer className="rh-footer">
-        <p>© {new Date().getFullYear()} The Real Help, LLC · St. Louis, MO</p>
+        <p>© {COPYRIGHT_YEAR} The Real Help, LLC · St. Louis, MO</p>
         <p>
           <a href="/">Home</a> · <a href="/privacy">Privacy</a> ·{" "}
           <a href="/terms">Terms</a>
