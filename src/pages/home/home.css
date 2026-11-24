@@ -975,6 +975,7 @@ html:has(.rh) {
 /* ---------- Lead form ---------- */
 
 .rh-form {
+  scroll-margin-top: 6rem;
   max-width: 40rem;
   margin: 2.8rem auto 0;
   text-align: left;

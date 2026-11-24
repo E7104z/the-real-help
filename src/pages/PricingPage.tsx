@@ -7,6 +7,7 @@ import {
   PriceCardCta,
 } from "./marketing/SiteChrome";
 import { FAQ, PRICE_MONTHLY, PRICE_START } from "./home/content";
+import LeadForm from "./home/LeadForm";
 import "@fontsource/bricolage-grotesque/500.css";
 import "@fontsource/bricolage-grotesque/700.css";
 import "@fontsource/bricolage-grotesque/800.css";
@@ -112,6 +113,7 @@ export default function PricingPage() {
               Free intro call. We&rsquo;ll tell you honestly if we can help.
             </p>
             <CtaRow center withEmail />
+            <LeadForm source="pricing" />
           </div>
         </section>
       </main>

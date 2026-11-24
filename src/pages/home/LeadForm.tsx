@@ -5,7 +5,7 @@ type Status = 'idle' | 'sending' | 'sent' | 'error';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export default function LeadForm() {
+export default function LeadForm({ source = 'homepage' }: { source?: string }) {
   const [status, setStatus] = useState<Status>('idle');
   const [fieldError, setFieldError] = useState('');
   const openedAt = useRef(Date.now());
@@ -61,7 +61,7 @@ export default function LeadForm() {
           message: val('message'),
           website: val('website'), // honeypot
           elapsedMs: Date.now() - openedAt.current,
-          source: 'homepage',
+          source,
           ref: attribution.ref,
           utm: attribution.utm,
           landingPage: attribution.landingPage,
@@ -95,7 +95,7 @@ export default function LeadForm() {
   }
 
   return (
-    <form className="rh-form" onSubmit={onSubmit} noValidate aria-labelledby="lead-h">
+    <form id="contact" className="rh-form" onSubmit={onSubmit} noValidate aria-labelledby="lead-h">
       <h3 id="lead-h" className="rh-h3">
         Not a phone person? Leave your details.
       </h3>
