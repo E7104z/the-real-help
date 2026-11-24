@@ -67,12 +67,12 @@
     },
     {
       "source": "/portal",
-      "destination": "/contact",
+      "destination": "/",
       "permanent": true
     },
     {
       "source": "/portal/:path*",
-      "destination": "/contact",
+      "destination": "/",
       "permanent": true
     }
   ],
