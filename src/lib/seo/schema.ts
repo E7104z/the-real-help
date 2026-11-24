@@ -107,7 +107,7 @@ export function serviceOfferSchema(): JsonLd {
           '@type': 'Offer',
           name: 'The Quick Fix',
           description:
-            'One real chore solved with a working tool. Fixed price, live in weeks.',
+            'One real chore solved with a working tool. Fixed price, live in days.',
           priceCurrency: 'USD',
           price: '500',
           url: `${BUSINESS.url}/#price`,

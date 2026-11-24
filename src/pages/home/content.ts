@@ -112,7 +112,7 @@ export const STEPS = [
   {
     n: '3',
     title: 'Watch it go live',
-    body: 'We build it around the way you already work and ship it in weeks, not months.',
+    body: 'We build it around the way you already work and ship it in days, not months.',
   },
 ];
 

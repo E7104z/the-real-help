@@ -103,7 +103,7 @@ export default function HomePage() {
               We build the tool that does it for you. Websites, custom apps, AI
               and automation for small businesses.{" "}
               <strong>One shop, one price, one phone number.</strong> Built in
-              weeks, <strong>starting at {PRICE_START}</strong>.
+              days, <strong>starting at {PRICE_START}</strong>.
             </p>
             <div className="rh-cta-row">
               {hasPhone ? <CallButton /> : null}
@@ -405,7 +405,7 @@ export default function HomePage() {
                 <li>One real chore, solved with a working tool</li>
                 <li>Built around the way you already work</li>
                 <li>Fixed price, agreed before we start</li>
-                <li>Live in weeks, not months</li>
+                <li>Live in days, not months</li>
               </ul>
               <BookButton primary className="rh-btn--block" />
             </article>

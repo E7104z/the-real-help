@@ -66,7 +66,7 @@ export default function PricingPage() {
                 <li>One real chore, solved with a working tool</li>
                 <li>Built around the way you already work</li>
                 <li>Fixed price, agreed before we start</li>
-                <li>Live in weeks, not months</li>
+                <li>Live in days, not months</li>
               </ul>
               <PriceCardCta primary />
             </article>

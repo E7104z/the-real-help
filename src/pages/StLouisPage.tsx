@@ -39,7 +39,7 @@ export default function StLouisPage() {
           <p className="rh-lede">
             {BUSINESS.legalName} is based in {BUSINESS.areaServed[0]}. We build
             websites, apps, AI and automation for the small businesses around
-            us — fixed price, live in weeks.
+            us — fixed price, live in days.
           </p>
           <CtaRow />
           <p className="rh-fine">Local · Fixed prices · No jargon</p>

@@ -41,7 +41,7 @@ export default function ServicesPage() {
             finally does itself.
           </p>
           <CtaRow />
-          <p className="rh-fine">St. Louis, MO · Fixed prices · Live in weeks</p>
+          <p className="rh-fine">St. Louis, MO · Fixed prices · Live in days</p>
         </section>
 
         <section className="rh-section" id="services" aria-labelledby="services-h">

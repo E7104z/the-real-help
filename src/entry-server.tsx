@@ -44,7 +44,7 @@ export const META: Record<string, RouteMeta> = {
   '/': {
     title: 'The Real Help | Custom Software, AI & Automation for Small Business',
     description:
-      'Tired of doing it by hand? The Real Help builds custom software, AI and automation for small businesses. Built in weeks, fixed price, starting at $500. St. Louis, MO.',
+      'Tired of doing it by hand? The Real Help builds custom software, AI and automation for small businesses. Built in days, fixed price, starting at $500. St. Louis, MO.',
     canonical: 'https://therealhelp.com/',
     keywords: [
       'custom software',
@@ -78,7 +78,7 @@ export const META: Record<string, RouteMeta> = {
   '/work': {
     title: 'Our Work | The Real Help | Custom Software, AI & Automation',
     description:
-      'How The Real Help works and what we build for small businesses: websites, custom apps, AI and automation. Built in weeks, fixed price, starting at $500.',
+      'How The Real Help works and what we build for small businesses: websites, custom apps, AI and automation. Built in days, fixed price, starting at $500.',
     canonical: 'https://therealhelp.com/work',
     keywords: [
       'custom software portfolio',
@@ -95,7 +95,7 @@ export const META: Record<string, RouteMeta> = {
   '/services': {
     title: 'Services | The Real Help | Custom Software, AI & Automation',
     description:
-      'Websites, apps, AI and automation for small businesses. The Real Help builds custom software in weeks, at a fixed price. St. Louis, MO.',
+      'Websites, apps, AI and automation for small businesses. The Real Help builds custom software in days, at a fixed price. St. Louis, MO.',
     canonical: 'https://therealhelp.com/services',
     keywords: [
       'custom software',
@@ -139,7 +139,7 @@ export const META: Record<string, RouteMeta> = {
   '/st-louis': {
     title: 'Custom Software & AI for St. Louis Small Business | The Real Help',
     description:
-      'The Real Help, LLC builds custom software, AI tools and workflow automation for small businesses in St. Louis, MO. Fixed price, live in weeks.',
+      'The Real Help, LLC builds custom software, AI tools and workflow automation for small businesses in St. Louis, MO. Fixed price, live in days.',
     canonical: 'https://therealhelp.com/st-louis',
     keywords: [
       'St. Louis custom software',

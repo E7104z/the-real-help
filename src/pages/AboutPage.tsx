@@ -56,7 +56,7 @@ export default function AboutPage() {
           <p className="rh-sub">
             Most small businesses run on a handful of chores that eat hours
             every week. The Real Help turns those chores into tools — built in
-            weeks, at a fixed price, with no tech jargon.
+            days, at a fixed price, with no tech jargon.
           </p>
         </section>
 

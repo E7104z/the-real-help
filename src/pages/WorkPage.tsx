@@ -93,7 +93,7 @@ export default function WorkPage() {
           </h1>
           <p className="rh-lede">
             Websites, apps, AI and automation for small businesses — built in
-            weeks, fixed price, <strong>starting at {PRICE_START}</strong>.
+            days, fixed price, <strong>starting at {PRICE_START}</strong>.
             Here&rsquo;s what we build and how the whole thing works.
           </p>
           <div className="rh-cta-row">
@@ -254,7 +254,7 @@ export default function WorkPage() {
                 <li>One real chore, solved with a working tool</li>
                 <li>Built around the way you already work</li>
                 <li>Fixed price, agreed before we start</li>
-                <li>Live in weeks, not months</li>
+                <li>Live in days, not months</li>
               </ul>
               <BookButton primary className="rh-btn--block" />
             </article>
