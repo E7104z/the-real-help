@@ -1,18 +1,10 @@
-import SeoHead from '../components/seo/SeoHead';
 import { CONTACT_EMAIL } from '@/lib/constants/site';
 
 const LAST_UPDATED = 'July 13, 2026';
 
 export default function PrivacyPolicyPage() {
   return (
-    <>
-      <SeoHead
-        title="Privacy Policy | The Real Help, LLC"
-        description="Privacy Policy for The Real Help, LLC, including our SMS/text messaging terms, mobile number non-sharing commitment, message frequency, and message and data rates disclosure."
-        canonicalPath="/privacy"
-      />
-
-      <div className="bg-white">
+    <div className="bg-white">
         <div className="mx-auto max-w-3xl px-4 sm:px-6 lg:px-8 py-16">
           <h1 className="text-4xl font-bold tracking-tight text-brand-black">
             Privacy Policy
@@ -183,6 +175,5 @@ export default function PrivacyPolicyPage() {
           </div>
         </div>
       </div>
-    </>
   );
 }

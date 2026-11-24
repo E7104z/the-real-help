@@ -6,5 +6,6 @@ Disallow: /admin/
 Disallow: /portal/
 Disallow: /login
 Disallow: /unauthorized
+Disallow: /property-transfer
 
 Sitemap: https://therealhelp.com/sitemap.xml

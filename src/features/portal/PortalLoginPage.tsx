@@ -1,4 +1,4 @@
-import { useState, useEffect, type FormEvent } from 'react';
+import { useState, useEffect, type SyntheticEvent } from 'react';
 import { sendPasswordResetEmail } from 'firebase/auth';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '@/app/providers/AuthProvider';
@@ -27,7 +27,7 @@ export default function PortalLoginPage() {
       if (isAdmin || role === ROLES.STAFF) {
         void navigate(ROUTES.ADMIN, { replace: true });
       } else if (role === ROLES.CLIENT) {
-        const from = (location.state as { from?: { pathname: string } })?.from?.pathname;
+        const from = (location.state as { from?: { pathname: string } } | null)?.from?.pathname;
         void navigate(from ?? ROUTES.PORTAL_DASHBOARD, { replace: true });
       } else {
         // Signed in but has no client role — sign out and show a clear error
@@ -37,7 +37,7 @@ export default function PortalLoginPage() {
     }
   }, [authLoading, currentUser, role, isAdmin, navigate, location, signOut]);
 
-  const handleSubmit = async (e: FormEvent) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');

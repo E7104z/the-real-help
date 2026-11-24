@@ -10,7 +10,6 @@ import {
   startAfter,
   onSnapshot,
   type QueryConstraint,
-  type DocumentData,
   type DocumentSnapshot,
   type QuerySnapshot,
 } from 'firebase/firestore';
@@ -48,7 +47,7 @@ export function useCollection<T extends { id: string }>({
 
   const colRef = collection(firestore, 'tenants', tenantId, collectionName);
 
-  const mapDocs = useCallback((snap: QuerySnapshot<DocumentData>): T[] => {
+  const mapDocs = useCallback((snap: QuerySnapshot): T[] => {
     return snap.docs.map((d) => ({ id: d.id, ...d.data() }) as T);
   }, []);
 

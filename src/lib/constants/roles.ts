@@ -15,5 +15,5 @@ export const ROLE_HIERARCHY: Record<UserRole, number> = {
 };
 
 export function hasMinimumRole(userRole: UserRole, requiredRole: UserRole): boolean {
-  return (ROLE_HIERARCHY[userRole] ?? 0) >= (ROLE_HIERARCHY[requiredRole] ?? 0);
+  return ROLE_HIERARCHY[userRole] >= ROLE_HIERARCHY[requiredRole];
 }

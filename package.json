@@ -10,6 +10,7 @@
     "lint": "eslint .",
     "typecheck": "tsc -b --noEmit",
     "test": "echo \"No test runner configured yet\" && exit 0",
+    "indexnow": "node scripts/indexnow.mjs",
     "emulators": "firebase emulators:start --import=./emulator-data --export-on-exit=./emulator-data",
     "deploy": "firebase deploy",
     "deploy:hosting": "firebase deploy --only hosting",
@@ -27,7 +28,6 @@
     "lucide-react": "^0.460.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-helmet-async": "^3.0.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^7.0.0",
     "tailwind-merge": "^2.6.0"

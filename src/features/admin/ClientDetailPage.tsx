@@ -45,9 +45,10 @@ export default function ClientDetailPage() {
   const [addingMilestone, setAddingMilestone] = useState<Record<string, string>>({});
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const cid = clientId!;
+  const cid = clientId ?? '';
 
   useEffect(() => {
+    if (!cid) return;
     const p1 = onSnapshot(doc(firestore, 'clients', cid), (s) => s.exists() && setProfile(s.data() as ClientProfile));
     const p2 = onSnapshot(query(collection(firestore, 'clients', cid, 'projects')), (s) =>
       setProjects(s.docs.map((d) => ({ id: d.id, ...d.data() } as Project)))
@@ -55,12 +56,14 @@ export default function ClientDetailPage() {
     const p3 = onSnapshot(query(collection(firestore, 'clients', cid, 'documents'), orderBy('uploadedAt', 'desc')), (s) =>
       setDocuments(s.docs.map((d) => ({ id: d.id, ...d.data() } as ClientDoc)))
     );
-    const p4 = onSnapshot(query(collection(firestore, 'clients', cid, 'messages'), orderBy('timestamp', 'asc')), async (s) => {
-      setMessages(s.docs.map((d) => ({ id: d.id, ...d.data() } as Message)));
-      // Mark client messages as read
-      for (const d of s.docs.filter((d) => !d.data().read && d.data().sender === 'client')) {
-        await updateDoc(doc(firestore, 'clients', cid, 'messages', d.id), { read: true });
-      }
+    const p4 = onSnapshot(query(collection(firestore, 'clients', cid, 'messages'), orderBy('timestamp', 'asc')), (s) => {
+      void (async () => {
+        setMessages(s.docs.map((d) => ({ id: d.id, ...d.data() } as Message)));
+        // Mark client messages as read
+        for (const d of s.docs.filter((d) => !d.data().read && d.data().sender === 'client')) {
+          await updateDoc(doc(firestore, 'clients', cid, 'messages', d.id), { read: true });
+        }
+      })();
     });
     return () => { p1(); p2(); p3(); p4(); };
   }, [cid]);
@@ -78,7 +81,7 @@ export default function ClientDetailPage() {
   const addMilestone = async (project: Project) => {
     const label = addingMilestone[project.id]?.trim();
     if (!label) return;
-    const updated = [...(project.milestones ?? []), { label, complete: false }];
+    const updated = [...project.milestones, { label, complete: false }];
     await updateDoc(doc(firestore, 'clients', cid, 'projects', project.id), { milestones: updated });
     setAddingMilestone((p) => ({ ...p, [project.id]: '' }));
   };
@@ -103,7 +106,7 @@ export default function ClientDetailPage() {
   };
 
   // --- Documents ---
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     setUploading(true);
@@ -114,14 +117,16 @@ export default function ClientDetailPage() {
       'state_changed',
       (snap) => setUploadProgress(Math.round((snap.bytesTransferred / snap.totalBytes) * 100)),
       () => setUploading(false),
-      async () => {
-        const url = await getDownloadURL(task.snapshot.ref);
-        await addDoc(collection(firestore, 'clients', cid, 'documents'), {
-          name: file.name, url, uploadedBy: 'jason',
-          uploadedAt: serverTimestamp(), size: file.size, requiresSignature: false,
-        });
-        setUploading(false);
-        setUploadProgress(0);
+      () => {
+        void (async () => {
+          const url = await getDownloadURL(task.snapshot.ref);
+          await addDoc(collection(firestore, 'clients', cid, 'documents'), {
+            name: file.name, url, uploadedBy: 'jason',
+            uploadedAt: serverTimestamp(), size: file.size, requiresSignature: false,
+          });
+          setUploading(false);
+          setUploadProgress(0);
+        })();
       }
     );
     e.target.value = '';
@@ -140,11 +145,13 @@ export default function ClientDetailPage() {
     } finally { setSending(false); }
   };
 
+  if (!cid) return null;
+
   return (
     <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center gap-4">
-        <button onClick={() => navigate(-1)} className="rounded-xl p-2 text-brand-silver-400 hover:bg-brand-silver-100 hover:text-brand-black transition-colors">
+        <button onClick={() => void navigate(-1)} className="rounded-xl p-2 text-brand-silver-400 hover:bg-brand-silver-100 hover:text-brand-black transition-colors">
           <ArrowLeft className="h-5 w-5" />
         </button>
         <div>
@@ -175,7 +182,7 @@ export default function ClientDetailPage() {
                 <h2 className="font-heading text-lg font-bold text-brand-black">{project.name}</h2>
                 <select
                   value={project.status}
-                  onChange={(e) => setProjectStatus(project, e.target.value)}
+                  onChange={(e) => { void setProjectStatus(project, e.target.value); }}
                   className="rounded-xl border border-brand-silver-200 px-3 py-1.5 text-sm focus:border-brand-blue-400 focus:outline-none"
                 >
                   {PROJECT_STATUSES.map((s) => <option key={s} value={s}>{s.replace('_', ' ')}</option>)}
@@ -186,9 +193,9 @@ export default function ClientDetailPage() {
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-silver-400">Milestones</p>
                 <ol className="space-y-2">
-                  {(project.milestones ?? []).map((m, i) => (
+                  {project.milestones.map((m, i) => (
                     <li key={i} className="flex items-center gap-3">
-                      <button onClick={() => toggleMilestone(project, i)} className="shrink-0">
+                      <button onClick={() => { void toggleMilestone(project, i); }} className="shrink-0">
                         {m.complete
                           ? <CheckCircle className="h-5 w-5 text-green-500" />
                           : <Circle className="h-5 w-5 text-brand-silver-300 hover:text-brand-silver-500" />}
@@ -201,11 +208,11 @@ export default function ClientDetailPage() {
                   <input
                     value={addingMilestone[project.id] ?? ''}
                     onChange={(e) => setAddingMilestone((p) => ({ ...p, [project.id]: e.target.value }))}
-                    onKeyDown={(e) => e.key === 'Enter' && addMilestone(project)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') void addMilestone(project); }}
                     placeholder="Add milestone…"
                     className="flex-1 rounded-xl border border-brand-silver-200 px-3 py-1.5 text-sm focus:border-brand-blue-400 focus:outline-none"
                   />
-                  <button onClick={() => addMilestone(project)} className="rounded-xl bg-brand-blue-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-blue-600 transition-colors">
+                  <button onClick={() => { void addMilestone(project); }} className="rounded-xl bg-brand-blue-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-blue-600 transition-colors">
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
@@ -215,10 +222,10 @@ export default function ClientDetailPage() {
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-silver-400">Client Next Steps</p>
                 <ul className="space-y-2">
-                  {(project.nextSteps ?? []).map((step, i) => (
+                  {project.nextSteps.map((step, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <span className="flex-1 text-sm text-brand-black">{step}</span>
-                      <button onClick={() => removeNextStep(project, step)} className="shrink-0 text-brand-silver-400 hover:text-red-500 transition-colors">
+                      <button onClick={() => { void removeNextStep(project, step); }} className="shrink-0 text-brand-silver-400 hover:text-red-500 transition-colors">
                         <Trash2 className="h-4 w-4" />
                       </button>
                     </li>
@@ -228,11 +235,11 @@ export default function ClientDetailPage() {
                   <input
                     value={newStep[project.id] ?? ''}
                     onChange={(e) => setNewStep((p) => ({ ...p, [project.id]: e.target.value }))}
-                    onKeyDown={(e) => e.key === 'Enter' && addNextStep(project)}
+                    onKeyDown={(e) => { if (e.key === 'Enter') void addNextStep(project); }}
                     placeholder="Add action item for client…"
                     className="flex-1 rounded-xl border border-brand-silver-200 px-3 py-1.5 text-sm focus:border-brand-blue-400 focus:outline-none"
                   />
-                  <button onClick={() => addNextStep(project)} className="rounded-xl bg-brand-blue-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-blue-600 transition-colors">
+                  <button onClick={() => { void addNextStep(project); }} className="rounded-xl bg-brand-blue-500 px-3 py-1.5 text-sm font-semibold text-white hover:bg-brand-blue-600 transition-colors">
                     <Plus className="h-4 w-4" />
                   </button>
                 </div>
@@ -311,12 +318,12 @@ export default function ClientDetailPage() {
               <textarea
                 value={msgText}
                 onChange={(e) => setMsgText(e.target.value)}
-                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); } }}
+                onKeyDown={(e) => { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); void sendMessage(); } }}
                 rows={2}
                 placeholder="Message as Jason… (Enter to send)"
                 className="flex-1 resize-none rounded-xl border border-brand-silver-200 px-3 py-2 text-sm focus:border-brand-blue-400 focus:outline-none focus:ring-2 focus:ring-brand-blue-100"
               />
-              <button onClick={sendMessage} disabled={!msgText.trim() || sending}
+              <button onClick={() => void sendMessage()} disabled={!msgText.trim() || sending}
                 className="shrink-0 rounded-xl bg-brand-blue-500 p-2.5 text-white hover:bg-brand-blue-600 disabled:opacity-40 transition-colors">
                 {sending ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
               </button>

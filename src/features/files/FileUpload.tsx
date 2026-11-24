@@ -25,7 +25,7 @@ export function FileUpload({ tenantId, linkedRecordId, onUploadComplete }: FileU
     if (file) setSelectedFile(file);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = () => {
     if (!selectedFile || !currentUser) return;
 
     setUploading(true);
@@ -44,28 +44,30 @@ export function FileUpload({ tenantId, linkedRecordId, onUploadComplete }: FileU
         toast.error(`Upload failed: ${error.message}`);
         setUploading(false);
       },
-      async () => {
-        const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
+      () => {
+        void (async () => {
+          const downloadUrl = await getDownloadURL(uploadTask.snapshot.ref);
 
-        await addDoc(collection(firestore, 'tenants', tenantId, 'files'), {
-          tenantId,
-          ownerId: currentUser.uid,
-          fileName: selectedFile.name,
-          fileType: selectedFile.type,
-          path: storagePath,
-          downloadUrl,
-          sizeBytes: selectedFile.size,
-          createdAt: serverTimestamp(),
-          createdBy: currentUser.uid,
-          status: 'active',
-          linkedRecordIds: linkedRecordId ? [linkedRecordId] : [],
-        });
+          await addDoc(collection(firestore, 'tenants', tenantId, 'files'), {
+            tenantId,
+            ownerId: currentUser.uid,
+            fileName: selectedFile.name,
+            fileType: selectedFile.type,
+            path: storagePath,
+            downloadUrl,
+            sizeBytes: selectedFile.size,
+            createdAt: serverTimestamp(),
+            createdBy: currentUser.uid,
+            status: 'active',
+            linkedRecordIds: linkedRecordId ? [linkedRecordId] : [],
+          });
 
-        toast.success('File uploaded successfully.');
-        setSelectedFile(null);
-        setUploading(false);
-        setProgress(0);
-        onUploadComplete?.();
+          toast.success('File uploaded successfully.');
+          setSelectedFile(null);
+          setUploading(false);
+          setProgress(0);
+          onUploadComplete?.();
+        })();
       },
     );
   };
@@ -109,7 +111,7 @@ export function FileUpload({ tenantId, linkedRecordId, onUploadComplete }: FileU
             </div>
           )}
           <Button
-            onClick={() => void handleUpload()}
+            onClick={handleUpload}
             loading={uploading}
             disabled={uploading}
           >

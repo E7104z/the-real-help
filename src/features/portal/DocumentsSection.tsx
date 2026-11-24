@@ -38,7 +38,7 @@ export default function DocumentsSection({ clientId }: DocumentsSectionProps) {
     return unsub;
   }, [clientId]);
 
-  const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -54,18 +54,20 @@ export default function DocumentsSection({ clientId }: DocumentsSectionProps) {
         'state_changed',
         (snap) => setUploadProgress(Math.round((snap.bytesTransferred / snap.totalBytes) * 100)),
         () => { setError('Upload failed. Please try again.'); setUploading(false); },
-        async () => {
-          const url = await getDownloadURL(task.snapshot.ref);
-          await addDoc(collection(firestore, 'clients', clientId, 'documents'), {
-            name: file.name,
-            url,
-            uploadedBy: 'client',
-            uploadedAt: serverTimestamp(),
-            size: file.size,
-            requiresSignature: false,
-          });
-          setUploading(false);
-          setUploadProgress(0);
+        () => {
+          void (async () => {
+            const url = await getDownloadURL(task.snapshot.ref);
+            await addDoc(collection(firestore, 'clients', clientId, 'documents'), {
+              name: file.name,
+              url,
+              uploadedBy: 'client',
+              uploadedAt: serverTimestamp(),
+              size: file.size,
+              requiresSignature: false,
+            });
+            setUploading(false);
+            setUploadProgress(0);
+          })();
         }
       );
     } catch {
