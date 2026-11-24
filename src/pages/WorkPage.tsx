@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { CalendarDays, Mail, Phone } from "lucide-react";
-import { CASE_STUDIES } from "@/content/case-studies";
+import { ALSO_SHIPPED, CASE_STUDIES } from "@/content/case-studies";
 import { COPYRIGHT_YEAR } from "@/lib/constants/site";
 import {
   BOOKING_URL,
@@ -13,6 +13,7 @@ import {
   STEPS,
   WHATEVER,
 } from "./home/content";
+import LeadForm from "./home/LeadForm";
 import "@fontsource/bricolage-grotesque/500.css";
 import "@fontsource/bricolage-grotesque/700.css";
 import "@fontsource/bricolage-grotesque/800.css";
@@ -77,6 +78,7 @@ export default function WorkPage() {
           <a href="#work">Work</a>
           <a href="#process">Process</a>
           <a href="#faq">FAQ</a>
+          <a href="#contact">Contact</a>
         </nav>
         {hasPhone ? (
           <CallButton className="rh-btn--small" />
@@ -179,6 +181,14 @@ export default function WorkPage() {
               </a>
             </div>
           )}
+          {CASE_STUDIES.length ? (
+            <p className="rh-also">
+              <span>Also shipped:</span>
+              {ALSO_SHIPPED.map((a) => (
+                <em key={a}>{a}</em>
+              ))}
+            </p>
+          ) : null}
         </section>
 
         <section
@@ -314,6 +324,7 @@ export default function WorkPage() {
                 Email us
               </a>
             </div>
+            <LeadForm source="work" />
           </div>
         </section>
       </main>

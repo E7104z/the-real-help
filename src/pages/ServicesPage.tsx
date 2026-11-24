@@ -6,6 +6,7 @@ import {
   CtaRow,
 } from "./marketing/SiteChrome";
 import { CHORES, STEPS, WHATEVER } from "./home/content";
+import LeadForm from "./home/LeadForm";
 import "@fontsource/bricolage-grotesque/500.css";
 import "@fontsource/bricolage-grotesque/700.css";
 import "@fontsource/bricolage-grotesque/800.css";
@@ -111,6 +112,7 @@ export default function ServicesPage() {
               Free intro call. We&rsquo;ll tell you honestly if we can help.
             </p>
             <CtaRow center withEmail />
+            <LeadForm source="services" />
           </div>
         </section>
       </main>

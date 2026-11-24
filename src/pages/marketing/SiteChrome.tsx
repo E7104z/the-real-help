@@ -39,6 +39,7 @@ const NAV = [
   { href: "/pricing", label: "Pricing" },
   { href: "/work", label: "Work" },
   { href: "/about", label: "About" },
+  { href: "#contact", label: "Contact" },
 ];
 
 export function SiteHeader() {
