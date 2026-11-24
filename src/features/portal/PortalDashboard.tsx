@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
+import { Navigate, useLocation } from 'react-router-dom';
 import { collection, doc, onSnapshot, query, orderBy } from 'firebase/firestore';
 import { firestore } from '@/lib/firebase';
 import { useAuth } from '@/app/providers/AuthProvider';
+import { ROUTES } from '@/lib/constants/routes';
 import { CheckCircle, Circle, FileText, MessageSquare, Loader2, ChevronRight } from 'lucide-react';
 import DocumentsSection from './DocumentsSection';
 import MessagesSection from './MessagesSection';
@@ -15,14 +17,15 @@ interface Project {
   id: string;
   name: string;
   status: string;
-  milestones: Milestone[];
-  nextSteps: string[];
+  // Firestore data is not guaranteed to have these.
+  milestones?: Milestone[];
+  nextSteps?: string[];
   startDate?: { toDate: () => Date };
   estimatedCompletion?: { toDate: () => Date };
 }
 
 interface ClientProfile {
-  name: string;
+  name?: string;
   service: string;
   status: string;
 }
@@ -37,7 +40,8 @@ const STATUS_LABELS: Record<string, { label: string; color: string }> = {
 };
 
 export default function PortalDashboard() {
-  const { currentUser } = useAuth();
+  const { currentUser, authLoading } = useAuth();
+  const location = useLocation();
   const clientId = currentUser?.uid ?? '';
 
   const [tab, setTab] = useState<Tab>('overview');
@@ -71,7 +75,7 @@ export default function PortalDashboard() {
     return () => { profileUnsub(); projectsUnsub(); messagesUnsub(); };
   }, [clientId]);
 
-  const firstName = profile?.name.split(' ')[0] ?? currentUser?.email?.split('@')[0] ?? 'there';
+  const firstName = profile?.name?.split(' ')[0] ?? currentUser?.email?.split('@')[0] ?? 'there';
 
   const tabs: { id: Tab; label: string; icon: React.ReactNode; badge?: number }[] = [
     { id: 'overview', label: 'Overview', icon: <ChevronRight className="h-4 w-4" /> },
@@ -80,6 +84,10 @@ export default function PortalDashboard() {
       ? [{ id: 'messages' as Tab, label: 'Messages', icon: <MessageSquare className="h-4 w-4" />, badge: unreadCount }]
       : [{ id: 'messages' as Tab, label: 'Messages', icon: <MessageSquare className="h-4 w-4" /> }]),
   ];
+
+  if (!authLoading && !currentUser) {
+    return <Navigate to={ROUTES.PORTAL_LOGIN} state={{ from: location }} replace />;
+  }
 
   if (loading) {
     return (
@@ -148,8 +156,10 @@ export default function PortalDashboard() {
 
 function ProjectCard({ project }: { project: Project }) {
   const status = STATUS_LABELS[project.status] ?? { label: project.status, color: 'bg-gray-100 text-gray-600' };
-  const completed = project.milestones.filter((m) => m.complete).length;
-  const total = project.milestones.length;
+  const milestones = project.milestones ?? [];
+  const nextSteps = project.nextSteps ?? [];
+  const completed = milestones.filter((m) => m.complete).length;
+  const total = milestones.length;
   const pct = total > 0 ? Math.round((completed / total) * 100) : 0;
 
   return (
@@ -180,13 +190,13 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       {/* Milestone timeline */}
-      {project.milestones.length > 0 && (
+      {milestones.length > 0 && (
         <div className="mt-6">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand-silver-400">
             Milestones
           </p>
           <ol className="space-y-3">
-            {project.milestones.map((m, i) => (
+            {milestones.map((m, i) => (
               <li key={i} className="flex items-start gap-3">
                 <div className="mt-0.5 shrink-0">
                   {m.complete ? (
@@ -205,13 +215,13 @@ function ProjectCard({ project }: { project: Project }) {
       )}
 
       {/* Next steps */}
-      {project.nextSteps.length > 0 && (
+      {nextSteps.length > 0 && (
         <div className="mt-6 rounded-xl bg-brand-blue-50 border border-brand-blue-100 p-4">
           <p className="mb-3 text-xs font-semibold uppercase tracking-wider text-brand-blue-600">
             Action Required
           </p>
           <ul className="space-y-2">
-            {project.nextSteps.map((step, i) => (
+            {nextSteps.map((step, i) => (
               <li key={i} className="flex items-start gap-2 text-sm text-brand-blue-700">
                 <span className="mt-1 h-1.5 w-1.5 shrink-0 rounded-full bg-brand-blue-400" />
                 {step}

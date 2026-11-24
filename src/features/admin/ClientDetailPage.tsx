@@ -12,7 +12,7 @@ import { format, formatDistanceToNow } from 'date-fns';
 interface Milestone { label: string; complete: boolean; }
 interface Project {
   id: string; name: string; status: string;
-  milestones: Milestone[]; nextSteps: string[];
+  milestones?: Milestone[]; nextSteps?: string[];
 }
 interface ClientDoc {
   id: string; name: string; url: string;
@@ -72,7 +72,7 @@ export default function ClientDetailPage() {
 
   // --- Milestones ---
   const toggleMilestone = async (project: Project, index: number) => {
-    const updated = project.milestones.map((m, i) =>
+    const updated = (project.milestones ?? []).map((m, i) =>
       i === index ? { ...m, complete: !m.complete } : m
     );
     await updateDoc(doc(firestore, 'clients', cid, 'projects', project.id), { milestones: updated });
@@ -81,7 +81,7 @@ export default function ClientDetailPage() {
   const addMilestone = async (project: Project) => {
     const label = addingMilestone[project.id]?.trim();
     if (!label) return;
-    const updated = [...project.milestones, { label, complete: false }];
+    const updated = [...(project.milestones ?? []), { label, complete: false }];
     await updateDoc(doc(firestore, 'clients', cid, 'projects', project.id), { milestones: updated });
     setAddingMilestone((p) => ({ ...p, [project.id]: '' }));
   };
@@ -193,7 +193,7 @@ export default function ClientDetailPage() {
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-silver-400">Milestones</p>
                 <ol className="space-y-2">
-                  {project.milestones.map((m, i) => (
+                  {(project.milestones ?? []).map((m, i) => (
                     <li key={i} className="flex items-center gap-3">
                       <button onClick={() => { void toggleMilestone(project, i); }} className="shrink-0">
                         {m.complete
@@ -222,7 +222,7 @@ export default function ClientDetailPage() {
               <div>
                 <p className="mb-2 text-xs font-semibold uppercase tracking-wider text-brand-silver-400">Client Next Steps</p>
                 <ul className="space-y-2">
-                  {project.nextSteps.map((step, i) => (
+                  {(project.nextSteps ?? []).map((step, i) => (
                     <li key={i} className="flex items-center gap-2">
                       <span className="flex-1 text-sm text-brand-black">{step}</span>
                       <button onClick={() => { void removeNextStep(project, step); }} className="shrink-0 text-brand-silver-400 hover:text-red-500 transition-colors">

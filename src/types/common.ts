@@ -10,7 +10,8 @@ export interface AuditLog {
   targetId: string;
   beforeSummary: Record<string, unknown> | null;
   afterSummary: Record<string, unknown> | null;
-  timestamp: Timestamp;
+  /** Null until the server timestamp resolves. */
+  timestamp?: Timestamp | null;
 }
 
 export interface FileRecord {
@@ -22,7 +23,8 @@ export interface FileRecord {
   path: string;
   downloadUrl?: string;
   sizeBytes: number;
-  createdAt: Timestamp;
+  /** Null until the server timestamp resolves. */
+  createdAt?: Timestamp | null;
   createdBy: string;
   status: string;
   linkedRecordIds: string[];
