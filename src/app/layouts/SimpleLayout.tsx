@@ -2,7 +2,7 @@ import { Link, Outlet } from 'react-router-dom';
 
 /**
  * Minimal wrapper for the few non-marketing public pages
- * (privacy, terms, client portal login, property transfer).
+ * (privacy, terms, property transfer).
  */
 export default function SimpleLayout() {
   return (

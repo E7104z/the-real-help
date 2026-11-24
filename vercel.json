@@ -64,6 +64,16 @@
       "source": "/start-a-cds-agency-missouri",
       "destination": "/",
       "permanent": false
+    },
+    {
+      "source": "/portal",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/portal/:path*",
+      "destination": "/",
+      "permanent": true
     }
   ],
   "rewrites": [
@@ -77,10 +87,6 @@
     },
     {
       "source": "/admin/:path*",
-      "destination": "/shell.html"
-    },
-    {
-      "source": "/portal/:path*",
       "destination": "/shell.html"
     },
     {
