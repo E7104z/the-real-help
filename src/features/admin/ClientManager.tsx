@@ -150,13 +150,19 @@ export default function ClientManager() {
       <div className="flex items-center justify-between">
         <h1 className="font-heading text-2xl font-bold text-brand-black">Clients</h1>
         <button
+          disabled
+          title="New client invites are paused while the client portal is retired."
           onClick={() => setShowForm((v) => !v)}
-          className="flex items-center gap-2 rounded-xl bg-brand-blue-500 px-4 py-2 text-sm font-semibold text-white hover:bg-brand-blue-600 transition-colors"
+          className="flex cursor-not-allowed items-center gap-2 rounded-xl bg-brand-blue-500 px-4 py-2 text-sm font-semibold text-white opacity-50 transition-colors"
         >
           <Plus className="h-4 w-4" />
           Add Client
         </button>
       </div>
+
+      <p className="text-sm text-brand-silver-500">
+        New client invites are paused while the client portal is retired.
+      </p>
 
       {/* New client form */}
       {showForm && (
@@ -253,9 +259,10 @@ export default function ClientManager() {
                         </span>
                       )}
                       <button
+                        disabled
+                        title="New client invites are paused while the client portal is retired."
                         onClick={() => { void handleSendInvite(lead); }}
-                        disabled={sendingInvite[lead.id]}
-                        className="flex items-center gap-1.5 rounded-xl bg-brand-blue-500 px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand-blue-600 disabled:opacity-50 transition-colors"
+                        className="flex cursor-not-allowed items-center gap-1.5 rounded-xl bg-brand-blue-500 px-3 py-1.5 text-xs font-semibold text-white opacity-50 transition-colors"
                       >
                         {sendingInvite[lead.id] && <Loader2 className="h-3 w-3 animate-spin" />}
                         {sendingInvite[lead.id] ? 'Sending…' : 'Send Invite'}
