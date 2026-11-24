@@ -72,11 +72,11 @@ export default function RecordDetailPage() {
           <dl className="space-y-3 text-sm">
             <div>
               <dt className="text-brand-silver-500">Created</dt>
-              <dd className="font-medium">{formatDateTime(record.createdAt)}</dd>
+              <dd className="font-medium">{record.createdAt ? formatDateTime(record.createdAt) : '—'}</dd>
             </div>
             <div>
               <dt className="text-brand-silver-500">Last Updated</dt>
-              <dd className="font-medium">{formatDateTime(record.lastUpdatedAt)}</dd>
+              <dd className="font-medium">{record.lastUpdatedAt ? formatDateTime(record.lastUpdatedAt) : '—'}</dd>
             </div>
             <div>
               <dt className="text-brand-silver-500">ID</dt>

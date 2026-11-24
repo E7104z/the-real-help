@@ -6,11 +6,11 @@ export interface TenantRecord {
   status: string;
   statusLabel: string;
   ownerName: string;
-  summary: string;
+  summary?: string;
   searchableText: string;
-  lastUpdatedAt: Timestamp;
+  lastUpdatedAt?: Timestamp | null;
   lastUpdatedBy: string;
-  createdAt: Timestamp;
+  createdAt?: Timestamp | null;
   createdBy: string;
   relatedCounts?: Record<string, number>;
 }

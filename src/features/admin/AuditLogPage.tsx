@@ -61,7 +61,7 @@ export default function AuditLogPage() {
       header: 'When',
       render: (item: AuditLog) => (
         <span className="text-sm text-brand-silver-500">
-          {formatDateTime(item.timestamp)}
+          {item.timestamp ? formatDateTime(item.timestamp) : '—'}
         </span>
       ),
     },

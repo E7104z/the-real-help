@@ -9,16 +9,16 @@ import { formatDistanceToNow } from 'date-fns';
 
 interface Client {
   id: string;
-  name: string;
+  name?: string;
   email: string;
   service: string;
-  status: string;
+  status?: string;
   createdAt: { toDate: () => Date } | null;
 }
 
 interface PendingClient {
   id: string;
-  name: string;
+  name?: string;
   email: string;
   phone: string;
   service: string;
@@ -234,7 +234,7 @@ export default function ClientManager() {
                 <li key={lead.id} className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
                   <div className="flex items-start gap-4">
                     <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-yellow-200 text-yellow-700 font-bold text-sm">
-                      {lead.name.charAt(0).toUpperCase()}
+                      {lead.name?.charAt(0).toUpperCase() ?? '?'}
                     </div>
                     <div className="min-w-0 flex-1 space-y-0.5">
                       <p className="font-semibold text-brand-black">{lead.name}</p>
@@ -288,7 +288,7 @@ export default function ClientManager() {
                 className="w-full flex items-center gap-4 rounded-2xl border border-brand-silver-200 bg-white p-4 shadow-sm text-left hover:border-brand-blue-300 hover:shadow-md transition-all"
               >
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-brand-blue-100 text-brand-blue-600 font-bold text-sm">
-                  {client.name.charAt(0).toUpperCase()}
+                  {client.name?.charAt(0).toUpperCase() ?? '?'}
                 </div>
                 <div className="min-w-0 flex-1">
                   <p className="font-semibold text-brand-black">{client.name}</p>
@@ -300,8 +300,8 @@ export default function ClientManager() {
                       {formatDistanceToNow(client.createdAt.toDate(), { addSuffix: true })}
                     </span>
                   )}
-                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_COLOR[client.status] ?? 'bg-gray-100 text-gray-500'}`}>
-                    {client.status}
+                  <span className={`rounded-full px-3 py-1 text-xs font-semibold ${STATUS_COLOR[client.status ?? ''] ?? 'bg-gray-100 text-gray-500'}`}>
+                    {client.status ?? 'active'}
                   </span>
                   <ChevronRight className="h-4 w-4 text-brand-silver-400" />
                 </div>

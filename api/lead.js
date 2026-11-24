@@ -12,7 +12,7 @@ import crypto from 'node:crypto';
  * It never reports success unless the sheet write was confirmed.
  */
 
-const MAX = { name: 100, contact: 120, business: 120, message: 1500 };
+const MAX = { name: 100, contact: 120, business: 120, message: 1500, chore: 300 };
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const clean = (v, max) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '');
@@ -63,6 +63,9 @@ export default async function handler(req, res) {
   const contact = clean(body.contact, MAX.contact);
   const business = clean(body.business, MAX.business);
   const message = clean(body.message, MAX.message);
+  const chore = clean(body.chore, MAX.chore);
+  // The sheet has no chore column, so the answer goes in front of the message.
+  const sheetMessage = chore ? [`Chore to hand off: ${chore}`, message].filter(Boolean).join(' | ') : message;
 
   const digits = contact.replace(/\D/g, '');
   const validContact = EMAIL_RE.test(contact) || digits.length >= 10;
@@ -87,7 +90,7 @@ export default async function handler(req, res) {
         name,
         contact,
         business,
-        message,
+        message: sheetMessage,
         source: clean(body.source, 60) || 'homepage',
       }),
       signal: AbortSignal.timeout(15000),
@@ -104,7 +107,7 @@ export default async function handler(req, res) {
       contact,
       business,
       message,
-      chore: clean(body.chore, 300),
+      chore,
       ref: clean(body.ref, 40),
       utm: typeof body.utm === 'object' && body.utm ? body.utm : {},
       landingPage: clean(body.landingPage, 300),
