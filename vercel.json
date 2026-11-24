@@ -73,27 +73,27 @@
     },
     {
       "source": "/app/:path*",
-      "destination": "/index.html"
+      "destination": "/shell.html"
     },
     {
       "source": "/admin/:path*",
-      "destination": "/index.html"
+      "destination": "/shell.html"
     },
     {
       "source": "/portal/:path*",
-      "destination": "/index.html"
+      "destination": "/shell.html"
     },
     {
       "source": "/login",
-      "destination": "/index.html"
+      "destination": "/shell.html"
     },
     {
       "source": "/unauthorized",
-      "destination": "/index.html"
+      "destination": "/shell.html"
     },
     {
       "source": "/property-transfer",
-      "destination": "/index.html"
+      "destination": "/shell.html"
     }
   ]
 }
