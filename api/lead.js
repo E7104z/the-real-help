@@ -17,6 +17,10 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 const clean = (v, max) => (typeof v === 'string' ? v.replace(/\s+/g, ' ').trim().slice(0, max) : '');
 
+// Sheets can read a cell starting with + = or - as a formula, so the sheet copy
+// drops those leading characters (a phone number loses its "+").
+const forSheet = (v) => v.replace(/^[-+=\s]+/, '');
+
 /**
  * Forward a copy of the lead to AgentLab so it can reply in minutes.
  * HMAC-signed per the AgentLab repo's docs/WEBSITE_HOOK.md. The forward is
@@ -87,10 +91,10 @@ export default async function handler(req, res) {
       redirect: 'follow',
       body: JSON.stringify({
         secret,
-        name,
-        contact,
-        business,
-        message: sheetMessage,
+        name: forSheet(name),
+        contact: forSheet(contact),
+        business: forSheet(business),
+        message: forSheet(sheetMessage),
         source: clean(body.source, 60) || 'homepage',
       }),
       signal: AbortSignal.timeout(15000),
