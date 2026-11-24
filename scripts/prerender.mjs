@@ -13,7 +13,7 @@
  * It also regenerates dist/sitemap.xml from the same route map.
  *
  * Vercel serves static files before applying rewrites, so pre-rendered pages
- * get their full content; /login, /app, /admin and /portal get dist/shell.html.
+ * get their full content; /login, /app and /admin get dist/shell.html.
  */
 
 import { readFileSync, writeFileSync, mkdirSync, existsSync } from 'node:fs';
@@ -35,7 +35,7 @@ if (!existsSync(SSR_BUNDLE)) {
 }
 
 const SHELL = readFileSync(resolve(DIST, 'index.html'), 'utf-8');
-// Login, portal, admin and app routes are served this empty shell (vercel.json),
+// Login, admin and app routes are served this empty shell (vercel.json),
 // so visitors never see the pre-rendered homepage before those pages load.
 if (!/<div id="root">\s*<\/div>/.test(SHELL)) {
   console.error('❌  dist/index.html is already pre-rendered — run vite build first.');

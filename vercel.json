@@ -80,10 +80,6 @@
       "destination": "/shell.html"
     },
     {
-      "source": "/portal/:path*",
-      "destination": "/shell.html"
-    },
-    {
       "source": "/login",
       "destination": "/shell.html"
     },

@@ -12,7 +12,7 @@ if (!rootEl) throw new Error('Root element not found');
 /**
  * Marketing routes are pre-rendered at build time and shipped as full HTML.
  * They are hydrated in place with hydrateRoot (no wipe → no layout shift).
- * The app shell, admin and portal stay client-rendered with createRoot.
+ * The app shell and admin stay client-rendered with createRoot.
  */
 type MarketingLoader = () => Promise<{ default: ComponentType }>;
 

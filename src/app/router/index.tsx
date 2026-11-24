@@ -21,8 +21,6 @@ import PropertyTransfer from '../../pages/PropertyTransfer';
 import PrivacyPolicyPage from '../../pages/PrivacyPolicyPage';
 import TermsPage from '../../pages/TermsPage';
 import AuditLogPage from '../../features/admin/AuditLogPage';
-import PortalLoginPage from '../../features/portal/PortalLoginPage';
-import PortalDashboard from '../../features/portal/PortalDashboard';
 
 
 export const router = createBrowserRouter([
@@ -36,9 +34,6 @@ export const router = createBrowserRouter([
   {
     element: <SimpleLayout />,
     children: [
-      // Public-facing portal login
-      { path: 'portal/login', element: <PortalLoginPage /> },
-      { path: 'portal/dashboard', element: <PortalDashboard /> },
       { path: 'property-transfer', element: <PropertyTransfer /> },
       { path: 'privacy', element: <PrivacyPolicyPage /> },
       { path: 'terms', element: <TermsPage /> },

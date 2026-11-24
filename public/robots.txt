@@ -3,7 +3,6 @@ Allow: /
 
 Disallow: /app/
 Disallow: /admin/
-Disallow: /portal/
 Disallow: /login
 Disallow: /unauthorized
 Disallow: /property-transfer
