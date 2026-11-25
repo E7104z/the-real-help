@@ -1,9 +1,7 @@
 import { useEffect } from "react";
-import { ArrowUpRight, CalendarDays, Mail, Phone } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import {
-  BOOKING_URL,
   CHORES,
-  CONTACT_EMAIL,
   CONTACT_PHONE,
   FAQ,
   MARQUEE,
@@ -24,39 +22,10 @@ import "@fontsource/dm-sans/500.css";
 import "@fontsource/dm-sans/700.css";
 import "@fontsource/permanent-marker/400.css";
 import LeadForm from "./home/LeadForm";
+import { BookButton, CallButton, EmailButton } from "./marketing/SiteChrome";
 import "./home/home.css";
 
 const hasPhone = Boolean(CONTACT_PHONE && PHONE_HREF);
-
-function CallButton({ className = "" }: { className?: string }) {
-  if (!hasPhone) return null;
-  return (
-    <a className={`rh-btn rh-btn--tomato ${className}`} href={PHONE_HREF}>
-      <Phone size={18} strokeWidth={2.6} aria-hidden="true" />
-      Call {CONTACT_PHONE}
-    </a>
-  );
-}
-
-function BookButton({
-  className = "",
-  primary = false,
-}: {
-  className?: string;
-  primary?: boolean;
-}) {
-  return (
-    <a
-      className={`rh-btn ${primary ? "rh-btn--tomato" : "rh-btn--white"} ${className}`}
-      href={BOOKING_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      <CalendarDays size={18} strokeWidth={2.6} aria-hidden="true" />
-      Book a free call
-    </a>
-  );
-}
 
 export default function HomePage() {
   useEffect(() => {
@@ -86,9 +55,9 @@ export default function HomePage() {
           <a href="#contact">Contact</a>
         </nav>
         {hasPhone ? (
-          <CallButton className="rh-btn--small" />
+          <CallButton className="rh-btn--small" location="header" />
         ) : (
-          <BookButton primary className="rh-btn--small" />
+          <BookButton primary className="rh-btn--small" location="header" />
         )}
       </header>
 
@@ -107,8 +76,8 @@ export default function HomePage() {
               days, <strong>starting at {PRICE_START}</strong>.
             </p>
             <div className="rh-cta-row">
-              {hasPhone ? <CallButton /> : null}
-              <BookButton primary={!hasPhone} />
+              {hasPhone ? <CallButton location="hero" /> : null}
+              <BookButton primary={!hasPhone} location="hero" />
             </div>
             <p className="rh-fine">St. Louis, MO · Fixed prices · No jargon</p>
           </div>
@@ -224,7 +193,7 @@ export default function HomePage() {
                 <li>Works with the Gmail you already use</li>
               </ul>
               <div className="rh-cta-row">
-                <BookButton primary />
+                <BookButton primary location="inbox" />
               </div>
             </div>
 
@@ -416,7 +385,7 @@ export default function HomePage() {
                 <li>Fixed price, agreed before we start</li>
                 <li>Live in days, not months</li>
               </ul>
-              <BookButton primary className="rh-btn--block" />
+              <BookButton primary className="rh-btn--block" location="price_quick" />
             </article>
             <article className="rh-price">
               <p className="rh-price__tag rh-price__tag--alt">Bigger idea?</p>
@@ -430,9 +399,9 @@ export default function HomePage() {
                 <li>Priced to the job, never by the hour</li>
               </ul>
               {hasPhone ? (
-                <CallButton className="rh-btn--block" />
+                <CallButton className="rh-btn--block" location="price_custom" />
               ) : (
-                <BookButton className="rh-btn--block" />
+                <BookButton className="rh-btn--block" location="price_custom" />
               )}
             </article>
           </div>
@@ -468,15 +437,9 @@ export default function HomePage() {
               Free intro call. We’ll tell you honestly if we can help.
             </p>
             <div className="rh-cta-row rh-cta-row--center">
-              {hasPhone ? <CallButton /> : null}
-              <BookButton primary={!hasPhone} />
-              <a
-                className="rh-btn rh-btn--white"
-                href={`mailto:${CONTACT_EMAIL}`}
-              >
-                <Mail size={18} strokeWidth={2.6} aria-hidden="true" />
-                Email us
-              </a>
+              {hasPhone ? <CallButton location="final" /> : null}
+              <BookButton primary={!hasPhone} location="final" />
+              <EmailButton location="final" />
             </div>
             <LeadForm />
           </div>
@@ -493,8 +456,8 @@ export default function HomePage() {
 
       {/* Mobile action bar */}
       <div className="rh-bar">
-        {hasPhone ? <CallButton className="rh-btn--small" /> : null}
-        <BookButton primary={!hasPhone} className="rh-btn--small" />
+        {hasPhone ? <CallButton className="rh-btn--small" location="mobile_bar" /> : null}
+        <BookButton primary={!hasPhone} className="rh-btn--small" location="mobile_bar" />
       </div>
     </div>
   );

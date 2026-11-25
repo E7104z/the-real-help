@@ -2,9 +2,11 @@ import { StrictMode } from 'react';
 import type { ComponentType } from 'react';
 import { createRoot, hydrateRoot } from 'react-dom/client';
 import { inject } from '@vercel/analytics';
+import { captureAttribution } from '@/lib/track';
 import '@/styles/index.css';
 
 inject();
+captureAttribution();
 
 const rootEl = document.getElementById('root');
 if (!rootEl) throw new Error('Root element not found');

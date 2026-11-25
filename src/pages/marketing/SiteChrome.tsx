@@ -1,13 +1,24 @@
 import { CalendarDays, Mail, Phone } from "lucide-react";
 import { BOOKING_URL, CONTACT_EMAIL, CONTACT_PHONE, PHONE_HREF } from "@/pages/home/content";
 import { COPYRIGHT_YEAR } from "@/lib/constants/site";
+import { trackEvent } from "@/lib/track";
 
 const hasPhone = Boolean(CONTACT_PHONE && PHONE_HREF);
 
-export function CallButton({ className = "" }: { className?: string }) {
+export function CallButton({
+  className = "",
+  location,
+}: {
+  className?: string;
+  location: string;
+}) {
   if (!hasPhone) return null;
   return (
-    <a className={`rh-btn rh-btn--tomato ${className}`} href={PHONE_HREF}>
+    <a
+      className={`rh-btn rh-btn--tomato ${className}`}
+      href={PHONE_HREF}
+      onClick={() => trackEvent("cta_click", { action: "call", location })}
+    >
       <Phone size={18} strokeWidth={2.6} aria-hidden="true" />
       Call {CONTACT_PHONE}
     </a>
@@ -17,9 +28,11 @@ export function CallButton({ className = "" }: { className?: string }) {
 export function BookButton({
   className = "",
   primary = false,
+  location,
 }: {
   className?: string;
   primary?: boolean;
+  location: string;
 }) {
   return (
     <a
@@ -27,6 +40,7 @@ export function BookButton({
       href={BOOKING_URL}
       target="_blank"
       rel="noopener noreferrer"
+      onClick={() => trackEvent("cta_click", { action: "book", location })}
     >
       <CalendarDays size={18} strokeWidth={2.6} aria-hidden="true" />
       Book a free call
@@ -59,9 +73,9 @@ export function SiteHeader() {
         ))}
       </nav>
       {hasPhone ? (
-        <CallButton className="rh-btn--small" />
+        <CallButton className="rh-btn--small" location="header" />
       ) : (
-        <BookButton primary className="rh-btn--small" />
+        <BookButton primary className="rh-btn--small" location="header" />
       )}
     </header>
   );
@@ -84,8 +98,8 @@ export function SiteFooter() {
 export function MobileBar() {
   return (
     <div className="rh-bar">
-      {hasPhone ? <CallButton className="rh-btn--small" /> : null}
-      <BookButton primary={!hasPhone} className="rh-btn--small" />
+      {hasPhone ? <CallButton className="rh-btn--small" location="mobile_bar" /> : null}
+      <BookButton primary={!hasPhone} className="rh-btn--small" location="mobile_bar" />
     </div>
   );
 }
@@ -93,25 +107,35 @@ export function MobileBar() {
 export function CtaRow({ center = false, withEmail = false }: { center?: boolean; withEmail?: boolean }) {
   return (
     <div className={`rh-cta-row ${center ? "rh-cta-row--center" : ""}`}>
-      {hasPhone ? <CallButton /> : null}
-      <BookButton primary={!hasPhone} />
-      {withEmail ? <EmailButton /> : null}
+      {hasPhone ? <CallButton location="final" /> : null}
+      <BookButton primary={!hasPhone} location="final" />
+      {withEmail ? <EmailButton location="final" /> : null}
     </div>
   );
 }
 
 export function PriceCardCta({ primary = false }: { primary?: boolean }) {
-  if (primary) return <BookButton primary className="rh-btn--block" />;
+  if (primary) return <BookButton primary className="rh-btn--block" location="price_quick" />;
   return hasPhone ? (
-    <CallButton className="rh-btn--block" />
+    <CallButton className="rh-btn--block" location="price_custom" />
   ) : (
-    <BookButton className="rh-btn--block" />
+    <BookButton className="rh-btn--block" location="price_custom" />
   );
 }
 
-export function EmailButton({ className = "" }: { className?: string }) {
+export function EmailButton({
+  className = "",
+  location,
+}: {
+  className?: string;
+  location: string;
+}) {
   return (
-    <a className={`rh-btn rh-btn--white ${className}`} href={`mailto:${CONTACT_EMAIL}`}>
+    <a
+      className={`rh-btn rh-btn--white ${className}`}
+      href={`mailto:${CONTACT_EMAIL}`}
+      onClick={() => trackEvent("cta_click", { action: "email", location })}
+    >
       <Mail size={18} strokeWidth={2.6} aria-hidden="true" />
       Email us
     </a>
