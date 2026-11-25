@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react';
+import { useEffect, useId, useMemo, useRef, useState, type SyntheticEvent } from 'react';
 import { CONTACT_EMAIL, CONTACT_PHONE } from './content';
 import { trackEvent, getAttribution } from '@/lib/track';
 
@@ -19,6 +19,14 @@ export default function LeadForm({
   const openedAt = useRef(Date.now());
   const formRef = useRef<HTMLFormElement>(null);
   const viewTracked = useRef(false);
+  const headingId = useId();
+
+  // Compact variants (hero, offer) live above the fold: three fields, no
+  // business and no message. The footer variant keeps the fuller field set.
+  const compact = variant !== 'footer';
+  const heading = compact
+    ? 'Not ready to call? Leave your number and the chore.'
+    : 'Not a phone person? Leave your details.';
 
   // Attribution is captured once on page load (see captureAttribution in
   // @/lib/track, called from main.tsx) and read back here, so a lead submitted
@@ -73,7 +81,6 @@ export default function LeadForm({
           contact,
           business: val('business'),
           chore: val('chore'),
-          message: val('message'),
           website: val('website'), // honeypot
           elapsedMs: Date.now() - openedAt.current,
           source,
@@ -105,7 +112,10 @@ export default function LeadForm({
 
   if (status === 'sent') {
     return (
-      <div className="rh-form rh-form--done" role="status">
+      <div
+        className={`rh-form rh-form--done${compact ? ' rh-form--hero' : ''}`}
+        role="status"
+      >
         <p className="rh-form__big">Got it.</p>
         <p>Thanks for sending that over. We&rsquo;ll be in touch soon.</p>
       </div>
@@ -113,9 +123,16 @@ export default function LeadForm({
   }
 
   return (
-    <form ref={formRef} id="contact" className="rh-form" onSubmit={onSubmit} noValidate aria-labelledby="lead-h">
-      <h3 id="lead-h" className="rh-h3">
-        Not a phone person? Leave your details.
+    <form
+      ref={formRef}
+      id={variant === 'footer' ? 'contact' : undefined}
+      className={`rh-form${compact ? ' rh-form--hero' : ''}`}
+      onSubmit={onSubmit}
+      noValidate
+      aria-labelledby={headingId}
+    >
+      <h3 id={headingId} className="rh-h3">
+        {heading}
       </h3>
       <div className="rh-form__grid">
         <label>
@@ -128,22 +145,18 @@ export default function LeadForm({
         </label>
         <label className="rh-form__wide">
           <span>
-            Business name <em>(optional)</em>
-          </span>
-          <input name="business" type="text" autoComplete="organization" maxLength={120} />
-        </label>
-        <label className="rh-form__wide">
-          <span>
             What&rsquo;s the one chore you&rsquo;d hand off? <em>(optional)</em>
           </span>
           <input name="chore" type="text" maxLength={300} />
         </label>
-        <label className="rh-form__wide">
-          <span>
-            What&rsquo;s eating your week? <em>(optional)</em>
-          </span>
-          <textarea name="message" rows={3} maxLength={1500} />
-        </label>
+        {!compact ? (
+          <label className="rh-form__wide">
+            <span>
+              Business name <em>(optional)</em>
+            </span>
+            <input name="business" type="text" autoComplete="organization" maxLength={120} />
+          </label>
+        ) : null}
         {/* Honeypot: hidden from people, bots fill it in. */}
         <div className="rh-form__trap" aria-hidden="true">
           <label>
