@@ -79,6 +79,7 @@ export default function HomePage() {
               {hasPhone ? <CallButton location="hero" /> : null}
               <BookButton primary={!hasPhone} location="hero" />
             </div>
+            <LeadForm variant="hero" source="homepage-hero" />
             <p className="rh-fine">St. Louis, MO · Fixed prices · No jargon</p>
           </div>
 

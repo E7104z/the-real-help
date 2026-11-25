@@ -994,6 +994,12 @@ html:has(.rh) {
   text-align: center;
   padding-block: 2.4rem;
 }
+.rh-form--hero {
+  max-width: none;
+  margin: 1.8rem 0 0;
+  transform: none;
+  box-shadow: var(--shadow);
+}
 .rh-form__big {
   font-family: var(--display);
   font-weight: 800;
