@@ -31,8 +31,23 @@ const MARKETING_LOADERS: Record<string, MarketingLoader> = {
 
 const pathname = window.location.pathname.replace(/\/+$/, '') || '/';
 const loadMarketing = MARKETING_LOADERS[pathname];
+const offerSlug = /^\/offer\/([^/]+)$/.exec(pathname)?.[1];
 
-if (loadMarketing) {
+if (offerSlug) {
+  void import('@/pages/OfferPage').then(({ default: Component }) => {
+    const Offer = Component as ComponentType<{ slug: string }>;
+    const page = (
+      <StrictMode>
+        <Offer slug={offerSlug} />
+      </StrictMode>
+    );
+    if (rootEl.hasChildNodes()) {
+      hydrateRoot(rootEl, page);
+    } else {
+      createRoot(rootEl).render(page);
+    }
+  });
+} else if (loadMarketing) {
   void loadMarketing().then(({ default: Component }) => {
     const page = (
       <StrictMode>
