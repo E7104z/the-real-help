@@ -1,36 +1,51 @@
-import { useMemo, useRef, useState, type SyntheticEvent } from 'react';
+import { useEffect, useMemo, useRef, useState, type SyntheticEvent } from 'react';
 import { CONTACT_EMAIL, CONTACT_PHONE } from './content';
+import { trackEvent, getAttribution } from '@/lib/track';
 
 type Status = 'idle' | 'sending' | 'sent' | 'error';
+type Variant = 'footer' | 'hero' | 'offer';
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-export default function LeadForm({ source = 'homepage' }: { source?: string }) {
+export default function LeadForm({
+  source = 'homepage',
+  variant = 'footer',
+}: {
+  source?: string;
+  variant?: Variant;
+}) {
   const [status, setStatus] = useState<Status>('idle');
   const [fieldError, setFieldError] = useState('');
   const openedAt = useRef(Date.now());
+  const formRef = useRef<HTMLFormElement>(null);
+  const viewTracked = useRef(false);
 
-  // Attribution captured once when the form mounts (partner ref, UTM params,
-  // landing page, referrer). Guarded so the component stays SSR-safe.
-  const attribution = useMemo(() => {
-    if (typeof window === 'undefined') {
-      return { ref: '', utm: {}, landingPage: '/', referrer: '' };
-    }
-    const url = new URL(window.location.href);
-    const g = (k: string) => url.searchParams.get(k)?.trim() ?? '';
-    return {
-      ref: g('ref'),
-      utm: {
-        utm_source: g('utm_source'),
-        utm_medium: g('utm_medium'),
-        utm_campaign: g('utm_campaign'),
-        utm_term: g('utm_term'),
-        utm_content: g('utm_content'),
+  // Attribution is captured once on page load (see captureAttribution in
+  // @/lib/track, called from main.tsx) and read back here, so a lead submitted
+  // from a second page still carries the first page's campaign.
+  const attribution = useMemo(() => getAttribution(), []);
+
+  // Fire form_view once when the form becomes at least 50% visible.
+  useEffect(() => {
+    const el = formRef.current;
+    if (!el || typeof IntersectionObserver === 'undefined') return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (viewTracked.current) return;
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            viewTracked.current = true;
+            trackEvent('form_view', { form: variant });
+            observer.disconnect();
+            return;
+          }
+        }
       },
-      landingPage: url.pathname || '/',
-      referrer: document.referrer,
-    };
-  }, []);
+      { threshold: 0.5 },
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [variant]);
 
   async function submit(form: HTMLFormElement) {
     if (status === 'sending') return;
@@ -72,11 +87,14 @@ export default function LeadForm({ source = 'homepage' }: { source?: string }) {
       if (res.ok && data?.ok) {
         setStatus('sent');
         form.reset();
+        trackEvent('form_submit', { form: variant, result: 'ok' });
       } else {
         setStatus('error');
+        trackEvent('form_submit', { form: variant, result: 'error' });
       }
     } catch {
       setStatus('error');
+      trackEvent('form_submit', { form: variant, result: 'error' });
     }
   }
 
@@ -95,7 +113,7 @@ export default function LeadForm({ source = 'homepage' }: { source?: string }) {
   }
 
   return (
-    <form id="contact" className="rh-form" onSubmit={onSubmit} noValidate aria-labelledby="lead-h">
+    <form ref={formRef} id="contact" className="rh-form" onSubmit={onSubmit} noValidate aria-labelledby="lead-h">
       <h3 id="lead-h" className="rh-h3">
         Not a phone person? Leave your details.
       </h3>
