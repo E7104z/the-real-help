@@ -16,6 +16,8 @@ import ServicesPage from '@/pages/ServicesPage';
 import PricingPage from '@/pages/PricingPage';
 import AboutPage from '@/pages/AboutPage';
 import StLouisPage from '@/pages/StLouisPage';
+import OfferPage from '@/pages/OfferPage';
+import { OFFERS } from '@/content/offers';
 import {
   breadcrumbSchema,
   faqSchema,
@@ -38,9 +40,25 @@ interface RouteMeta {
   keywords?: string[];
   breadcrumb?: Crumb[];
   faqs?: { q: string; a: string }[];
+  /** When true, the page is excluded from sitemap.xml and served `noindex, follow`. */
+  noindex?: boolean;
 }
 
+/** Offer landing pages: noindex, canonical to self, excluded from sitemap. */
+const OFFER_META: Record<string, RouteMeta> = Object.fromEntries(
+  OFFERS.map((o) => [
+    `/offer/${o.slug}`,
+    {
+      title: o.metaTitle,
+      description: o.metaDescription,
+      canonical: `https://therealhelp.com/offer/${o.slug}`,
+      noindex: true,
+    },
+  ]),
+);
+
 export const META: Record<string, RouteMeta> = {
+  ...OFFER_META,
   '/': {
     title: 'The Real Help | Custom Software, AI & Automation for Small Business',
     description:
@@ -180,7 +198,12 @@ export function getRouteMeta(url: string): { jsonLdTags: string } {
 
 // ── Body rendering ────────────────────────────────────────────────────────
 
+const OFFER_BODIES: Record<string, () => ReactElement> = Object.fromEntries(
+  OFFERS.map((o) => [`/offer/${o.slug}`, () => <OfferPage slug={o.slug} />]),
+);
+
 const MARKETING_BODIES: Record<string, () => ReactElement> = {
+  ...OFFER_BODIES,
   '/': () => <HomePage />,
   '/privacy': () => <PrivacyPolicyPage />,
   '/terms': () => <TermsPage />,

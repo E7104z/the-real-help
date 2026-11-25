@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+import { createBrowserRouter, Navigate, useParams } from 'react-router-dom';
 import { AppLayout } from '../layouts/AppLayout';
 import { AdminLayout } from '../layouts/AdminLayout';
 import HomePage from '../../pages/HomePage';
@@ -7,6 +7,7 @@ import ServicesPage from '../../pages/ServicesPage';
 import PricingPage from '../../pages/PricingPage';
 import AboutPage from '../../pages/AboutPage';
 import StLouisPage from '../../pages/StLouisPage';
+import OfferPage from '../../pages/OfferPage';
 import SimpleLayout from '../layouts/SimpleLayout';
 import LoginPage from '../../features/auth/LoginPage';
 import DashboardPage from '../../features/dashboard/DashboardPage';
@@ -22,6 +23,11 @@ import PrivacyPolicyPage from '../../pages/PrivacyPolicyPage';
 import TermsPage from '../../pages/TermsPage';
 import AuditLogPage from '../../features/admin/AuditLogPage';
 
+
+function OfferRoute() {
+  const { slug } = useParams<'slug'>();
+  return <OfferPage slug={slug ?? ''} />;
+}
 
 export const router = createBrowserRouter([
   // ── Public site ───────────────────────────────────────────
@@ -71,6 +77,7 @@ export const router = createBrowserRouter([
   // ── Misc ──────────────────────────────────────────────────
   { path: '/login', element: <LoginPage /> },
   { path: '/unauthorized', element: <UnauthorizedPage /> },
+  { path: '/offer/:slug', element: <OfferRoute /> },
   { path: '*', element: <Navigate to="/" replace /> },
 ]);
 

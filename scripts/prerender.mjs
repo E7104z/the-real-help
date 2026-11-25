@@ -95,6 +95,7 @@ function injectBody(html, body) {
 function buildSitemap() {
   const now = new Date().toISOString().slice(0, 10);
   const urls = Object.keys(META)
+    .filter((url) => !META[url].noindex)
     .map((url) => {
       const loc = META[url].canonical;
       const isHome = loc === 'https://therealhelp.com/' || loc === 'https://therealhelp.com';
@@ -126,6 +127,7 @@ for (const url of Object.keys(META)) {
     html = replaceTitle(html, m.title);
     html = replaceMetaContent(html, 'description', m.description);
     html = replaceCanonical(html, m.canonical);
+    if (m.noindex) html = replaceMetaContent(html, 'robots', 'noindex, follow');
     html = replaceMetaContent(html, 'og:title', m.title);
     html = replaceMetaContent(html, 'og:description', m.description);
     html = replaceMetaContent(html, 'og:url', m.canonical);
