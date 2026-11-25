@@ -2,7 +2,6 @@
 
 export { onUserCreated } from "./auth/onCreate";
 export { updateRecord } from "./callable/updateRecord";
-export { submitContactForm } from "./callable/submitContactForm";
 export { createClient } from "./callable/createClient";
 export { onRecordStatusChange } from "./triggers/auditLog";
 export { onInviteRequest } from "./triggers/onInviteRequest";

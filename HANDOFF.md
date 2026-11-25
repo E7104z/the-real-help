@@ -2,6 +2,36 @@
 
 Status of the marketing-site SEO / pre-rendering work on `feature/part-c`.
 
+## Part D — conversion fixes
+
+- **D1 (tracking):** `src/lib/track.ts` + `api/event.js` record every
+  `cta_click`, `form_view`, and `form_submit` (Call/Book/Email clicks, form
+  views, form submits) with `page`, `location`, `form`, `result`, UTM params,
+  partner `ref`, referrer host and a random session id. No IP or user agent.
+- **D2 (capture):** homepage hero lead form above the fold; footer form
+  simplified to name, contact, chore, business.
+- **D3 (offer pages):** `/offer/<slug>` campaign pages, first `quick-fix`,
+  driven by `src/content/offers.ts` (single source of truth). Isolated layout
+  (brand-only header, one `tel:` CTA, bottom lead form, legal footer — no
+  nav / Book / Email / MobileBar), `noindex, follow`, self-canonical, excluded
+  from `sitemap.xml`; unknown slugs 404.
+- **D4 (cleanup):** `api/lead.js` forwards to AgentLab with `waitUntil`
+  (`@vercel/functions`) so it never blocks the response; removed the dead
+  Firestore callable `submitContactForm` (nothing in `src/` calls it; the
+  `leads` / `pendingClients` collections are left untouched).
+
+### Where events land
+`cta_click`, `form_view`, and `form_submit` land in the **`Events`** tab of the
+leads Google Sheet (second tab, after the leads tab), attributed by `page`,
+`location`, and `utm_source`. Lead submissions still write to the first (leads)
+tab with a `source` value (e.g. `offer-quick-fix`).
+
+### How to add an offer page
+Edit `src/content/offers.ts` — add an object to `OFFERS` with `slug`,
+`metaTitle`, `metaDescription`, `headline`, `lede`, `bullets`, `priceLine`.
+Routing, pre-render, `noindex`, canonical, and sitemap exclusion are automatic.
+
+
 ## Done this phase
 
 ### C1 — real pre-rendering with hydration
@@ -83,11 +113,13 @@ Order: open C2 items → C5 (Lighthouse reports in `docs/seo-reports/`).
 
 ## E-1 Gmail OAuth & env setup (prep — not started)
 
-Current email path (verified in code): the lead form
-(`functions/src/callable/submitContactForm.ts`) saves to Firestore and fires a
-Google Apps Script webhook (`APPS_SCRIPT_WEBHOOK_URL`); the Apps Script
-(`apps-script/Code.gs`, `scripts/google-apps-script.js`) sends via
-`GmailApp.sendEmail` from Jason's Google account.
+Current email path (verified in code): the lead form posts to `api/lead.js`
+(`POST /api/lead`), which appends the lead to the Google Sheet through the Apps
+Script web app (`LEAD_WEBHOOK_URL` / `LEAD_WEBHOOK_SECRET`, see
+`apps-script/Code.gs`) and forwards a copy to AgentLab. Outbound email
+(notification, auto-reply, follow-ups, bulk campaigns) is sent from
+`scripts/google-apps-script.js` via `GmailApp.sendEmail` from Jason's Google
+account.
 
 E-1 will move sending to `googleapis` / `@googleapis/gmail` (pre-approved) using
 an OAuth refresh token. Env vars E-1 needs (per `.clinerules` Part A):

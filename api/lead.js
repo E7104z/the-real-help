@@ -1,4 +1,5 @@
 import crypto from 'node:crypto';
+import { waitUntil } from '@vercel/functions';
 
 /**
  * POST /api/lead
@@ -23,9 +24,9 @@ const forSheet = (v) => v.replace(/^[-+=\s]+/, '');
 
 /**
  * Forward a copy of the lead to AgentLab so it can reply in minutes.
- * HMAC-signed per the AgentLab repo's docs/WEBSITE_HOOK.md. The forward is
- * awaited with a short timeout, so a slow or down AgentLab can delay the
- * visitor's success by at most ~3s; the Sheet already has the lead, and
+ * HMAC-signed per the AgentLab repo's docs/WEBSITE_HOOK.md. The forward runs
+ * via waitUntil (fire-and-forget) so it never delays the visitor's success
+ * response; it still has a ~3s timeout, and the Sheet already has the lead.
  * AgentLab's daily digest makes any gap visible.
  */
 async function forwardToAgentLab(lead) {
@@ -105,7 +106,7 @@ export default async function handler(req, res) {
       return res.status(502).json({ ok: false, error: 'upstream_failed' });
     }
 
-    await forwardToAgentLab({
+    waitUntil(forwardToAgentLab({
       leadId: crypto.randomUUID(),
       name,
       contact,
@@ -117,7 +118,7 @@ export default async function handler(req, res) {
       landingPage: clean(body.landingPage, 300),
       referrer: clean(body.referrer, 300),
       source: clean(body.source, 60) || 'homepage',
-    });
+    }));
 
     return res.status(200).json({ ok: true });
   } catch (err) {
